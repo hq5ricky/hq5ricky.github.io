@@ -3,4 +3,7 @@
 <script>
   let app = new PIXI.Application({ width: 640, height: 360 });
   document.body.appendChild(app.view);
+  
+  let sprite = PIXI.Sprite.from('./sprites/skull.jpeg');
+  app.stage.addChild(sprite);
 </script>
