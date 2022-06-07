@@ -1,7 +1,7 @@
   let app = new PIXI.Application({ width: innerWidth, height: innerHeight });
   document.body.appendChild(app.view);
   
-  let sprite = PIXI.Sprite.from('./sprites/skull.jpeg');
+  let sprite = PIXI.Sprite.from('./sprites/skull.jpg');
   app.stage.addChild(sprite);
   
   let elapsed = 0.0;
