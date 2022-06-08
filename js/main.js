@@ -1,11 +1,13 @@
-  let app = new PIXI.Application({ width: innerWidth, height: innerHeight });
-  document.body.appendChild(app.view);
-  
-  let sprite = PIXI.Sprite.from('./sprites/skull.jpg');
-  app.stage.addChild(sprite);
-  
-  let elapsed = 0.0;
-  app.ticker.add((delta) => {
-    elapsed += delta;
-    sprite.x = 100.0 + Math.cos(elapsed/50.0) * 100.0;
-  });
+let e = new PIXI.Application({ width: innerWidth, height: innerHeight });
+document.body.appendChild(app.view);
+
+let sprite = PIXI.Sprite.from('./sprites/brick0.png');
+e.stage.addChild(sprite);
+
+const sprites = {};
+
+const loader = new PIXI.Loader();
+
+loader.add("./sprites/brick0.png").load(() => {
+  sprite.wall = new PIXI.TilingSprite(PIXI.Texture.from("brick0.png"));
+});
