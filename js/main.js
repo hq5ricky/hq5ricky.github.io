@@ -1,5 +1,5 @@
 let e = new PIXI.Application({ width: innerWidth, height: innerHeight });
-document.body.appendChild(app.view);
+document.body.appendChild(e.view);
 
 let sprite = PIXI.Sprite.from('./sprites/brick0.png');
 e.stage.addChild(sprite);
