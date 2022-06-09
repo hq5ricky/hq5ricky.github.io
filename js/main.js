@@ -21,28 +21,36 @@ function animate(delta){
       player.textures = playerSheet.north;
       player.play();
     }
-    player.y -=5;
+    if(player.y > 0){
+      player.y -=5;
+    }
   }
   if(keys['83']){
     if(!player.playing){
       player.textures = playerSheet.south;
       player.play();
     }
-    player.y +=5;
+    if(player.y < (e.renderer.height - 82)){
+      player.y +=5;
+    }
   }
   if(keys['65']){
     if(!player.playing){
       player.textures = playerSheet.west;
       player.play();
     }
-    player.x -=5;
+    if(player.x > 0){
+      player.x -=5;
+    }
   }
   if(keys['68']){
     if(!player.playing){
       player.textures = playerSheet.east;
       player.play();
     }
-    player.x +=5;
+    if(player.x < (e.renderer.width - 57)){
+      player.x +=5;
+    }
   }
 }
 
