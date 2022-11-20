@@ -1,1 +1,2 @@
-# hq5ricky.github.io
+# Incremancer
+Idle Necromancer Game
