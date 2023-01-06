@@ -676,7 +676,7 @@ div.resources label > span.value {
 }
 
 div.spells > div.skeleton {
-  position: absolute;
+  position: relative;
   height:5em;
   width: 100%;
   left:0;
@@ -798,6 +798,39 @@ div.skeleton > div.lvl.dead {
   -moz-animation: levelup-animation 4s linear infinite;
   animation: levelup-animation 4s linear infinite;
 }
+/*new rarities*/
+.inventory .item.grand {
+  background: linear-gradient(270deg, #1ad8db, #a2f597, #eab41e);
+  background-size: 190% 200%;
+
+  -webkit-animation: levelup-animation 4s linear infinite;
+  -moz-animation: levelup-animation 4s linear infinite;
+  animation: levelup-animation 4s linear infinite;
+}
+.inventory .item.mythic {
+  background: linear-gradient(270deg, #db98fd, #b57cd1, #8919c2);
+  background-size: 190% 200%;
+
+  -webkit-animation: levelup-animation 4s linear infinite;
+  -moz-animation: levelup-animation 4s linear infinite;
+  animation: levelup-animation 4s linear infinite;
+}
+.inventory .item.divine {
+  background: linear-gradient(270deg, #f19731, #8ceccd, #e0f927);
+  background-size: 190% 200%;
+
+  -webkit-animation: levelup-animation 4s linear infinite;
+  -moz-animation: levelup-animation 4s linear infinite;
+  animation: levelup-animation 4s linear infinite;
+}
+.inventory .item.sacred {
+  background: linear-gradient(45deg, #ee88be, #bbdfce, #f2f485);
+  background-size: 190% 200%;
+
+  -webkit-animation: levelup-animation 5s linear infinite;
+  -moz-animation: levelup-animation 5s linear infinite;
+  animation: levelup-animation 5s linear infinite;
+}
 .inventory .item.helmet .icon {
   background: url("images/helmet.png");
 }
@@ -853,6 +886,22 @@ div.skeleton > div.lvl.dead {
   width: 250px;
   padding:0.5em;
   z-index: 150;
+}
+.inventory .item.sacred .tooltip {/*custom tooltip for different rarities color*/
+  position: fixed;
+  display: none;
+  box-shadow:rgb(147, 116, 159) 5px 5px 15px;
+  border-radius: 5px;
+  width: 250px;
+  padding:0.5em;
+  z-index: 150;
+  background: linear-gradient(45deg, #c54087, #69b892, #afb336);
+  background-size: 190% 200%;
+  color: rgb(255, 213, 213);
+
+  -webkit-animation: levelup-animation 10s linear infinite;
+  -moz-animation: levelup-animation 10s linear infinite;
+  animation: levelup-animation 10s linear infinite;
 }
 #champ-hold.overflow {
   overflow-y: auto;
@@ -919,6 +968,51 @@ div.skeleton > div.lvl.dead {
   font-style: italic;
   color: #ffee10;
 }
+
+
+
+div.spells > div.skilltree {
+  position: absolute;
+  height:5em;
+  width: 100%;
+  left:0;
+  top:100%;
+  cursor: pointer;
+}
+
+div.spells > div.skilltree > button {
+  padding:8px 10px;
+  position: relative;
+  display: block;
+  width: 100%;
+  margin-bottom: 5px;
+  font-size: 1em;
+}
+
+div.skill-tree {
+  display:block;
+}
+
+div.tree-element > button {
+  display:block;
+  padding:5px 8px;
+  margin-bottom: 10px;
+  border:1px solid rgb(195, 182, 182);
+  background-color: rgb(163, 138, 138);
+}
+
+div.tree-element > div > button {
+  display:block;
+  padding:5px 8px;
+  margin-bottom: 10px;
+  border:1px solid rgb(175, 181, 180);
+  background-color: rgb(81, 93, 101);
+}
+
+div.tree-element > p {
+  display:block;
+}
+
 
 div.level-select > div.levels > button {
   display:block;
