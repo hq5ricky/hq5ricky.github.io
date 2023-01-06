@@ -37,6 +37,11 @@
               <div class="level" ng-if="item.l">{{item.l}}</div>
             </div>
           </div>
+          <div class="wardrobe">
+            <button ng-click="zm.skeletonMenu.wardrobeLeft()">Left</button>
+            <span>{{zm.skeletonMenu.wardrobeTab}}</span>
+            <button ng-click="zm.skeletonMenu.wardrobeRight()">Right</button>
+          </div>
         </div>
         <div class="items">
           <div class="item {{zm.skeletonMenu.itemClass(item)}} {{zm.skeletonMenu.itemType(item)}}" ng-repeat="item in zm.skeletonMenu.inventoryItems() track by item.id" ng-mousemove="zm.moveTooltip($event, $event.currentTarget);" 
