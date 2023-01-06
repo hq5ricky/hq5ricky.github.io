@@ -10479,6 +10479,8 @@ var Incremancer;
               "Hold shift to buy the maximum affordable number of upgrades.",
               "The world can be dragged with the mouse to explore it. Or by using the WASD or arrow keys.",
               "You can zoom in and out using your mouse wheel. Pinch to zoom on mobile.",
+              "**NOTICE: [Do not transfer save data file to original or chalice's mod (or any other mod in this case.)]**",
+              "~~I have never tried doing this but there is a likely chance the game will not run properly or the save file will be corrupted",
             ]),
             (c.updateMessages = function (e) {
               c.message
