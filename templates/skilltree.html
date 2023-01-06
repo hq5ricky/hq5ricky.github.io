@@ -1,0 +1,68 @@
+<div class="level-select" ng-if="zm.skilltree.isShown">
+    <div id = "skill-container"></div>
+    <div class="shop-title">
+        <h2>
+            <button ng-click="zm.skilltree.changeTab('altar')">Altar</button>
+            <button ng-click="zm.skilltree.changeTab('industrial-research')">Industrial</button>
+            <button ng-click="zm.skilltree.changeTab('crimson-grimoire')">Crimson</button>
+            <button ng-click="zm.skilltree.changeTab('azure-grimoire')">Azure</button>
+            <button ng-click="zm.skilltree.changeTab('zombie-studies')">Zombie Studies</button>
+        </h2>
+        <button ng-click="zm.skilltree.show()">Close</button>
+    </div>
+    <div id="zombie-studies" ng-if="zm.skilltree.tab === 'zombie-studies'" class="tree element">
+    <p>Zombie Studies</p>
+        <button ng-click="zm.skilltree.set('zombie-studies-1')">Zombie Studies I</button>
+        <button ng-click="">Zombie Studies II</button>
+        <button ng-click="">Zombie Studies III</button>
+        <button ng-click="">Zombie Studies IV</button>
+        <div class="tree-element" ng-if="zm.skilltree.element === 'zombie-studies-1'">
+            <button ng-click="zm.skilltree.desc('zombie-dogs')">Zombie Dogs</button>
+            <button ng-click="zm.skilltree.desc('armored-zombies')">Armored Zombies</button>
+            <div ng-if="zm.skilltree.trait === 'zombie-dogs'"> <!--later automate this in js script-->
+                <p>
+                    Turn loyal creatures into ferocious beasts. <br>
+                    Improve the Zombie dogs in your zombie army to rip and tear through human forces!
+                </p>
+                <button ng-click="">Upgrade</button>
+                <button ng-click="">Instinct</button>
+            </div>
+            <div ng-if="zm.skilltree.trait === 'armored-zombies'">
+                <p>
+                    Killing militia men will allow you to steal their armor! <br>
+                    "If you can't make it, might as well just take it~"
+                </p>
+                <button ng-click="">Upgrade</button>
+                <button ng-click="">Sturdy</button>
+            </div>
+        </div>
+    </div>
+    <div id="azure-grimoire" ng-if="zm.skilltree.tab === 'azure-grimoire'">
+        <p>Azure Grimoire</p>
+        <button ng-click="">Azure Grimoire I</button>
+        <button ng-click="">Azure Grimoire II</button>
+        <button ng-click="">Azure Grimoire III</button>
+    </div>
+    <div id="crimson-grimoire" ng-if="zm.skilltree.tab === 'crimson-grimoire'">
+        <p>Crimson Grimoire</p>
+        <button ng-click="">Crimson Grimoire I</button>
+        <button ng-click="">Crimson Grimoire II</button>
+        <button ng-click="">Crimson Grimoire III</button>
+
+    </div>
+    <div id="industrial-research" ng-if="zm.skilltree.tab === 'industrial-research'">
+        <p>Industrial Laboratory</p>
+        <button ng-click="">Golem Studies I</button>
+        <button ng-click="">Golem Studies II</button>
+        <button ng-click="">Golem Studies III</button>
+        <button ng-click="">Golem Studies IV</button>
+
+    </div>
+    <div id="altar" ng-if="zm.skilltree.tab === 'altar'">
+        <p>The Altar</p>
+        <button ng-click="">Champion Research I</button>
+        <button ng-click="">Expedition I</button>
+        <button ng-click="">Smithery I</button>
+
+    </div>
+</div>
