@@ -9,7 +9,8 @@ var Incremancer;
     return Math.sqrt((e - s) * (e - s) + (t - i) * (t - i));
   }
   function i(e, t, s, i) {
-    const a = Math.abs(e - s), r = Math.abs(t - i);
+    const a = Math.abs(e - s),
+      r = Math.abs(t - i);
     return 0.4 * (a + r) + 0.56 * Math.max(a, r);
   }
   function a(e, t) {
@@ -21,77 +22,192 @@ var Incremancer;
   function n(e) {
     return o(e, e > 1e3 ? 2 : 0);
   }
-  function o(e, t) {
-    return (e || (e = 0),e >= 1e15 ? e.toExponential(t).replace("+", "") : e >= 1e12 ? (e / 1e12).toFixed(t) + "T" : e >= 1e9 ? (e / 1e9).toFixed(t) + "B" : e >= 1e6 ? (e / 1e6).toFixed(t) + "M" : e >= 1e3 ? (e / 1e3).toFixed(t) + "K" : e.toFixed(t));
+  function o(e, t) {            //numerical suffix (1K, 1M, 1B, 1T) & scientific notation
+    return (
+      e || (e = 0),
+      e >= 1e15
+        ? e.toExponential(t).replace("+", "")
+        : e >= 1e12
+        ? (e / 1e12).toFixed(t) + "T"
+        : e >= 1e9
+        ? (e / 1e9).toFixed(t) + "B"
+        : e >= 1e6
+        ? (e / 1e6).toFixed(t) + "M"
+        : e >= 1e3
+        ? (e / 1e3).toFixed(t) + "K"
+        : e.toFixed(t)
+    );
   }
   function h(e, t, s, i) {
-    return 1 == t ? Math.floor(i / e) : Math.floor(Math.log((i * (t - 1)) / (e * Math.pow(t, s)) + 1) / Math.log(t));
+    return 1 == t
+      ? Math.floor(i / e)
+      : Math.floor(
+          Math.log((i * (t - 1)) / (e * Math.pow(t, s)) + 1) / Math.log(t)
+        );
   }
   function l(e, t, s, i) {
-    return 1 == t ? e * i : e * ((Math.pow(t, s) * (Math.pow(t, i) - 1)) / (t - 1));
+    return 1 == t
+      ? e * i
+      : e * ((Math.pow(t, s) * (Math.pow(t, i) - 1)) / (t - 1));
   }
   function d(e, t) {
     const s = document.getElementById("champ-hold").getBoundingClientRect();
     let i = e.clientX - s.x;
     const a = e.clientY - s.y;
-    i > s.width / 2 &&(i -= t.getElementsByClassName("tooltip")[0].getBoundingClientRect().width), (t.getElementsByClassName("tooltip")[0].style.top = a + 20 + "px"), (t.getElementsByClassName("tooltip")[0].style.left = i + 20 + "px");
+    i > s.width / 2 &&
+      (i -= t
+        .getElementsByClassName("tooltip")[0]
+        .getBoundingClientRect().width),
+      (t.getElementsByClassName("tooltip")[0].style.top = a + 20 + "px"),
+      (t.getElementsByClassName("tooltip")[0].style.left = i + 20 + "px");
   }
   let c, u, p, g, m, b, f, y, x; //refer to line 298 (c,u,p,g,m,b,f,y) x on line 353 (tiling sprite)
-  ((e) => {"undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(e, Symbol.toStringTag, { value: "Module" }), Object.defineProperty(e, "__esModule", { value: !0 });})(e);
-  let v,S,M,k,w,T,C,D = { x: 800, y: 600, defaultScale: 1 },P = { x: 600, y: 600 };
+  ((e) => {
+    "undefined" != typeof Symbol &&
+      Symbol.toStringTag &&
+      Object.defineProperty(e, Symbol.toStringTag, { value: "Module" }),
+      Object.defineProperty(e, "__esModule", { value: !0 });
+  })(e);
+  let v,
+    S,
+    M,
+    k,
+    w,
+    T,
+    C,
+    D = { x: 800, y: 600, defaultScale: 1 },
+    P = { x: 600, y: 600 };
   function z(e) {
-    (this.data = e.data),(this.dragging = !0),(this.dragOffset = this.data.getLocalPosition(this)),(this.dragOffset.x *= this.scale.x),(this.dragOffset.y *= this.scale.y),(this.dragStartX = this.x),(this.dragStartY = this.y),(B = 0);
+    (this.data = e.data),
+      (this.dragging = !0),
+      (this.dragOffset = this.data.getLocalPosition(this)),
+      (this.dragOffset.x *= this.scale.x),
+      (this.dragOffset.y *= this.scale.y),
+      (this.dragStartX = this.x),
+      (this.dragStartY = this.y),
+      (B = 0);
   }
   function I() {
     (this.dragging = !1), (this.data = null), (B = 0);
   }
-  let B = 0,R = 0;
-  function H(e) {
+  let B = 0,
+    R = 0;
+  function H(e) {                                 //zombie image on cursor
     if (T.zombieCursor) {
       T.zombieCursor.position = e.data.getLocalPosition(this.parent);
       const t = e.data.getLocalPosition(x);
-      T.mouseOutOfBounds = t.x < 0 || t.y < 0 || t.x > x.width || t.y > x.height;
+      T.mouseOutOfBounds =
+        t.x < 0 || t.y < 0 || t.x > x.width || t.y > x.height;
     }
-    if (e.data.originalEvent.touches && e.data.originalEvent.touches.length > 1) !(function (e) {
-        const t = Math.abs(e.data.originalEvent.touches[0].clientX - e.data.originalEvent.touches[1].clientX);
-        B ? R + 50 < Date.now() && Math.abs(t - B) > 10 && (A(t > B ? 1 : -1, null), (R = Date.now()), (B = t)) : (B = t);
+    if (e.data.originalEvent.touches && e.data.originalEvent.touches.length > 1)
+      !(function (e) {
+        const t = Math.abs(
+          e.data.originalEvent.touches[0].clientX -
+            e.data.originalEvent.touches[1].clientX
+        );
+        B
+          ? R + 50 < Date.now() &&
+            Math.abs(t - B) > 10 &&
+            (A(t > B ? 1 : -1, null), (R = Date.now()), (B = t))
+          : (B = t);
       })(e);
-    else if (this.dragging) {
+    else if (this.dragging) {                     //dragging on map (moving map visual)
       const e = this.data.getLocalPosition(this.parent);
-      (this.x = e.x - this.dragOffset.x), (this.y = e.y - this.dragOffset.y), F(this), s(this.dragStartX, this.dragStartY, this.x, this.y) > 5 && (this.hasMoved = !0);
+      (this.x = e.x - this.dragOffset.x),
+        (this.y = e.y - this.dragOffset.y),
+        F(this),
+        s(this.dragStartX, this.dragStartY, this.x, this.y) > 5 &&
+          (this.hasMoved = !0);
     }
   }
   function F(e) {
-    const t = P.x * e.scale.x, s = P.y * e.scale.y;
-    e.x > 0.5 * D.x && (e.x = 0.5 * D.x), e.x + t < 0.5 * D.x && (e.x = 0.5 * D.x - t), e.y > 0.5 * D.y && (e.y = 0.5 * D.y), e.y + s < 0.5 * D.y && (e.y = 0.5 * D.y - s);
+    const t = P.x * e.scale.x,
+      s = P.y * e.scale.y;
+    e.x > 0.5 * D.x && (e.x = 0.5 * D.x),
+      e.x + t < 0.5 * D.x && (e.x = 0.5 * D.x - t),
+      e.y > 0.5 * D.y && (e.y = 0.5 * D.y),
+      e.y + s < 0.5 * D.y && (e.y = 0.5 * D.y - s);
   }
   function E(e) {
-    this.hasMoved || v.currentState != v.states.playingLevel || (Y.shift ? T.spawnAllZombies(e.data.getLocalPosition(this).x, e.data.getLocalPosition(this).y) : T.spawnZombie(e.data.getLocalPosition(this).x, e.data.getLocalPosition(this).y)),(this.hasMoved = !1);
+    this.hasMoved ||
+      v.currentState != v.states.playingLevel ||
+      (Y.shift                                        //spawn zombies at (x,y)
+        ? T.spawnAllZombies(
+            e.data.getLocalPosition(this).x,
+            e.data.getLocalPosition(this).y
+          )
+        : T.spawnZombie(
+            e.data.getLocalPosition(this).x,
+            e.data.getLocalPosition(this).y
+          )),
+      (this.hasMoved = !1);
   }
   function A(e, t) {
     if (R + 50 > Date.now()) return;
     R = Date.now();
     const s = c;
     t || (t = { x: 0.5 * D.x, y: 0.5 * D.y });
-    const i = P.x * s.scale.x,a = P.y * s.scale.y;
-    t.x > s.x + i && (t.x = s.x + i),t.x < s.x && (t.x = s.x),t.y < s.y && (t.y = s.y),t.y > s.y + a && (t.y = s.y + a);
-    const r = (t.x - s.x) / s.scale.x, n = (t.y - s.y) / s.scale.y;
-    e > 0 ? s.scale.x < 10 && ((s.scale.x = s.scale.y = 1.1 * s.scale.x),T.zombieCursor && T.zombieCursor.scale && (T.zombieCursor.scale.x = T.zombieCursor.scale.y = 1.1 * T.zombieCursor.scale.x)) : Math.max(i, a) > 0.8 * Math.min(D.y, D.x) && ((s.scale.x = s.scale.y = 0.9 * s.scale.x),T.zombieCursor && T.zombieCursor.scale && (T.zombieCursor.scale.x = T.zombieCursor.scale.y = 0.9 * T.zombieCursor.scale.x)),(s.x = t.x - r * s.scale.x),(s.y = t.y - n * s.scale.y),F(s);
+    const i = P.x * s.scale.x,
+      a = P.y * s.scale.y;
+    t.x > s.x + i && (t.x = s.x + i),
+      t.x < s.x && (t.x = s.x),
+      t.y < s.y && (t.y = s.y),
+      t.y > s.y + a && (t.y = s.y + a);
+    const r = (t.x - s.x) / s.scale.x,
+      n = (t.y - s.y) / s.scale.y;
+    e > 0
+      ? s.scale.x < 10 &&
+        ((s.scale.x = s.scale.y = 1.1 * s.scale.x),
+        T.zombieCursor &&
+          T.zombieCursor.scale &&
+          (T.zombieCursor.scale.x = T.zombieCursor.scale.y =
+            1.1 * T.zombieCursor.scale.x))
+      : Math.max(i, a) > 0.8 * Math.min(D.y, D.x) &&
+        ((s.scale.x = s.scale.y = 0.9 * s.scale.x),
+        T.zombieCursor &&
+          T.zombieCursor.scale &&
+          (T.zombieCursor.scale.x = T.zombieCursor.scale.y =
+            0.9 * T.zombieCursor.scale.x)),
+      (s.x = t.x - r * s.scale.x),
+      (s.y = t.y - n * s.scale.y),
+      F(s);
   }
   function L(e) {
     e.preventDefault();
-    const t = {x: e.clientX * (D.x / document.body.clientWidth),y: e.clientY * (D.y / document.body.clientHeight),};
+    const t = {
+      x: e.clientX * (D.x / document.body.clientWidth),     //adapt to screen width/height
+      y: e.clientY * (D.y / document.body.clientHeight),
+    };
     e.deltaY < 0 || e.deltaX < 0 ? A(1, t) : A(-1, t);
   }
   function Z(e = !1) {
-    e && ((c.scale.x = D.defaultScale), (c.scale.y = D.defaultScale), T.zombieCursor && (T.zombieCursor.scale.x = T.zombieCursor.scale.y = T.zombieCursorScale * D.defaultScale)), (c.x = (D.x - P.x * c.scale.x) / 2), (c.y = (D.y - P.y * c.scale.y) / 2);
+    e &&
+      ((c.scale.x = D.defaultScale),
+      (c.scale.y = D.defaultScale),
+      T.zombieCursor &&
+        (T.zombieCursor.scale.x = T.zombieCursor.scale.y =
+          T.zombieCursorScale * D.defaultScale)),
+      (c.x = (D.x - P.x * c.scale.x) / 2),
+      (c.y = (D.y - P.y * c.scale.y) / 2);
   }
   const G = {
-      x: 0, y: 0, width: 1e3, height: 1e3, hideParticle(e, t) {
-        return (e < this.x || t < this.y || e > this.x + this.width || t > this.y + this.height);
+      x: 0,
+      y: 0,
+      width: 1e3,
+      height: 1e3,
+      hideParticle(e, t) {        //hide particles
+        return (
+          e < this.x ||
+          t < this.y ||
+          e > this.x + this.width ||
+          t > this.y + this.height
+        );
       },
-      update() {
-        (this.x = -c.x / c.scale.x),(this.y = -c.y / c.scale.y),(this.width = D.x / c.scale.x),(this.height = D.y / c.scale.y);
+      update() {                    //update screen
+        (this.x = -c.x / c.scale.x),
+          (this.y = -c.y / c.scale.y),
+          (this.width = D.x / c.scale.x),
+          (this.height = D.y / c.scale.y);
       },
     },
     X = new PIXI.Matrix();
@@ -100,30 +216,84 @@ var Incremancer;
       const t = Y;
       let s = !1;
       const i = c;
-      t.w && ((i.y += t.scrollSpeed * e), (s = !0)), t.a && ((i.x += t.scrollSpeed * e), (s = !0)), t.s && ((i.y -= t.scrollSpeed * e), (s = !0)), t.d && ((i.x -= t.scrollSpeed * e), (s = !0)), s && F(i);
-    })(e), G.update(), (e *= v.gameSpeed), M.update(e), C.update(e), T.update(e), k.update(e), w.update(e), S.update(e),
+      t.w && ((i.y += t.scrollSpeed * e), (s = !0)), //WASD movement around map
+        t.a && ((i.x += t.scrollSpeed * e), (s = !0)),
+        t.s && ((i.y -= t.scrollSpeed * e), (s = !0)),
+        t.d && ((i.x -= t.scrollSpeed * e), (s = !0)),
+        s && F(i);
+    })(e),
+      G.update(),
+      (e *= v.gameSpeed),
+      M.update(e),
+      C.update(e),
+      T.update(e),
+      k.update(e),
+      w.update(e),
+      S.update(e),
       (function (e, t) {
-        if ((C.vipEscaping && void 0 !== C.vip ? (y.alpha += e) : ((y.alpha -= e), y.alpha < 0 && (y.alpha = 0)), y.alpha > 0)) {
-          y.alpha > 1 && (y.alpha = 1),(y.visible = !0),(y.x = 5),(y.y = D.y - 305);
-          const e = c.scale.x, s = c.scale.y, i = c.x, a = c.y;
-          c.position.set(0, 0), C.vip && ((X.tx = -2 * C.vip.x + 150), (X.ty = -2 * C.vip.y + 150)), c.scale.set(2, 2), t.renderer.render(c, f, void 0, X), c.scale.set(e, s), c.position.set(i, a);
+        if (
+          (C.vipEscaping && void 0 !== C.vip
+            ? (y.alpha += e)
+            : ((y.alpha -= e), y.alpha < 0 && (y.alpha = 0)),
+          y.alpha > 0)
+        ) {
+          y.alpha > 1 && (y.alpha = 1),
+            (y.visible = !0),
+            (y.x = 5),
+            (y.y = D.y - 305);
+          const e = c.scale.x,
+            s = c.scale.y,
+            i = c.x,
+            a = c.y;
+          c.position.set(0, 0),
+            C.vip && ((X.tx = -2 * C.vip.x + 150), (X.ty = -2 * C.vip.y + 150)),
+            c.scale.set(2, 2),
+            t.renderer.render(c, f, void 0, X),
+            c.scale.set(e, s),
+            c.position.set(i, a);
         } else y.visible = !1;
       })(e, t);
   }
   function N() {
-    const e = Math.min(500 + 50 * v.level, 1500), t = (Math.random() * e) / 3;
-    (P = { x: e + t, y: e - t }), x && ((x.width = P.x), (x.height = P.y)), (c.hitArea = new PIXI.Rectangle(0, 0, P.x, P.y));
+    const e = Math.min(500 + 50 * v.level, 1500),
+      t = (Math.random() * e) / 3;
+    (P = { x: e + t, y: e - t }),
+      x && ((x.width = P.x), (x.height = P.y)),
+      (c.hitArea = new PIXI.Rectangle(0, 0, P.x, P.y));
   }
-  function O() {
-    const e = document.body.clientWidth, t = document.body.clientHeight;
-    (D = { x: e, y: t, defaultScale: Math.max(e, t) / 1e3 }), (Y.scrollSpeed = Math.max(e, t) / 4);
+  function O() {        //scale screen to client screen (line 392)
+    const e = document.body.clientWidth,
+      t = document.body.clientHeight;
+    (D = { x: e, y: t, defaultScale: Math.max(e, t) / 1e3 }),
+      (Y.scrollSpeed = Math.max(e, t) / 4);
   }
-  new Map(), (window.onload = function () {
-      (v = ne.getInstance()), (S = new Qe()), (M = new Oe()), (k = new Ue()), (w = new Xe()), (T = new Ae()), (C = new Se()), v.loadData(), v.onReady(), O(),
+  new Map(),                //load map
+    (window.onload = function () {
+      (v = ne.getInstance()),
+        (S = new Qe()),
+        (M = new Oe()),
+        (k = new Ue()),
+        (w = new Xe()),
+        (T = new Ae()),
+        (C = new Se()),
+        v.loadData(),
+        v.onReady(),
+        O(),
         (function () {
           PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
-          const e = new PIXI.Application({width: D.x, height: D.y, backgroundColor: 1066256, resolution: v.persistentData.resolution || 1, antialias: !1, resizeTo: window,});
-          document.body.appendChild(e.view), PIXI.utils.isWebGLSupported() || console.error("Warning: WebGL support not detected. Game performance may be slower."),
+          const e = new PIXI.Application({ //(local variable)
+            width: D.x,
+            height: D.y,
+            backgroundColor: 1066256,
+            resolution: v.persistentData.resolution || 1,
+            antialias: !1,
+            resizeTo: window,
+          });
+          document.body.appendChild(e.view),
+            PIXI.utils.isWebGLSupported() ||
+              console.error(
+                "Warning: WebGL support not detected. Game performance may be slower."
+              ),
             (function (e) {
               (c = new PIXI.Container()),
                 (u = new PIXI.Container()),
@@ -152,9 +322,12 @@ var Incremancer;
                 c.on("click", E),
                 c.on("tap", E),
                 (document.getElementsByTagName("canvas")[0].onwheel = L),
-                (document.getElementsByTagName("canvas")[0].oncontextmenu = function (e) {e.preventDefault();});
+                (document.getElementsByTagName("canvas")[0].oncontextmenu =
+                  function (e) {
+                    e.preventDefault();
+                  });
             })(e),
-            e.loader
+            e.loader //load sprite json
               .add("sprites/ground.json")
               .add("sprites/megagraveyard.png")
               .add("sprites/graveyard.json")
@@ -175,22 +348,54 @@ var Incremancer;
               .add("sprites/tank.json")
               .add("sprites/skeleton.json")
               .load(function () {
-                (v.app = e),N(),(x = new PIXI.TilingSprite(PIXI.Texture.from("grass.png"))),(x.texture.baseTexture.mipmap = PIXI.MIPMAP_MODES.OFF),
+                (v.app = e),
+                  N(),
+                  (x = new PIXI.TilingSprite(PIXI.Texture.from("grass.png"))), //grass tiles
+                  (x.texture.baseTexture.mipmap = PIXI.MIPMAP_MODES.OFF),
                   (x.width = P.x),
                   (x.height = P.y),
                   u.addChild(x),
                   v.setupLevel(),
-                  setTimeout(function () {Z(!0);}),
-                  e.ticker.add((t) => {U(e.ticker.deltaMS / 1e3, e), (v.frameRate = e.ticker.FPS);});
+                  setTimeout(function () {
+                    Z(!0);
+                  }),
+                  e.ticker.add((t) => {
+                    U(e.ticker.deltaMS / 1e3, e), (v.frameRate = e.ticker.FPS);
+                  });
               });
         })(),
-        window.self !== window.top && ("" != document.referrer && -1 == document.referrer.indexOf("kongregate.com") && -1 == document.referrer.indexOf("konggames.com") && -1 == document.referrer.indexOf("gti.nz") ? (window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ") : (-1 === document.referrer.indexOf("kongregate.com") && -1 === document.referrer.indexOf("konggames.com")) || kongregateAPI.loadAPI(function () {(window.kongregate = kongregateAPI.getAPI()),(v.kongregate = !0),v.loginInUsingPlayFab();})),
-        document.addEventListener("visibilitychange", function () {"hidden" == document.visibilityState ? (v.hidden = !0) : (v.hidden = !1);},!1);
+        window.self !== window.top &&
+          ("" != document.referrer &&
+          -1 == document.referrer.indexOf("kongregate.com") &&
+          -1 == document.referrer.indexOf("konggames.com") &&
+          -1 == document.referrer.indexOf("gti.nz")
+            ? (window.location.href =
+                "https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+            : (-1 === document.referrer.indexOf("kongregate.com") &&
+                -1 === document.referrer.indexOf("konggames.com")) ||
+              kongregateAPI.loadAPI(function () {
+                (window.kongregate = kongregateAPI.getAPI()),
+                  (v.kongregate = !0),
+                  v.loginInUsingPlayFab();
+              })),
+        document.addEventListener(
+          "visibilitychange",
+          function () {
+            "hidden" == document.visibilityState
+              ? (v.hidden = !0)
+              : (v.hidden = !1);
+          },
+          !1
+        );
     }),
-    (window.onresize = function () {O();});
-  const Y = { scrollSpeed: 200, w: !1, a: !1, s: !1, d: !1, shift: !1 };
-  (window.onblur = function () {(Y.w = Y.a = Y.s = Y.d = !1), (Y.shift = !1);}),
-    (window.onkeydown = function (e) {
+    (window.onresize = function () {
+      O();
+    });
+  const Y = { scrollSpeed: 200, w: !1, a: !1, s: !1, d: !1, shift: !1 }; //key vars
+  (window.onblur = function () {
+    (Y.w = Y.a = Y.s = Y.d = !1), (Y.shift = !1);
+  }),
+    (window.onkeydown = function (e) { //create key codes on key down (WASD, Shift)
       switch (e.keyCode) {
         case 16:
         case 17:
@@ -217,7 +422,7 @@ var Incremancer;
       }
       return !1;
     }),
-    (window.onkeyup = function (e) {
+    (window.onkeyup = function (e) { //create key codes on key up (WASD, Shift)
       switch (e.keyCode) {
         case 16:
         case 17:
@@ -244,7 +449,7 @@ var Incremancer;
       }
       return !1;
     });
-  class W {
+  class W { //spell constructor
     constructor(e, t, s, i, a, r, n, o, h, g) {
       (this.id = e),
         (this.name = t),
@@ -272,29 +477,37 @@ var Incremancer;
         (this.zombies = new Ae()),
         (this.humans = new Se()),
         (this.spellMap = new Map()),
-        (this.spells = [
+        (this.spells = [ //spell format: {id, name, desc, skeleton desc, cooldown, duration, energy cost, spell start, spell end, base hit activation}
           new W(
             1,
             "Time Warp",
-            "Speed up the flow of time for 30 seconds (x2 Speed)",
+            "Speed up the flow of time for 30 seconds",
             "",
-            0,
+            90,
             30,
             0,
-            function () {ne.getInstance().gameSpeed = 2;},
-            function () {ne.getInstance().gameSpeed = 1;},
+            function () {
+              ne.getInstance().gameSpeed = 2;
+            },
+            function () {
+              ne.getInstance().gameSpeed = 1;
+            },
             90
           ),
           new W(
             2,
             "Energy Charge",
-            "x5 Energy rate for 20 seconds, cost 50 energy",
+            "5x Energy rate for 20 seconds, cost 50 energy",
             "",
-            0,
+            160,
             20,
-            0,
-            function () {ne.getInstance().energySpellMultiplier = 5;},
-            function () {ne.getInstance().energySpellMultiplier = 1;},
+            50,
+            function () {
+              ne.getInstance().energySpellMultiplier = 5;
+            },
+            function () {
+              ne.getInstance().energySpellMultiplier = 1;
+            },
             120
           ),
           new W(
@@ -302,11 +515,15 @@ var Incremancer;
             "Detonate",
             "Turns your zombies into fast moving living bombs, cost 69 energy... nice",
             "",
-            0,
+            80,
             8,
-            0,
-            function () {new q().zombies.detonate = !0;},
-            function () {new q().zombies.detonate = !1;},
+            69,
+            function () {
+              new q().zombies.detonate = !0;
+            },
+            function () {
+              new q().zombies.detonate = !1;
+            },
             90
           ),
           new W(
@@ -314,11 +531,15 @@ var Incremancer;
             "Earth Freeze",
             "Freeze all humans in place preventing them from moving for 15 seconds, cost 75 energy",
             "",
-            0,
+            50,
             15,
-            0,
-            function () {new q().humans.frozen = !0;},
-            function () {new q().humans.frozen = !1;},
+            75,
+            function () {
+              new q().humans.frozen = !0;
+            },
+            function () {
+              new q().humans.frozen = !1;
+            },
             150
           ),
           new W(
@@ -326,11 +547,15 @@ var Incremancer;
             "Gigazombies",
             "For 5 seconds any zombies spawned will be giants with 10x health and attack damage, cost 100 energy",
             "",
-            0,
+            260,
             5,
-            0,
-            function () {new q().zombies.super = !0;},
-            function () {new q().zombies.super = !1;},
+            100,
+            function () {
+              new q().zombies.super = !0;
+            },
+            function () {
+              new q().zombies.super = !1;
+            },
             120
           ),
           new W(
@@ -341,7 +566,9 @@ var Incremancer;
             1,
             10,
             0,
-            function () {new q().skeleton.incinerate(), (this.timer = 1);},
+            function () {
+              new q().skeleton.incinerate(), (this.timer = 1);
+            },
             function () {},
             60
           ),
@@ -353,8 +580,12 @@ var Incremancer;
             10,
             20,
             0,
-            function () {new q().humans.pandemic = !0;},
-            function () {new q().humans.pandemic = !1;},
+            function () {
+              new q().humans.pandemic = !0; //pandemic on
+            },
+            function () {
+              new q().humans.pandemic = !1; //pandemic off
+            },
             120
           ),
           new W(
@@ -365,8 +596,12 @@ var Incremancer;
             10,
             15,
             0,
-            function () {new se().storm = !0;},
-            function () {new se().storm = !1;},
+            function () {
+              new se().storm = !0; //part storm on
+            },
+            function () {
+              new se().storm = !1; //part storm off
+            },
             90
           ),
         ]),
@@ -377,64 +612,118 @@ var Incremancer;
         this.spells.forEach((e) => this.spellMap.set(e.id, e));
     }
     lockAllSpells() {
-      for (let e = 0; e < this.spells.length; e++) this.spells[e].unlocked = !1;
+      for (let e = 0; e < this.spells.length; e++) this.spells[e].unlocked = !1; //all spells locked
     }
-    unlockSpell(e) {
+    unlockSpell(e) { //unlock spell
       this.spellMap.get(e).unlocked = !0; 
     }
-    getSpell(e) {
+    getSpell(e) { //find spell from dictionary
       return this.spellMap.get(e);
     }
     getUnlockedSpells() { 
-      return this.spells.filter((e) => e.unlocked);
+      return this.spells.filter((e) => e.unlocked); //gets all unlocked spells
     }
-    castSpell(e) {
+    castSpell(e) { //cast spell (with mana)
       const t = ne.getInstance();
-      e.onCooldown || e.active || !e.unlocked || e.energyCost - this.costReduction > t.energy || ((t.energy -= e.energyCost - this.costReduction),
-        (e.onCooldown = !0),
-        (e.cooldownLeft = e.cooldown * this.cooldownReduction),
-        (e.active = !0),
-        (e.timer = e.duration + this.timeExtension),
+      e.onCooldown ||
+        e.active ||
+        !e.unlocked ||
+        e.energyCost - this.costReduction > t.energy || //cast spell (checks if energy cost > current energy)
+        ((t.energy -= e.energyCost - this.costReduction),
+        (e.onCooldown = !0), //spell on cooldown
+        (e.cooldownLeft = e.cooldown * this.cooldownReduction), //cooldown + cooldown reduction
+        (e.active = !0), //spell active
+        (e.timer = e.duration + this.timeExtension), //timer + added time
         e.start(),
-        t.sendMessage(e.name));
+        t.sendMessage(e.name)); //popup 
     }
-    castSpellNoMana(e) {
+    castSpellNoMana(e) {//cast w/o mana (***e = spell id)
       const t = this.spellMap.get(e);
-      t && !t.active && ((t.active = !0), (t.timer = t.duration + this.timeExtension), t.start(), ne.getInstance().sendMessage(t.name));
+      t &&
+        !t.active &&
+        ((t.active = !0),
+        (t.timer = t.duration + this.timeExtension),
+        t.start(),
+        ne.getInstance().sendMessage(t.name));
     }
-    updateSpells(e) {
+    updateSpells(e) { //updates spell ui (left side)
       for (let t = 0; t < this.spells.length; t++) {
         const s = this.spells[t];
-        s.onCooldown && !s.active && ((s.cooldownLeft -= e), s.cooldownLeft <= 0 && (s.onCooldown = !1)), s.active && ((s.timer -= e), s.timer <= 0 && ((s.active = !1), s.end())); //spell ends
+        s.onCooldown &&
+          !s.active &&
+          ((s.cooldownLeft -= e), s.cooldownLeft <= 0 && (s.onCooldown = !1)), //time left
+          s.active &&
+            ((s.timer -= e), s.timer <= 0 && ((s.active = !1), s.end())); //spell ends
       }
     }
   }
   class V extends PIXI.TilingSprite {
     constructor(e) {
-      super(e), (this.collisionX = 0), (this.collisionY = 0), (this.collisionWidth = 0), (this.collisionHeight = 0);
+      super(e),
+        (this.collisionX = 0),
+        (this.collisionY = 0),
+        (this.collisionWidth = 0),
+        (this.collisionHeight = 0);
     }
   }
   class j {
     constructor(e, t, s, i, a) {
-      (this.id = 0), (this.x = 0), (this.y = 0), (this.width = 0), (this.height = 0), (this.entrance = null), (this.id = e), (this.x = t), (this.y = s), (this.width = i), (this.height = a);
+      (this.id = 0),
+        (this.x = 0),
+        (this.y = 0),
+        (this.width = 0),
+        (this.height = 0),
+        (this.entrance = null),
+        (this.id = e),
+        (this.x = t),
+        (this.y = s),
+        (this.width = i),
+        (this.height = a);
     }
   }
   class $ {
     constructor() {
-      (this.attack = 0), (this.scan = 0), (this.smoke = 0), (this.burnTick = 0), (this.ability = 0), (this.dogStun = 0), (this.target = 0);
+      (this.attack = 0),
+        (this.scan = 0),
+        (this.smoke = 0),
+        (this.burnTick = 0),
+        (this.ability = 0),
+        (this.dogStun = 0),
+        (this.target = 0);
     }
   }
   class K {
     constructor() {
-      (this.burning = !1), (this.infected = !1), (this.dead = !1), (this.golem = !1);
+      (this.burning = !1),
+        (this.infected = !1),
+        (this.dead = !1),
+        (this.golem = !1);
     }
   }
   class Q extends PIXI.AnimatedSprite {
     constructor(e) {
-      super(e), (this.xSpeed = 0), (this.ySpeed = 0), (this.health = 0), (this.maxHealth = 0), (this.zombie = !1), (this.targetVector = { x: 0, y: 0 }), (this.burnDamage = 0), (this.hasIcon = !1), (this.flags = new K()), (this.timer = new $());
+      super(e),
+        (this.xSpeed = 0),
+        (this.ySpeed = 0),
+        (this.health = 0),
+        (this.maxHealth = 0),
+        (this.zombie = !1),
+        (this.targetVector = { x: 0, y: 0 }),
+        (this.burnDamage = 0),
+        (this.hasIcon = !1),
+        (this.flags = new K()),
+        (this.timer = new $());
     }
     reset() {
-      (this.xSpeed = 0), (this.ySpeed = 0), (this.alpha = 1), (this.visible = !0), (this.burnDamage = 0), (this.currentPoi = null), (this.flags.dead = !1), (this.flags.burning = !1),(this.flags.infected = !1);
+      (this.xSpeed = 0),
+        (this.ySpeed = 0),
+        (this.alpha = 1),
+        (this.visible = !0),
+        (this.burnDamage = 0),
+        (this.currentPoi = null),
+        (this.flags.dead = !1),
+        (this.flags.burning = !1),
+        (this.flags.infected = !1);
     }
   }
   class J extends PIXI.Sprite {
@@ -463,7 +752,8 @@ var Incremancer;
   }
   class ee {
     constructor() {
-      if (((this.gameModel = ne.getInstance()),
+      if (
+        ((this.gameModel = ne.getInstance()),
         (this.humans = new Se()),
         (this.discardedWalls = []),
         (this.discardedContainers = []),
@@ -496,60 +786,105 @@ var Incremancer;
         (this.treeTextures = []),
         (this.armyTextures = []),
         ee.instance)
-      ) return ee.instance;
+      )
+        return ee.instance;
       ee.instance = this;
     }
     getRandomBuilding() {
       return a(this.buildingsByPopularity, Math.random());
     }
-    roomNoOverlap(e, t) {
-      return (e.x > t.x + t.width + 50 || e.x + e.width + 50 < t.x || e.y > t.y + t.height + 50 || e.y + e.height + 50 < t.y || void 0);
+    roomNoOverlap(e, t) {         //checks if buildings overlap
+      return (
+        e.x > t.x + t.width + 50 ||
+        e.x + e.width + 50 < t.x ||
+        e.y > t.y + t.height + 50 ||
+        e.y + e.height + 50 < t.y ||
+        void 0
+      );
     }
-    isValidPosition(e) {
+    isValidPosition(e) {                                    //check building pos
       if (!this.roomNoOverlap(e, this.graveYardPosition)) return !1;
       for (let t = 0; t < this.buildings.length; t++)
         if (!this.roomNoOverlap(e, this.buildings[t])) return !1;
-      return !(this.gameModel.level % 5 == 0 && !this.gameModel.isBossStage(this.gameModel.level) && e.y < this.roadSprite.y + this.roadSprite.height && e.y + e.height > this.roadSprite.y);
+      return !(
+        this.gameModel.level % 5 == 0 &&
+        !this.gameModel.isBossStage(this.gameModel.level) &&
+        e.y < this.roadSprite.y + this.roadSprite.height &&
+        e.y + e.height > this.roadSprite.y
+      );
     }
-    getWall(e) {
+    getWall(e) {                //get wall
       if (this.discardedWalls.length > 0) {
         const t = this.discardedWalls.pop();
         return (t.texture = e), t;
       }
       return new V(e);
     }
-    makeHorizontalWall(e, t, s, i, a, r) {
-      if (s) {
-        const s = this.getWall(t);
-        (s.x = i),(s.y = a),(s.width = r / 2 - this.entranceWidth),(s.height = 4),e.push(s);
+    makeHorizontalWall(e, t, s, i, a, r) {    //build horizontal walls (s = determines entrance)
+      if (s) { //if entrance
+        const s = this.getWall(t);  //(t = texture)
+        (s.x = i),
+          (s.y = a),
+          (s.width = r / 2 - this.entranceWidth),
+          (s.height = 4),
+          e.push(s);
         const n = this.getWall(t);
-        (n.x = i + r / 2 + this.entranceWidth),(n.y = a),(n.width = r / 2 - this.entranceWidth),(n.height = 4),e.push(n);
-      } else {
+        (n.x = i + r / 2 + this.entranceWidth),
+          (n.y = a),
+          (n.width = r / 2 - this.entranceWidth),
+          (n.height = 4),
+          e.push(n); //e = wall list
+      } else { //if no entrance
         const s = this.getWall(t);
         (s.x = i), (s.y = a), (s.width = r), (s.height = 4), e.push(s);
       }
     }
-    makeVerticalWall(e, t, s, i, a, r) {
-      if (s) {
-        const s = this.getWall(t);
-        (s.x = i),(s.y = a),(s.width = 4),(s.height = r / 2 - this.entranceWidth),e.push(s);
+    makeVerticalWall(e, t, s, i, a, r) {      //build vertical walls (s = determines entrance)
+      if (s) { //if entrance
+        const s = this.getWall(t);  //(t = texture)
+        (s.x = i),
+          (s.y = a),
+          (s.width = 4),
+          (s.height = r / 2 - this.entranceWidth),
+          e.push(s);
         const n = this.getWall(t);
-        (n.x = i),(n.y = a + r / 2 + this.entranceWidth),(n.width = 4),(n.height = r / 2 - this.entranceWidth),e.push(n);
-      } else {
+        (n.x = i),
+          (n.y = a + r / 2 + this.entranceWidth),
+          (n.width = 4),
+          (n.height = r / 2 - this.entranceWidth),
+          e.push(n); //e = wall list
+      } else { //if no entrance
         const s = this.getWall(t);
         (s.x = i), (s.y = a), (s.width = 4), (s.height = r), e.push(s);
       }
     }
     getContainer() {
-      return this.discardedContainers.length > 0 ? this.discardedContainers.pop() : new PIXI.Container();
+      return this.discardedContainers.length > 0
+        ? this.discardedContainers.pop()
+        : new PIXI.Container();
     }
     getFloorSprite() {
-      return this.discardedFloorSprites.length > 0 ? this.discardedFloorSprites.pop() : new PIXI.TilingSprite(PIXI.Texture.WHITE);
+      return this.discardedFloorSprites.length > 0
+        ? this.discardedFloorSprites.pop()
+        : new PIXI.TilingSprite(PIXI.Texture.WHITE); //white texture for floor sprite
     }
-    addBuilding(e) {
+    addBuilding(e) { //vert & horz wall line 833 & 814
       var t, s;
-      (e.container = this.getContainer()), (e.container.cacheAsBitmap = !1), (e.floorSprite = this.getFloorSprite()), (e.floorSprite.tint = ((t = 10 + Math.round(50 * Math.random())), (s = 10 + Math.round(50 * Math.random())), (10 + Math.round(50 * Math.random())) | (s << 8) | (t << 16))), (e.floorSprite.alpha = 0.2), (e.container.x = e.x), (e.container.y = e.y), (e.floorSprite.width = e.width), (e.floorSprite.height = e.height), e.container.addChild(e.floorSprite);
-      const r = [{
+      (e.container = this.getContainer()),
+        (e.container.cacheAsBitmap = !1),
+        (e.floorSprite = this.getFloorSprite()),
+        (e.floorSprite.tint =         //tints ground for floor
+          ((t = 10 + Math.round(50 * Math.random())),
+          (s = 10 + Math.round(50 * Math.random())),
+          (10 + Math.round(50 * Math.random())) | (s << 8) | (t << 16))),
+        (e.floorSprite.alpha = 0.2),
+        (e.container.x = e.x),
+        (e.container.y = e.y),
+        (e.floorSprite.width = e.width),
+        (e.floorSprite.height = e.height),
+        e.container.addChild(e.floorSprite); //floor (dark area inside buildings)
+      const r = [
+        {
           x: e.x + e.width / 2,
           y: e.y,
           north: !0,
@@ -608,54 +943,116 @@ var Incremancer;
             y: e.y + e.height / 2,
             entrance: !0,
           },
-        },];
+        },
+      ];
       let n;
-      const o = {x: P.x / 2, y: P.y / 2 };
-      let h = 2e3;
-      for (let e = 0; e < r.length; e++) {
+      const o = { x: P.x / 2, y: P.y / 2 }; //map center
+      let h = 2e3; //h = 2000
+      for (let e = 0; e < r.length; e++) { //r = each side of wall
         const t = i(r[e].x, r[e].y, o.x, o.y);
         t < h && ((h = t), (n = r[e]));
       }
       (e.entrance = n),
-        this.gameModel.level % 5 == 0 && (e.y < P.y / 2 ? (e.entrance = r.filter((e) => e.south)[0]) : (e.entrance = r.filter((e) => e.north)[0])),    //decides where entrance should be
+        this.gameModel.level % 5 == 0 &&
+          (e.y < P.y / 2
+            ? (e.entrance = r.filter((e) => e.south)[0])
+            : (e.entrance = r.filter((e) => e.north)[0])),    //decides where entrance should be
         (e.walls = []);
-      const l = a(this.buildingTextures, Math.random());
-      this.makeHorizontalWall(e.walls, l, e.entrance.north, -4, -4, e.width + 8),
-      this.makeHorizontalWall(e.walls,l,e.entrance.south,-4,e.height,e.width + 8),
-      this.makeVerticalWall(e.walls,l,e.entrance.west,-4,-4,e.height + 8),
-      this.makeVerticalWall(e.walls,l,e.entrance.east,e.width,-4,e.height + 8);
+      const l = a(this.buildingTextures, Math.random()); //random building texture
+      //* NOTE: e.entrance.__ determines entrance appearance
+      this.makeHorizontalWall( //north wall
+        e.walls,
+        l,
+        e.entrance.north,
+        -4,
+        -4,
+        e.width + 8
+      ),
+        this.makeHorizontalWall( //south wall
+          e.walls,
+          l,
+          e.entrance.south,
+          -4,
+          e.height,
+          e.width + 8
+        ),
+        this.makeVerticalWall( //west wall
+          e.walls,
+          l,
+          e.entrance.west,
+          -4,
+          -4,
+          e.height + 8
+        ),
+        this.makeVerticalWall( //east wall
+          e.walls,
+          l,
+          e.entrance.east,
+          e.width,
+          -4,
+          e.height + 8
+        );
       for (let t = 0; t < e.walls.length; t++) e.container.addChild(e.walls[t]);
       (e.container.cacheAsBitmap = !0), u.addChild(e.container);
-      for (let t = 0; t < e.walls.length; t++) (e.walls[t].collisionX = e.x + e.walls[t].x), (e.walls[t].collisionY = e.y + e.walls[t].y), (e.walls[t].collisionWidth = e.walls[t].width), (e.walls[t].collisionHeight = e.walls[t].height);
+      for (let t = 0; t < e.walls.length; t++)
+        (e.walls[t].collisionX = e.x + e.walls[t].x),
+          (e.walls[t].collisionY = e.y + e.walls[t].y),
+          (e.walls[t].collisionWidth = e.walls[t].width),
+          (e.walls[t].collisionHeight = e.walls[t].height);
     }
     addCorners(e) {
       (e.corners = []),
-        e.corners.push({x: e.x - this.cornerDistance, y: e.y - this.cornerDistance,}),
-        e.corners.push({x: e.x + e.width + this.cornerDistance, y: e.y - this.cornerDistance,}),
-        e.corners.push({x: e.x - this.cornerDistance, y: e.y + e.height + this.cornerDistance,}),
-        e.corners.push({x: e.x + e.width + this.cornerDistance, y: e.y + e.height + this.cornerDistance,});
+        e.corners.push({
+          x: e.x - this.cornerDistance,
+          y: e.y - this.cornerDistance,
+        }),
+        e.corners.push({
+          x: e.x + e.width + this.cornerDistance,
+          y: e.y - this.cornerDistance,
+        }),
+        e.corners.push({
+          x: e.x - this.cornerDistance,
+          y: e.y + e.height + this.cornerDistance,
+        }),
+        e.corners.push({
+          x: e.x + e.width + this.cornerDistance,
+          y: e.y + e.height + this.cornerDistance,
+        });
     }
     setGraveyardPosition() {
-      this.gameModel.level % 5 != 0 || this.gameModel.isBossStage(this.gameModel.level) ? (this.graveYardPosition = {
+      this.gameModel.level % 5 != 0 ||
+      this.gameModel.isBossStage(this.gameModel.level)
+        ? (this.graveYardPosition = {
             x: P.x / 2 - 50,
-            y: P.y / 2 - 50,
+            y: P.y / 2 - 50, //center of map
             width: 100,
             height: 100,
-          }) : (this.graveYardPosition = {
-              x: Math.random() * P.x * 0.8 - 50 + 0.1 * P.x,
-              y: (Math.random() > 0.5 ? 0.25 * P.y : 0.75 * P.y) - 50,
-              width: 100,
-             height: 100,
-           }),
-        (this.graveYardLocation = {x: this.graveYardPosition.x + 50, y: this.graveYardPosition.y + 50,});
+          })
+        : (this.graveYardPosition = {
+            x: Math.random() * P.x * 0.8 - 50 + 0.1 * P.x,
+            y: (Math.random() > 0.5 ? 0.25 * P.y : 0.75 * P.y) - 50,
+            width: 100,
+            height: 100,
+          }),
+        (this.graveYardLocation = {
+          x: this.graveYardPosition.x + 50,
+          y: this.graveYardPosition.y + 50,
+        });
     }
     populatePois() {
       if ((this.setGraveyardPosition(), !this.buildingTextures)) {
         this.buildingTextures = [];
         for (let e = 0; e < 2; e++)
-          this.buildingTextures.push(PIXI.Texture.from("floor" + (e + 1) + ".png"));
-        for (let e = 0; e < 2; e++) this.buildingTextures.push(PIXI.Texture.from("wall" + (e + 1) + ".png"));
-        (this.roadSprite = new PIXI.TilingSprite(PIXI.Texture.from("road.png"))),
+          this.buildingTextures.push(
+            PIXI.Texture.from("floor" + (e + 1) + ".png")
+          );
+        for (let e = 0; e < 2; e++)
+          this.buildingTextures.push(
+            PIXI.Texture.from("wall" + (e + 1) + ".png")
+          );
+        (this.roadSprite = new PIXI.TilingSprite(
+          PIXI.Texture.from("road.png")
+        )),
           (this.roadSprite.texture.baseTexture.mipmap = PIXI.MIPMAP_MODES.OFF),
           (this.roadSprite.width = P.x),
           this.roadSprite.tileScale.set(3, 3),
@@ -667,24 +1064,57 @@ var Incremancer;
       if (this.buildings.length > 0)
         for (let e = 0; e < this.buildings.length; e++)
           u.removeChild(this.buildings[e].container),
-            this.buildings[e].walls.forEach((t) => {this.discardedWalls.push(t),this.buildings[e].container.removeChild(t);}),
-            this.buildings[e].container.removeChild(this.buildings[e].floorSprite),
+            this.buildings[e].walls.forEach((t) => {
+              this.discardedWalls.push(t),
+                this.buildings[e].container.removeChild(t);
+            }),
+            this.buildings[e].container.removeChild(
+              this.buildings[e].floorSprite
+            ),
             this.discardedFloorSprites.push(this.buildings[e].floorSprite),
             this.discardedContainers.push(this.buildings[e].container);
       let e = 1;
       (this.buildingsByPopularity = []), (this.buildings = []);
-      let t = this.minBuildings, s = this.humans.getMaxHumans();
+      let t = this.minBuildings,
+        s = this.humans.getMaxHumans();
       const i = Math.max(Math.min(50, Math.round(s / 3)), 10);
-      for (this.roadSprite.visible = !1, this.gameModel.isBossStage(this.gameModel.level) ? ((s = 0), (t = 0)) : this.gameModel.level % 5 == 0 && ((this.roadSprite.visible = !0),(this.roadSprite.width = P.x),(this.roadSprite.x = 0),(this.roadSprite.y = P.y / 2 - 48)); s > 0 || t > 0;) {
+      for (
+        this.roadSprite.visible = !1,
+          this.gameModel.isBossStage(this.gameModel.level)
+            ? ((s = 0), (t = 0))
+            : this.gameModel.level % 5 == 0 &&
+              ((this.roadSprite.visible = !0),
+              (this.roadSprite.width = P.x),
+              (this.roadSprite.x = 0),
+              (this.roadSprite.y = P.y / 2 - 48));
+        s > 0 || t > 0;
+
+      ) {
         t--;
-        const a = Math.round(5 + Math.random() * (i - 5)),r = Math.sqrt(500 * a);
+        const a = Math.round(5 + Math.random() * (i - 5)),
+          r = Math.sqrt(500 * a);
         s -= a;
-        let n, o = !1, h = 1e3;
+        let n,
+          o = !1,
+          h = 1e3;
         const l = 10;
-        for (; !o && h > 0; ) h--,(n = this.gameModel.level % 5 == 0 ? Math.random() > 0.7 ? {
-            x: l + Math.random() * (P.x - (2 * l + r)), y: l + Math.random() * (P.y - (2 * l + r)), width: r, height: r,} : {
+        for (; !o && h > 0; )
+          h--,
+            (n =
+              this.gameModel.level % 5 == 0
+                ? Math.random() > 0.7
+                  ? {
                       x: l + Math.random() * (P.x - (2 * l + r)),
-                      y: Math.random() > 0.5 ? P.y / 2 + this.roadSprite.height / 2 + 8 : P.y / 2 - this.roadSprite.height / 2 - 8 - r,
+                      y: l + Math.random() * (P.y - (2 * l + r)),
+                      width: r,
+                      height: r,
+                    }
+                  : {
+                      x: l + Math.random() * (P.x - (2 * l + r)),
+                      y:
+                        Math.random() > 0.5
+                          ? P.y / 2 + this.roadSprite.height / 2 + 8
+                          : P.y / 2 - this.roadSprite.height / 2 - 8 - r,
                       width: r,
                       height: r,
                     }
@@ -693,7 +1123,8 @@ var Incremancer;
                     y: l + Math.random() * (P.y - (2 * l + r)),
                     width: r,
                     height: r,
-                  }), (o = this.isValidPosition(n));
+                  }),
+            (o = this.isValidPosition(n));
         if (o) {
           const t = new j(e++, n.x, n.y, r, r);
           this.addBuilding(t);
@@ -705,14 +1136,22 @@ var Incremancer;
       this.populateBuildingMap(), this.populateTrees();
     }
     populateBuildingMap() {
-      if (((this.buildingMap = []),(this.mapCols = Math.ceil(P.x / 10)),(this.mapRows = Math.ceil(P.y / 10)),0 != this.buildings.length))
+      if (
+        ((this.buildingMap = []),
+        (this.mapCols = Math.ceil(P.x / 10)),
+        (this.mapRows = Math.ceil(P.y / 10)),
+        0 != this.buildings.length)
+      )
         for (let e = 0; e < this.mapRows; e++) {
           const t = 10 * e;
           for (let i = 0; i < this.mapCols; i++) {
             const a = 10 * i;
-            let r,n = 1e4;
+            let r,
+              n = 1e4;
             for (let e = 0; e < this.buildings.length; e++) {
-              const i = this.buildings[e],o = s(a, t, i.x + i.width / 2, i.y + i.height / 2) - i.width / 2;
+              const i = this.buildings[e],
+                o =
+                  s(a, t, i.x + i.width / 2, i.y + i.height / 2) - i.width / 2;
               o < n && ((n = o), (r = i));
             }
             this.buildingMap[e * this.mapCols + i] = r;
@@ -720,15 +1159,25 @@ var Incremancer;
         }
     }
     getBuildingFromMap(e, t) {
-      return this.buildingMap[Math.round(t / 10) * this.mapCols + Math.round(e / 10)];
+      return this.buildingMap[
+        Math.round(t / 10) * this.mapCols + Math.round(e / 10)
+      ];
     }
     randomPositionInBuilding(e) {
       if (!e) {
-        const e = Math.random() > 0.5 ? -1 : 1,t = Math.random() > 0.5 ? -1 : 1,s = P.x / 4,i = P.y / 4;
-        return Math.random() > 0.5? {x: Math.random() * P.x,y: P.y / 2 + t * i + Math.random() * t * i,} : {
-          x: P.x / 2 + e * s + Math.random() * e * s,
-          y: Math.random() * P.y,
-        };
+        const e = Math.random() > 0.5 ? -1 : 1,
+          t = Math.random() > 0.5 ? -1 : 1,
+          s = P.x / 4,
+          i = P.y / 4;
+        return Math.random() > 0.5
+          ? {
+              x: Math.random() * P.x,
+              y: P.y / 2 + t * i + Math.random() * t * i,
+            }
+          : {
+              x: P.x / 2 + e * s + Math.random() * e * s,
+              y: Math.random() * P.y,
+            };
       }
       return {
         x: e.x + 5 + Math.random() * (e.width - 10),
@@ -736,29 +1185,67 @@ var Incremancer;
       };
     }
     isInsidePoi(e, t, s, i = 0) {
-      return (e > s.x - i && e < s.x + s.width + i &&t > s.y - i && t < s.y + s.height + i);
+      return (
+        e > s.x - i &&
+        e < s.x + s.width + i &&
+        t > s.y - i &&
+        t < s.y + s.height + i
+      );
     }
     checkWall(e, t, s, i) {
-      t.y > e.collisionY && t.y < e.collisionY + e.collisionHeight && (t.x < e.collisionX - this.wallCollisionBuffer && s.x > e.collisionX - this.wallCollisionBuffer && ((i.x = !0), (i.validX = e.collisionX - this.wallCollisionBuffer - 1)), t.x > e.collisionX + e.collisionWidth + this.wallCollisionBuffer && s.x < e.collisionX + e.collisionWidth + this.wallCollisionBuffer && ((i.x = !0), (i.validX = e.collisionX + e.collisionWidth + this.wallCollisionBuffer + 1))),
-      t.x > e.collisionX && t.x < e.collisionX + e.collisionWidth && (t.y < e.collisionY - this.wallCollisionBuffer && s.y > e.collisionY - this.wallCollisionBuffer && ((i.y = !0), (i.validY = e.collisionY - this.wallCollisionBuffer - 1)),
-      t.y > e.collisionY + e.collisionHeight + this.wallCollisionBuffer && s.y < e.collisionY + e.collisionHeight + this.wallCollisionBuffer && ((i.y = !0), (i.validY = e.collisionY + e.collisionHeight + this.wallCollisionBuffer +1)));
+      t.y > e.collisionY &&
+        t.y < e.collisionY + e.collisionHeight &&
+        (t.x < e.collisionX - this.wallCollisionBuffer &&
+          s.x > e.collisionX - this.wallCollisionBuffer &&
+          ((i.x = !0),
+          (i.validX = e.collisionX - this.wallCollisionBuffer - 1)),
+        t.x > e.collisionX + e.collisionWidth + this.wallCollisionBuffer &&
+          s.x < e.collisionX + e.collisionWidth + this.wallCollisionBuffer &&
+          ((i.x = !0),
+          (i.validX =
+            e.collisionX + e.collisionWidth + this.wallCollisionBuffer + 1))),
+        t.x > e.collisionX &&
+          t.x < e.collisionX + e.collisionWidth &&
+          (t.y < e.collisionY - this.wallCollisionBuffer &&
+            s.y > e.collisionY - this.wallCollisionBuffer &&
+            ((i.y = !0),
+            (i.validY = e.collisionY - this.wallCollisionBuffer - 1)),
+          t.y > e.collisionY + e.collisionHeight + this.wallCollisionBuffer &&
+            s.y < e.collisionY + e.collisionHeight + this.wallCollisionBuffer &&
+            ((i.y = !0),
+            (i.validY =
+              e.collisionY +
+              e.collisionHeight +
+              this.wallCollisionBuffer +
+              1)));
     }
     checkGraveyard(e, t) {
       const s = new te();
-      return (this.graveyardCollision && this.checkWall(this.graveyardCollision, e, t, s), s.x || s.y ? s : null);
+      return (
+        this.graveyardCollision &&
+          this.checkWall(this.graveyardCollision, e, t, s),
+        s.x || s.y ? s : null
+      );
     }
     checkCollisions(e, t) {
       const s = this.findBuilding(e);
       if (!s) return this.checkGraveyard(e, t);
       const i = new te();
-      for (let a = 0; a < s.walls.length; a++) this.checkWall(s.walls[a], e, t, i);
+      for (let a = 0; a < s.walls.length; a++)
+        this.checkWall(s.walls[a], e, t, i);
       return i;
     }
     pathStepCalc(e, t) {
-      const s = t.x - e.x, i = t.y - e.y, a = Math.abs(s), r = Math.abs(i);
+      const s = t.x - e.x,
+        i = t.y - e.y,
+        a = Math.abs(s),
+        r = Math.abs(i);
       if (0 == Math.max(a, r)) return;
       let n = 1 / Math.max(a, r);
-      return ((n *= 1.29289 - (a + r) * n * 0.29289), { x: s * n * this.pathFindStepSize, y: i * n * this.pathFindStepSize });
+      return (
+        (n *= 1.29289 - (a + r) * n * 0.29289),
+        { x: s * n * this.pathFindStepSize, y: i * n * this.pathFindStepSize }
+      );
     }
     findBuilding(e) {
       return this.getBuildingFromMap(e.x, e.y);
@@ -772,23 +1259,48 @@ var Incremancer;
       if (!t && !this.graveyardCollision) return this.normalizeVector(e);
       const i = new te(),
         a = { x: s.x + (e.x > 0 ? 1 : -1), y: s.y + (e.y > 0 ? 1 : -1) };
-      if (t) for (let e = 0; e < t.walls.length; e++) this.checkWall(t.walls[e], s, a, i);
-      return (this.graveyardCollision && this.checkWall(this.graveyardCollision, s, a, i), i.x && (e.x = 0), i.y && (e.y = 0), this.normalizeVector(e));
+      if (t)
+        for (let e = 0; e < t.walls.length; e++)
+          this.checkWall(t.walls[e], s, a, i);
+      return (
+        this.graveyardCollision &&
+          this.checkWall(this.graveyardCollision, s, a, i),
+        i.x && (e.x = 0),
+        i.y && (e.y = 0),
+        this.normalizeVector(e)
+      );
     }
     willVectorHitBuilding(e, t, s, i) {
-      if (((this.dx = t.x - e.x), (this.dy = t.y - e.y), this.dx < 0 && e.x < s.x - 4)) return !1;
+      if (
+        ((this.dx = t.x - e.x),
+        (this.dy = t.y - e.y),
+        this.dx < 0 && e.x < s.x - 4)
+      )
+        return !1;
       if (this.dx > 0 && e.x > s.x + s.width + 4) return !1;
       if (this.dy < 0 && e.y < s.y - 4) return !1;
       if (this.dy > 0 && e.y > s.y + s.width + 4) return !1;
-      for (this.step = this.pathStepCalc(e, t), this.stepsToTake = Math.min(i / this.pathFindStepSize - this.pathFindStepSize,30),this.hasHit = !1,this.testPosition = { x: e.x, y: e.y }; !this.hasHit && this.stepsToTake > 0;)
+      for (
+        this.step = this.pathStepCalc(e, t),
+          this.stepsToTake = Math.min(
+            i / this.pathFindStepSize - this.pathFindStepSize,
+            30
+          ),
+          this.hasHit = !1,
+          this.testPosition = { x: e.x, y: e.y };
+        !this.hasHit && this.stepsToTake > 0;
+
+      )
         this.stepsToTake--,
           (this.testPosition.x += this.step.x),
           (this.testPosition.y += this.step.y),
-          this.isInsidePoi(this.testPosition.x, this.testPosition.y, s, 4) && (this.hasHit = !0);
+          this.isInsidePoi(this.testPosition.x, this.testPosition.y, s, 4) &&
+            (this.hasHit = !0);
       return this.hasHit;
     }
     findNearestCorner(e, t) {
-      let s = null, i = 1e4;
+      let s = null,
+        i = 1e4;
       for (let a = 0; a < t.length; a++) {
         const r = this.fastDistance(e.x, e.y, t[a].x, t[a].y);
         r < i && ((i = r), (s = t[a]));
@@ -797,50 +1309,169 @@ var Incremancer;
     }
     findAdjacentCorners(e, t) {
       const s = [];
-      for (let i = 0; i < t.corners.length; i++) (t.corners[i].x != e.x && t.corners[i].y != e.y) || s.push(t.corners[i]);
+      for (let i = 0; i < t.corners.length; i++)
+        (t.corners[i].x != e.x && t.corners[i].y != e.y) ||
+          s.push(t.corners[i]);
       return s;
     }
     navigateAroundBuilding(e, t, s, i) {
-      return ((this.vector = { x: t.x - e.x, y: t.y - e.y, distance: i }), s ? ((this.hitbuilding = this.willVectorHitBuilding(e, t, s, i)), this.hitbuilding ? ((this.corner = this.findNearestCorner(t, s.corners)), (this.hitbuilding = this.willVectorHitBuilding(e,this.corner,s,i)),this.hitbuilding ? ((this.corner = this.findNearestCorner(e,this.findAdjacentCorners(this.corner, s))),(this.vector.x = this.corner.x - e.x),(this.vector.y = this.corner.y - e.y), this.modifyVectorForCollision(this.vector, s, e)) : ((this.vector.x = this.corner.x - e.x),(this.vector.y = this.corner.y - e.y), this.modifyVectorForCollision(this.vector, s, e))) : this.modifyVectorForCollision(this.vector, s, e)) : this.normalizeVector(this.vector));
+      return (
+        (this.vector = { x: t.x - e.x, y: t.y - e.y, distance: i }),
+        s
+          ? ((this.hitbuilding = this.willVectorHitBuilding(e, t, s, i)),
+            this.hitbuilding
+              ? ((this.corner = this.findNearestCorner(t, s.corners)),
+                (this.hitbuilding = this.willVectorHitBuilding(
+                  e,
+                  this.corner,
+                  s,
+                  i
+                )),
+                this.hitbuilding
+                  ? ((this.corner = this.findNearestCorner(
+                      e,
+                      this.findAdjacentCorners(this.corner, s)
+                    )),
+                    (this.vector.x = this.corner.x - e.x),
+                    (this.vector.y = this.corner.y - e.y),
+                    this.modifyVectorForCollision(this.vector, s, e))
+                  : ((this.vector.x = this.corner.x - e.x),
+                    (this.vector.y = this.corner.y - e.y),
+                    this.modifyVectorForCollision(this.vector, s, e)))
+              : this.modifyVectorForCollision(this.vector, s, e))
+          : this.normalizeVector(this.vector)
+      );
     }
     howDoIGetToMyTarget(e, t) {
       if (((this.distanceToTarget = this.fastDistance(e.x, e.y, t.x, t.y)), (this.closeBuilding = this.findBuilding(e)), (this.insideBuilding = !1), this.closeBuilding && ((this.insideBuilding = this.isInsidePoi(e.x,e.y,this.closeBuilding,0)),this.insideBuilding)))
         return this.isInsidePoi(t.x, t.y, this.closeBuilding, 0)
+          ? this.modifyVectorForCollision(
+              { x: t.x - e.x, y: t.y - e.y },
+              this.closeBuilding,
+              e
+            )
+          : this.modifyVectorForCollision(
+              {
+                x: this.closeBuilding.entrance.outside.x - e.x,
+                y: this.closeBuilding.entrance.outside.y - e.y,
+              },
+              this.closeBuilding,
+              e
+            );
       const s = this.findBuilding(t);
-      return s && ((this.insideBuilding = this.isInsidePoi(t.x, t.y, s, 0)), this.insideBuilding) ? this.fastDistance(e.x,e.y,s.entrance.outside.x,s.entrance.outside.y) < 30 ? this.modifyVectorForCollision({ x: s.entrance.inside.x - e.x, y: s.entrance.inside.y - e.y },this.closeBuilding,e) : this.navigateAroundBuilding(e,s.entrance.outside,this.closeBuilding,this.distanceToTarget) : this.distanceToTarget < 20 ? this.modifyVectorForCollision({ x: t.x - e.x, y: t.y - e.y },this.closeBuilding,e) : this.navigateAroundBuilding(e,t,this.closeBuilding,this.distanceToTarget);
+      return s &&
+        ((this.insideBuilding = this.isInsidePoi(t.x, t.y, s, 0)),
+        this.insideBuilding)
+        ? this.fastDistance(
+            e.x,
+            e.y,
+            s.entrance.outside.x,
+            s.entrance.outside.y
+          ) < 30
+          ? this.modifyVectorForCollision(
+              { x: s.entrance.inside.x - e.x, y: s.entrance.inside.y - e.y },
+              this.closeBuilding,
+              e
+            )
+          : this.navigateAroundBuilding(
+              e,
+              s.entrance.outside,
+              this.closeBuilding,
+              this.distanceToTarget
+            )
+        : this.distanceToTarget < 20
+        ? this.modifyVectorForCollision(
+            { x: t.x - e.x, y: t.y - e.y },
+            this.closeBuilding,
+            e
+          )
+        : this.navigateAroundBuilding(
+            e,
+            t,
+            this.closeBuilding,
+            this.distanceToTarget
+          );
     }
     isValidTreePosition(e) {
       if (!this.isValidPosition(e)) return !1;
-      for (let t = 0; t < this.treeSprites.length; t++) if(this.fastDistance(e.x,e.y,this.treeSprites[t].x,this.treeSprites[t].y) < 25) return !1;
+      for (let t = 0; t < this.treeSprites.length; t++)
+        if (
+          this.fastDistance(
+            e.x,
+            e.y,
+            this.treeSprites[t].x,
+            this.treeSprites[t].y
+          ) < 25
+        )
+          return !1;
       return !0;
     }
     populateTrees() {
       if (this.treeSprites.length > 0)
-        for(let e = 0; e < this.treeSprites.length; e++)
+        for (let e = 0; e < this.treeSprites.length; e++)
           this.treeSprites[e].visible = !1;
       if (0 == this.treeTextures.length) {
-        for (let e = 0; e < 6; e++) this.treeTextures.push(PIXI.Texture.from("tree" + e + ".png"));
+        for (let e = 0; e < 6; e++)
+          this.treeTextures.push(PIXI.Texture.from("tree" + e + ".png"));
         this.armyTextures.push(PIXI.Texture.from("hedgehog.png")),
-        this.armyTextures.push(PIXI.Texture.from("sandbags.png"));
+          this.armyTextures.push(PIXI.Texture.from("sandbags.png"));
       }
       let e = Math.round(P.x / 50);
-      this.gameModel.isBossStage(this.gameModel.level) && (e = Math.round(1.5 * e));
+      this.gameModel.isBossStage(this.gameModel.level) &&
+        (e = Math.round(1.5 * e));
       let t = 0;
       for (; e > 0; ) {
-        let s, i = !1, r = 1e3;
-        const n = 8, o = 2;
+        let s,
+          i = !1,
+          r = 1e3;
+        const n = 8,
+          o = 2;
         for (; !i && r > 0; )
-          r--, (s = {
-            x: n + Math.random() * (P.x - 2 * n),
-            y: n + Math.random() * (P.y - 2 * n),
-            width: o,
-            height: o,
-          }),(i = this.isValidTreePosition(s));
+          r--,
+            (s = {
+              x: n + Math.random() * (P.x - 2 * n),
+              y: n + Math.random() * (P.y - 2 * n),
+              width: o,
+              height: o,
+            }),
+            (i = this.isValidTreePosition(s));
         if (i) {
           let e = 0.4 + 0.6 * Math.random();
-          this.gameModel.constructions.graveyard && (e = Math.min((this.fastDistance(s.x,s.y,this.graveYardLocation.x,this.graveYardLocation.y)-90)/400,1));
-          let i, r = this.treeTextures[this.treeTextures.length - 1 - Math.round((this.treeTextures.length - 1) * e)];
-          this.gameModel.isBossStage(this.gameModel.level) && Math.random() > 0.7 && (r = a(this.armyTextures, Math.random())), this.treeSprites.length > t ? ((i = this.treeSprites[t]), (i.texture = r), (i.visible = !0)) : ((i = new PIXI.Sprite(r)), this.treeSprites.push(i), g.addChild(i)), t++, i.anchor.set(0.5, 1), (i.x = s.x), (i.y = s.y), (i.zIndex = i.y), (i.scale.x = i.scale.y = 2), (i.scale.x = Math.random() > 0.5 ? i.scale.x : -1 * i.scale.x);}
+          this.gameModel.constructions.graveyard &&
+            (e = Math.min(
+              (this.fastDistance(
+                s.x,
+                s.y,
+                this.graveYardLocation.x,
+                this.graveYardLocation.y
+              ) -
+                90) /
+                400,
+              1
+            ));
+          let i,
+            r =
+              this.treeTextures[
+                this.treeTextures.length -
+                  1 -
+                  Math.round((this.treeTextures.length - 1) * e)
+              ];
+          this.gameModel.isBossStage(this.gameModel.level) &&
+            Math.random() > 0.7 &&
+            (r = a(this.armyTextures, Math.random())),
+            this.treeSprites.length > t
+              ? ((i = this.treeSprites[t]), (i.texture = r), (i.visible = !0))
+              : ((i = new PIXI.Sprite(r)),
+                this.treeSprites.push(i),
+                g.addChild(i)),
+            t++,
+            i.anchor.set(0.5, 1),
+            (i.x = s.x),
+            (i.y = s.y),
+            (i.zIndex = i.y),
+            (i.scale.x = i.scale.y = 2),
+            (i.scale.x = Math.random() > 0.5 ? i.scale.x : -1 * i.scale.x);
+        }
         e--;
       }
     }
@@ -852,7 +1483,11 @@ var Incremancer;
   }
   class se {
     constructor() {
-      if (((this.storm = !1), (this.gameModel = ne.getInstance()), (this.costs = { blood: "blood", parts: "parts" }), (this.generatorsApplied = []),
+      if (
+        ((this.storm = !1),
+        (this.gameModel = ne.getInstance()),
+        (this.costs = { blood: "blood", parts: "parts" }),
+        (this.generatorsApplied = []),
         (this.generators = [
           new ie(
             1,
@@ -923,19 +1558,40 @@ var Incremancer;
     factoryStats() {
       let e = 0,
         t = 0;
-      for (let s = 0; s < this.generatorsApplied.length; s++) (e += this.generatorsApplied[s].rank), (t += this.generatorsApplied[s].total / this.generatorsApplied[s].time);
-      return {machines: e, partsPerSec: (this.storm ? 2 : 1) * t * this.gameModel.partsPCMod,};
+      for (let s = 0; s < this.generatorsApplied.length; s++)
+        (e += this.generatorsApplied[s].rank),
+          (t +=
+            this.generatorsApplied[s].total / this.generatorsApplied[s].time);
+      return {
+        machines: e,
+        partsPerSec: (this.storm ? 2 : 1) * t * this.gameModel.partsPCMod,
+      };
     }
     update(e) {
-      for (let t = 0; t < this.generatorsApplied.length; t++) (this.generatorsApplied[t].timeLeft -= e), this.generatorsApplied[t].timeLeft <= 0 && ((this.generatorsApplied[t].timeLeft = this.generatorsApplied[t].time), (this.gameModel.persistentData.parts += this.generatorsApplied[t].total * this.gameModel.partsPCMod * (this.storm ? 2 : 1)));
+      for (let t = 0; t < this.generatorsApplied.length; t++)
+        (this.generatorsApplied[t].timeLeft -= e),
+          this.generatorsApplied[t].timeLeft <= 0 &&
+            ((this.generatorsApplied[t].timeLeft =
+              this.generatorsApplied[t].time),
+            (this.gameModel.persistentData.parts +=
+              this.generatorsApplied[t].total *
+              this.gameModel.partsPCMod *
+              (this.storm ? 2 : 1)));
     }
     updateLongTime(e) {
       let t = 0;
-      for (let s = 0; s < this.generatorsApplied.length; s++) t += this.generatorsApplied[s].total * (e / this.generatorsApplied[s].time);
+      for (let s = 0; s < this.generatorsApplied.length; s++)
+        t +=
+          this.generatorsApplied[s].total *
+          (e / this.generatorsApplied[s].time);
       return t * this.gameModel.partsPCMod;
     }
     currentRank(e) {
-      for (let t = 0; t < this.gameModel.persistentData.generators.length; t++) {
+      for (
+        let t = 0;
+        t < this.gameModel.persistentData.generators.length;
+        t++
+      ) {
         const s = this.gameModel.persistentData.generators[t];
         if (e.id == s.id) return s.rank;
       }
@@ -983,14 +1639,37 @@ var Incremancer;
             this.gameModel.persistentData.parts -= this.purchasePrice(e);
         }
         let s;
-        for (let t = 0; t < this.gameModel.persistentData.generators.length; t++) e.id == this.gameModel.persistentData.generators[t].id && ((s = this.gameModel.persistentData.generators[t]), s.rank++);
-        s || this.gameModel.persistentData.generators.push({ id: e.id, rank: 1 }), t && this.gameModel.saveData(), this.applyGenerators();
+        for (
+          let t = 0;
+          t < this.gameModel.persistentData.generators.length;
+          t++
+        )
+          e.id == this.gameModel.persistentData.generators[t].id &&
+            ((s = this.gameModel.persistentData.generators[t]), s.rank++);
+        s ||
+          this.gameModel.persistentData.generators.push({ id: e.id, rank: 1 }),
+          t && this.gameModel.saveData(),
+          this.applyGenerators();
       }
     }
     applyGenerator(e, t) {
       let s = !1;
-      for (let i = 0; i < this.generatorsApplied.length; i++) this.generatorsApplied[i].id == e.id && ((s = !0), (this.generatorsApplied[i].rank = t), (this.generatorsApplied[i].total = this.generatorsApplied[i].produces * this.generatorsApplied[i].rank));
-      s || this.generatorsApplied.push({id: e.id,produces: e.produces,total: e.produces * t,rank: t,time: e.time,timeLeft: e.time,});
+      for (let i = 0; i < this.generatorsApplied.length; i++)
+        this.generatorsApplied[i].id == e.id &&
+          ((s = !0),
+          (this.generatorsApplied[i].rank = t),
+          (this.generatorsApplied[i].total =
+            this.generatorsApplied[i].produces *
+            this.generatorsApplied[i].rank));
+      s ||
+        this.generatorsApplied.push({
+          id: e.id,
+          produces: e.produces,
+          total: e.produces * t,
+          rank: t,
+          time: e.time,
+          timeLeft: e.time,
+        });
     }
     applyGenerators() {
       for (let e = 0; e < this.generators.length; e++) {
@@ -1014,7 +1693,8 @@ var Incremancer;
   }
   class ae {
     constructor() {
-      if (((this.gameModel = ne.getInstance()),
+      if (
+        ((this.gameModel = ne.getInstance()),
         (this.spawnedSavedCreatures = !1),
         (this.types = {
           earthGolem: 1,
@@ -1074,68 +1754,131 @@ var Incremancer;
     }
     update(e) {
       const t = new Ue().creatureCount;
-      for (let s = 0; s < this.creatures.length; s++) this.creatures[s].building ? ((this.creatures[s].timeLeft -= e), this.creatures[s].timeLeft < 0 && (this.spawnCreature(this.creatures[s]), (this.creatures[s].building = !1))) : void 0 !== t[this.creatures[s].type] && t[this.creatures[s].type] < this.creatures[s].autobuild && this.startBuilding(this.creatures[s]), this.gameModel.persistentData.creatureLevels[this.creatures[s].id] && (this.creatures[s].level = this.gameModel.persistentData.creatureLevels[this.creatures[s].id]);
+      for (let s = 0; s < this.creatures.length; s++)
+        this.creatures[s].building
+          ? ((this.creatures[s].timeLeft -= e),
+            this.creatures[s].timeLeft < 0 &&
+              (this.spawnCreature(this.creatures[s]),
+              (this.creatures[s].building = !1)))
+          : void 0 !== t[this.creatures[s].type] &&
+            t[this.creatures[s].type] < this.creatures[s].autobuild &&
+            this.startBuilding(this.creatures[s]),
+          this.gameModel.persistentData.creatureLevels[this.creatures[s].id] &&
+            (this.creatures[s].level =
+              this.gameModel.persistentData.creatureLevels[
+                this.creatures[s].id
+              ]);
     }
     refundParts(e, t) {
       this.gameModel.persistentData.parts += e.price * t;
     }
     purchasePrice(e) {
-      return (e.baseCost * Math.pow(this.creatureCostScaling, e.level - 1) * this.creatureCostReduction);
+      return (
+        e.baseCost *
+        Math.pow(this.creatureCostScaling, e.level - 1) *
+        this.creatureCostReduction
+      );
     }
     levelPrice(e) {
-      return (e.baseCost * Math.pow(this.creatureCostScaling, e.level) * 5 * this.creatureCostReduction);
+      return (
+        e.baseCost *
+        Math.pow(this.creatureCostScaling, e.level) *
+        5 *
+        this.creatureCostReduction
+      );
     }
     levelCreature(e) {
-      this.levelPrice(e) < this.gameModel.persistentData.parts && ((this.gameModel.persistentData.parts -= this.levelPrice(e)), e.level++, (this.gameModel.persistentData.creatureLevels[e.id] = e.level));
+      this.levelPrice(e) < this.gameModel.persistentData.parts &&
+        ((this.gameModel.persistentData.parts -= this.levelPrice(e)),
+        e.level++,
+        (this.gameModel.persistentData.creatureLevels[e.id] = e.level));
     }
     canAffordCreature(e) {
       return this.purchasePrice(e) < this.gameModel.persistentData.parts;
     }
     creaturesBuildingCount() {
       let e = 0;
-      for (let t = 0; t < this.creatures.length; t++) this.creatures[t].building && e++;
+      for (let t = 0; t < this.creatures.length; t++)
+        this.creatures[t].building && e++;
       return e;
     }
     startBuilding(e) {
-      e.building || (this.canAffordCreature(e) && (this.creaturesBuildingCount() + this.gameModel.creatureCount >= this.gameModel.creatureLimit || ((e.building = !0), (e.timeLeft = e.time), (this.gameModel.persistentData.parts -= this.purchasePrice(e)))));
+      e.building ||
+        (this.canAffordCreature(e) &&
+          (this.creaturesBuildingCount() + this.gameModel.creatureCount >=
+            this.gameModel.creatureLimit ||
+            ((e.building = !0),
+            (e.timeLeft = e.time),
+            (this.gameModel.persistentData.parts -= this.purchasePrice(e)))));
     }
     creatureAutoBuildNumber(e, t) {
-      e.autobuild + t >= 0 && ((e.autobuild += t), (this.gameModel.persistentData.creatureAutobuild[e.id] = e.autobuild));
+      e.autobuild + t >= 0 &&
+        ((e.autobuild += t),
+        (this.gameModel.persistentData.creatureAutobuild[e.id] = e.autobuild));
     }
     updateAutoBuild() {
-      for (let e = 0; e < this.creatures.length; e++) this.creatures[e].autobuild = this.gameModel.persistentData.creatureAutobuild[this.creatures[e].id] || 0;
+      for (let e = 0; e < this.creatures.length; e++)
+        this.creatures[e].autobuild =
+          this.gameModel.persistentData.creatureAutobuild[
+            this.creatures[e].id
+          ] || 0;
     }
     resetLevels() {
-      for (let e = 0; e < this.creatures.length; e++) this.creatures[e].level = 1;
+      for (let e = 0; e < this.creatures.length; e++)
+        this.creatures[e].level = 1;
     }
     spawnCreature(e) {
       const t = new Ue(),
-        s = e.baseHealth * Math.pow(this.creatureScaling, e.level - 1) * this.gameModel.golemHealthPCMod,
-        i = e.baseDamage * Math.pow(this.creatureScaling, e.level - 1) * this.gameModel.golemDamagePCMod;
+        s =
+          e.baseHealth *
+          Math.pow(this.creatureScaling, e.level - 1) *
+          this.gameModel.golemHealthPCMod,
+        i =
+          e.baseDamage *
+          Math.pow(this.creatureScaling, e.level - 1) *
+          this.gameModel.golemDamagePCMod;
       t.spawnCreature(s, i, e.speed, e.type, e.level, this.purchasePrice(e));
     }
     spawnSavedCreatures() {
       if (!this.spawnedSavedCreatures) {
         let e = 0;
-        for (let t = 0; t < this.gameModel.persistentData.savedCreatures.length; t++)
+        for (
+          let t = 0;
+          t < this.gameModel.persistentData.savedCreatures.length;
+          t++
+        )
           if ((e++, e <= this.gameModel.creatureLimit)) {
-            const e = this.gameModel.persistentData.savedCreatures[t], s = this.creatures.filter((t) => t.type == e.t)[0];
+            const e = this.gameModel.persistentData.savedCreatures[t],
+              s = this.creatures.filter((t) => t.type == e.t)[0];
             (s.level = e.l), this.spawnCreature(s);
           }
         this.spawnedSavedCreatures = !0;
       }
     }
     creatureStats(e) {
-      return {thisLevel: {
+      return {
+        thisLevel: {
           level: e.level,
-          health: e.baseHealth * Math.pow(this.creatureScaling, e.level - 1) * this.gameModel.golemHealthPCMod,
-          damage: e.baseDamage * Math.pow(this.creatureScaling, e.level - 1) * this.gameModel.golemDamagePCMod,
+          health:
+            e.baseHealth *
+            Math.pow(this.creatureScaling, e.level - 1) *
+            this.gameModel.golemHealthPCMod,
+          damage:
+            e.baseDamage *
+            Math.pow(this.creatureScaling, e.level - 1) *
+            this.gameModel.golemDamagePCMod,
           cost: e.baseCost * Math.pow(this.creatureCostScaling, e.level - 1),
         },
         nextLevel: {
           level: e.level + 1,
-          health: e.baseHealth * Math.pow(this.creatureScaling, e.level) * this.gameModel.golemHealthPCMod,
-          damage: e.baseDamage * Math.pow(this.creatureScaling, e.level) * this.gameModel.golemDamagePCMod,
+          health:
+            e.baseHealth *
+            Math.pow(this.creatureScaling, e.level) *
+            this.gameModel.golemHealthPCMod,
+          damage:
+            e.baseDamage *
+            Math.pow(this.creatureScaling, e.level) *
+            this.gameModel.golemDamagePCMod,
           cost: e.baseCost * Math.pow(this.creatureCostScaling, e.level),
         },
       };
@@ -1312,7 +2055,9 @@ var Incremancer;
         });
     }
     static getInstance() {
-      return (ne.instance || ((ne.instance = new ne()),
+      return (
+        ne.instance ||
+          ((ne.instance = new ne()),
           (ne.instance.particles = new Qe()),
           (ne.instance.trophies = new de()),
           (ne.instance.bones = new tt()),
@@ -1328,7 +2073,8 @@ var Incremancer;
           (ne.instance.humans = new Se()),
           (ne.instance.police = new ke()),
           (ne.instance.army = new Te())),
-        ne.instance);
+        ne.instance
+      );
     }
     resetToBaseStats() {
       (this.energyRate = this.baseStats.energyRate),
@@ -1380,24 +2126,52 @@ var Incremancer;
         (this.harpyBombs = 1);
     }
     addEnergy(e) {
-      (this.energy += e), this.energy > this.energyMax && (this.energy = this.energyMax);
+      (this.energy += e),
+        this.energy > this.energyMax && (this.energy = this.energyMax);
     }
     addBlood(e) {
-      isNaN(this.persistentData.blood) && (this.persistentData.blood = 0), isNaN(e) || ((this.persistentData.blood += e * this.bloodPCMod), this.persistentData.blood > this.bloodMax && ((this.persistentData.blood = this.bloodMax), this.constructions.runesmith && this.runicSyphon.percentage > 0 && (this.runicSyphon.blood += e * this.bloodPCMod)), this.runicSyphon.percentage > 0 && (this.runicSyphon.blood += e * this.bloodPCMod * this.runicSyphon.percentage));
+      isNaN(this.persistentData.blood) && (this.persistentData.blood = 0),
+        isNaN(e) ||
+          ((this.persistentData.blood += e * this.bloodPCMod),
+          this.persistentData.blood > this.bloodMax &&
+            ((this.persistentData.blood = this.bloodMax),
+            this.constructions.runesmith &&
+              this.runicSyphon.percentage > 0 &&
+              (this.runicSyphon.blood += e * this.bloodPCMod)),
+          this.runicSyphon.percentage > 0 &&
+            (this.runicSyphon.blood +=
+              e * this.bloodPCMod * this.runicSyphon.percentage));
     }
     addBrains(e) {
       isNaN(this.persistentData.brains) && (this.persistentData.brains = 0),
-      isNaN(e) || ((this.persistentData.brains += e * this.brainsPCMod), this.persistentData.brains > this.brainsMax && ((this.persistentData.brains = this.brainsMax), this.constructions.runesmith && this.runicSyphon.percentage > 0 && (this.runicSyphon.brains += e * this.brainsPCMod)),this.runicSyphon.percentage > 0 && (this.runicSyphon.brains += e * this.brainsPCMod * this.runicSyphon.percentage));
+        isNaN(e) ||
+          ((this.persistentData.brains += e * this.brainsPCMod),
+          this.persistentData.brains > this.brainsMax &&
+            ((this.persistentData.brains = this.brainsMax),
+            this.constructions.runesmith &&
+              this.runicSyphon.percentage > 0 &&
+              (this.runicSyphon.brains += e * this.brainsPCMod)),
+          this.runicSyphon.percentage > 0 &&
+            (this.runicSyphon.brains +=
+              e * this.brainsPCMod * this.runicSyphon.percentage));
     }
     addBones(e) {
       isNaN(this.persistentData.bones) && (this.persistentData.bones = 0),
-        isNaN(e) || ((this.persistentData.bones += e * this.bonesPCMod), (this.persistentData.bonesTotal += e * this.bonesPCMod), this.runicSyphon.percentage > 0 && (this.runicSyphon.bones += e * this.bonesPCMod * this.runicSyphon.percentage));
+        isNaN(e) ||
+          ((this.persistentData.bones += e * this.bonesPCMod),
+          (this.persistentData.bonesTotal += e * this.bonesPCMod),
+          this.runicSyphon.percentage > 0 &&
+            (this.runicSyphon.bones +=
+              e * this.bonesPCMod * this.runicSyphon.percentage));
     }
     getHumanCount() {
       return this.humanCount;
     }
     getEnergyRate() {
-      return (this.energySpellMultiplier * this.energyRate - (this.persistentData.boneCollectors + this.persistentData.harpies));
+      return (
+        this.energySpellMultiplier * this.energyRate -
+        (this.persistentData.boneCollectors + this.persistentData.harpies)
+      );
     }
     update(e, t) {
       this.spells.updateSpells(e),
@@ -1406,49 +2180,96 @@ var Incremancer;
         this.partFactory.update(e),
         this.autoRemoveCollectorsHarpies(),
         this.addEnergy(this.getEnergyRate() * e),
-        this.currentState == this.states.playingLevel && (this.addBones(this.bonesRate * e),
+        this.currentState == this.states.playingLevel &&
+          (this.addBones(this.bonesRate * e),
           this.addBrains(this.brainsRate * e),
           this.upgrades.updateRunicSyphon(this.runicSyphon),
           this.lastSave + 3e4 < t && (this.saveData(), (this.lastSave = t)),
           this.lastPlayFabSave + 12e5 < t && this.saveToPlayFab(),
-          this.getHumanCount() <= 0 &&(this.endLevelTimer < 0 ? (this.isBossStage(this.level) && this.trophies.doesLevelHaveTrophy(this.level) && this.trophies.trophyAquired(this.level), (this.prestigePointsEarned = this.prestigePointsForLevel(this.level)),
+          this.getHumanCount() <= 0 &&
+            (this.endLevelTimer < 0
+              ? (this.isBossStage(this.level) &&
+                  this.trophies.doesLevelHaveTrophy(this.level) &&
+                  this.trophies.trophyAquired(this.level),
+                (this.prestigePointsEarned = this.prestigePointsForLevel(
+                  this.level
+                )),
                 (this.currentState = this.states.levelCompleted),
                 (this.levelResourcesAdded = !1),
                 this.calculateEndLevelBones(),
                 this.calculateEndLevelZombieCages(),
-                this.persistentData.levelsCompleted.includes(this.level) || (this.addPrestigePoints(this.prestigePointsForLevel(this.level)),this.persistentData.levelsCompleted.push(this.level)),
+                this.persistentData.levelsCompleted.includes(this.level) ||
+                  (this.addPrestigePoints(
+                    this.prestigePointsForLevel(this.level)
+                  ),
+                  this.persistentData.levelsCompleted.push(this.level)),
                 (this.persistentData.levelUnlocked = this.level + 1),
-                (!this.persistentData.allTimeHighestLevel || this.level > this.persistentData.allTimeHighestLevel) && ((this.persistentData.allTimeHighestLevel = this.level),
-                 window.kongregate && window.kongregate.stats.submit("level",this.persistentData.allTimeHighestLevel)),(this.startTimer = 2))
+                (!this.persistentData.allTimeHighestLevel ||
+                  this.level > this.persistentData.allTimeHighestLevel) &&
+                  ((this.persistentData.allTimeHighestLevel = this.level),
+                  window.kongregate &&
+                    window.kongregate.stats.submit(
+                      "level",
+                      this.persistentData.allTimeHighestLevel
+                    )),
+                (this.startTimer = 2))
               : (this.endLevelTimer -= e)),
           this.upgrades.updateConstruction(e),
           this.upgrades.updateAutoUpgrades(),
           this.creatureFactory.update(e)),
         this.currentState == this.states.levelCompleted &&
           ((this.startTimer -= e),
-          this.startTimer < 0 && this.persistentData.autoStart && this.nextLevel()),
-        this.currentState == this.states.failed && ((this.startTimer -= e), this.startTimer < 0 && this.persistentData.autoStart && this.startLevel(this.level - 1)), this.updateStats();
+          this.startTimer < 0 &&
+            this.persistentData.autoStart &&
+            this.nextLevel()),
+        this.currentState == this.states.failed &&
+          ((this.startTimer -= e),
+          this.startTimer < 0 &&
+            this.persistentData.autoStart &&
+            this.startLevel(this.level - 1)),
+        this.updateStats();
     }
     calculateEndLevelBones() {
-      (this.endLevelBones = 0), this.persistentData.boneCollectors > 0 && this.bones.uncollected && ((this.endLevelBones = this.bones.uncollected.map((e) => e.value).reduce((e, t) => e + t, 0)),this.addBones(this.endLevelBones));
+      (this.endLevelBones = 0),
+        this.persistentData.boneCollectors > 0 &&
+          this.bones.uncollected &&
+          ((this.endLevelBones = this.bones.uncollected
+            .map((e) => e.value)
+            .reduce((e, t) => e + t, 0)),
+          this.addBones(this.endLevelBones));
     }
     calculateEndLevelZombieCages() {
-      this.zombieCages > 0 && ((this.zombiesInCages += this.zombieCount), this.zombiesInCages > this.zombieCages && (this.zombiesInCages = this.zombieCages));
+      this.zombieCages > 0 &&
+        ((this.zombiesInCages += this.zombieCount),
+        this.zombiesInCages > this.zombieCages &&
+          (this.zombiesInCages = this.zombieCages));
     }
     autoRemoveCollectorsHarpies() {
       if (this.getEnergyRate() < 0) {
         const e = this.getEnergyRate();
-        this.persistentData.harpies > 0 && ((this.persistentData.harpies -= Math.ceil(Math.abs(e))), this.persistentData.harpies < 0 && (this.persistentData.harpies = 0)), this.getEnergyRate() < 0 && this.persistentData.boneCollectors > 0 && this.persistentData.boneCollectors--;
+        this.persistentData.harpies > 0 &&
+          ((this.persistentData.harpies -= Math.ceil(Math.abs(e))),
+          this.persistentData.harpies < 0 && (this.persistentData.harpies = 0)),
+          this.getEnergyRate() < 0 &&
+            this.persistentData.boneCollectors > 0 &&
+            this.persistentData.boneCollectors--;
       }
     }
     releaseCagedZombies() {
       if (this.currentState == this.states.playingLevel) {
-        for (let e = 0; e < this.zombiesInCages; e++) this.zombies.createZombie(this.graveyard.sprite.x, this.graveyard.sprite.y);
+        for (let e = 0; e < this.zombiesInCages; e++)
+          this.zombies.createZombie(
+            this.graveyard.sprite.x,
+            this.graveyard.sprite.y
+          );
         this.zombiesInCages = 0;
       }
     }
     sacrificeCagedZombies() {
-      this.addBlood(this.cagedZombieSacrificeValue().blood), this.addBrains(this.cagedZombieSacrificeValue().brains), this.addBones(this.cagedZombieSacrificeValue().bones), (this.zombiesInCages = 0);
+      this.addBlood(this.cagedZombieSacrificeValue().blood),
+        this.addBrains(this.cagedZombieSacrificeValue().brains),
+        this.addBones(this.cagedZombieSacrificeValue().bones),
+        (this.zombiesInCages = 0);
     }
     cagedZombieSacrificeValue() {
       return {
@@ -1461,7 +2282,9 @@ var Incremancer;
       (this.level = e), this.startGame();
     }
     startGame() {
-      (this.currentState = this.states.playingLevel), this.setupLevel(), this.updatePlayingLevel();
+      (this.currentState = this.states.playingLevel),
+        this.setupLevel(),
+        this.updatePlayingLevel();
     }
     nextLevel() {
       this.level++,
@@ -1471,7 +2294,20 @@ var Incremancer;
         this.persistentData.autoRelease && this.releaseCagedZombies();
     }
     setupLevel() {
-      (this.endLevelTimer = this.endLevelDelay), N(), this.particles.initialize(), this.humans.populate(), this.zombies.populate(), this.graveyard.initialize(), setTimeout(Z, 10), this.upgrades.applyUpgrades(), this.upgrades.updateRuneEffects(), this.partFactory.applyGenerators(), this.creatures.populate(), this.skeleton.populate(), this.addStartLevelResources(), this.populateStats();
+      (this.endLevelTimer = this.endLevelDelay),
+        N(),
+        this.particles.initialize(),
+        this.humans.populate(),
+        this.zombies.populate(),
+        this.graveyard.initialize(),
+        setTimeout(Z, 10),
+        this.upgrades.applyUpgrades(),
+        this.upgrades.updateRuneEffects(),
+        this.partFactory.applyGenerators(),
+        this.creatures.populate(),
+        this.skeleton.populate(),
+        this.addStartLevelResources(),
+        this.populateStats();
     }
     populateStats() {
       this.stats = {
@@ -1506,7 +2342,8 @@ var Incremancer;
       };
     }
     updateStats() {
-      this.stats && ((this.stats.zombie.health = this.zombieHealth),
+      this.stats &&
+        ((this.stats.zombie.health = this.zombieHealth),
         (this.stats.zombie.damage = this.zombieDamage),
         (this.stats.zombie.speed = this.zombieSpeed),
         (this.stats.zombie.count = this.zombieCount),
@@ -1515,13 +2352,16 @@ var Incremancer;
         (this.stats.skeleton.speed = this.skeleton.moveSpeed));
     }
     vipEscaped() {
-      this.persistentData.vipEscaped || (this.persistentData.vipEscaped = []), this.persistentData.vipEscaped.push(this.level), this.saveData();
+      this.persistentData.vipEscaped || (this.persistentData.vipEscaped = []),
+        this.persistentData.vipEscaped.push(this.level),
+        this.saveData();
     }
     updatePlayingLevel() {
       this.saveData();
     }
     addStartLevelResources() {
-      (this.energy = this.energyMax), this.levelResourcesAdded ||
+      (this.energy = this.energyMax),
+        this.levelResourcesAdded ||
           ((this.persistentData.blood += 500 * this.startingResources),
           this.persistentData.blood > this.bloodMax &&
             (this.persistentData.blood = this.bloodMax),
@@ -1536,7 +2376,10 @@ var Incremancer;
       this.upgrades.upgradeIdCheck();
     }
     addPrestigePoints(e) {
-      void 0 === this.persistentData.prestigePointsEarned && ((this.persistentData.prestigePointsEarned = 0), (this.persistentData.prestigePointsToSpend = 0)), (this.persistentData.prestigePointsEarned += e);
+      void 0 === this.persistentData.prestigePointsEarned &&
+        ((this.persistentData.prestigePointsEarned = 0),
+        (this.persistentData.prestigePointsToSpend = 0)),
+        (this.persistentData.prestigePointsEarned += e);
     }
     prestige() {
       if (this.persistentData.prestigePointsEarned > 0) {
@@ -1547,13 +2390,16 @@ var Incremancer;
           (this.persistentData.parts = 0),
           (this.persistentData.generators = []),
           (this.persistentData.bonesTotal = 0),
-          (this.persistentData.upgrades = this.persistentData.upgrades.filter((e) => e.costType == this.upgrades.costs.prestigePoints)),
+          (this.persistentData.upgrades = this.persistentData.upgrades.filter(
+            (e) => e.costType == this.upgrades.costs.prestigePoints
+          )),
           (this.persistentData.constructions = []),
           (this.persistentData.boneCollectors = 0),
           (this.persistentData.currentConstruction = !1),
           (this.persistentData.harpies = 0),
           (this.persistentData.graveyardZombies = 1),
-          (this.persistentData.prestigePointsToSpend += this.persistentData.prestigePointsEarned),
+          (this.persistentData.prestigePointsToSpend +=
+            this.persistentData.prestigePointsEarned),
           (this.persistentData.prestigePointsEarned = 0),
           (this.persistentData.runes = null),
           (this.persistentData.vipEscaped = []),
@@ -1582,29 +2428,52 @@ var Incremancer;
           (this.skeleton.persistent.talentReset = !0),
           this.setupLevel(),
           this.saveData();
-        for (let e = 0; e < this.upgrades.upgrades.length; e++) this.upgrades.upgrades[e].auto = !1;
+        for (let e = 0; e < this.upgrades.upgrades.length; e++)
+          this.upgrades.upgrades[e].auto = !1;
       }
     }
     saveData() {
       this.persistentData.dateOfSave = Date.now();
-      try {localStorage.setItem(this.storageName,JSON.stringify(this.persistentData)),
-          localStorage.setItem(this.skeleton.storageName,JSON.stringify(this.skeleton.persistent)),
-          localStorage.setItem(this.skeleton.talentsStorageName,JSON.stringify(this.skeleton.talents));
-      } catch (e) {console.log(e);}
+      try {
+        localStorage.setItem(
+          this.storageName,
+          JSON.stringify(this.persistentData)
+        ),
+          localStorage.setItem(
+            this.skeleton.storageName,
+            JSON.stringify(this.skeleton.persistent)
+          ),
+          localStorage.setItem(
+            this.skeleton.talentsStorageName,
+            JSON.stringify(this.skeleton.talents)
+          );
+      } catch (e) {
+        console.log(e);
+      }
     }
     loadData() {
-      try {null !== localStorage.getItem(this.storageName) && ((this.persistentData = JSON.parse(localStorage.getItem(this.storageName))),
+      try {
+        null !== localStorage.getItem(this.storageName) &&
+          ((this.persistentData = JSON.parse(
+            localStorage.getItem(this.storageName)
+          )),
           (this.level = this.persistentData.levelUnlocked),
-          null !== localStorage.getItem(this.skeleton.storageName) ? (this.skeleton.persistent = JSON.parse(localStorage.getItem(this.skeleton.storageName))) : (this.skeleton.persistent = {
+          null !== localStorage.getItem(this.skeleton.storageName)
+            ? (this.skeleton.persistent = JSON.parse(
+                localStorage.getItem(this.skeleton.storageName)
+              ))
+            : (this.skeleton.persistent = {
                 xpRate: 0,
                 skeletons: 0,
                 level: 1,
                 xp: 0,
-                items: [],
+                items: [], //ITEMS DATA
                 currItemId: 0,
                 talentReset: !1,
               }),
-          null !== localStorage.getItem(this.skeleton.talentsStorageName) ? (this.skeleton.talents = JSON.parse(localStorage.getItem(this.skeleton.talentsStorageName)
+          null !== localStorage.getItem(this.skeleton.talentsStorageName)
+            ? (this.skeleton.talents = JSON.parse(
+                localStorage.getItem(this.skeleton.talentsStorageName)
               ))
             : (this.skeleton.talents = []),
           this.updatePersistentData(),
@@ -6228,7 +7097,10 @@ var Incremancer;
       if (300 == t) {
         t = 1e4;
         for (let s = 0; s < this.aliveHumans.length; s++)
-          if (Math.abs(this.aliveHumans[s].x - e.x) < t && Math.abs(this.aliveHumans[s].y - e.y) < t) {
+          if (
+            Math.abs(this.aliveHumans[s].x - e.x) < t &&
+            Math.abs(this.aliveHumans[s].y - e.y) < t
+          ) {
             const i = this.fastDistance(
               e.x,
               e.y,
@@ -6244,16 +7116,33 @@ var Incremancer;
       const t = this.map.findBuilding(e);
       if (t && this.map.isInsidePoi(e.x, e.y, t, 0))
         for (let s = 0; s < this.aliveHumans.length; s++)
-          if (this.map.isInsidePoi(this.aliveHumans[s].x,this.aliveHumans[s].y,t,0)) return void (e.target = this.aliveHumans[s]);
+          if (
+            this.map.isInsidePoi(
+              this.aliveHumans[s].x,
+              this.aliveHumans[s].y,
+              t,
+              0
+            )
+          )
+            return void (e.target = this.aliveHumans[s]);
       e.target = a(this.aliveHumans, Math.random());
     }
     dotProduct(e, t) {
       return e * e + t * t;
     }
     updateZombieSpeed(e, t) {
-      if (e.timer.dogStun && e.timer.dogStun > 0) return void (e.timer.dogStun -= t);
-      if (((e.timer.target && e.targetVector) || (e.timer.target = 0), (e.timer.target -= t), e.timer.target <= 0 && ((e.targetVector = this.map.howDoIGetToMyTarget(e, e.target)), (e.timer.target = this.reactionTime)), this.model.gameSpeed > 1 || e.flags.dog)) {
-        const t = e.flags.dog ? 1.5 : 1, s = Math.max(this.maxSpeed * e.speedMultiplier * t, 8);
+      if (e.timer.dogStun && e.timer.dogStun > 0)
+        return void (e.timer.dogStun -= t);
+      if (
+        ((e.timer.target && e.targetVector) || (e.timer.target = 0),
+        (e.timer.target -= t),
+        e.timer.target <= 0 &&
+          ((e.targetVector = this.map.howDoIGetToMyTarget(e, e.target)),
+          (e.timer.target = this.reactionTime)),
+        this.model.gameSpeed > 1 || e.flags.dog)
+      ) {
+        const t = e.flags.dog ? 1.5 : 1,
+          s = Math.max(this.maxSpeed * e.speedMultiplier * t, 8);
         (e.xSpeed = e.targetVector.x * s), (e.ySpeed = e.targetVector.y * s);
       } else {
         const s = 5 * this.maxSpeed * t;
@@ -6262,13 +7151,26 @@ var Incremancer;
           a = Math.pow(Math.max(this.maxSpeed * e.speedMultiplier, 8), 2);
         i > a && ((e.xSpeed *= a / i), (e.ySpeed *= a / i));
       }
-      let s = {x: e.position.x + e.xSpeed * t, y: e.position.y + e.ySpeed * t,};
-      if (((e.turnTimer -= t),e.turnTimer < 0 && ((e.turnTimer = 0.5), !this.isSpaceToMove(e, s.x, s.y)))) {
+      let s = {
+        x: e.position.x + e.xSpeed * t,
+        y: e.position.y + e.ySpeed * t,
+      };
+      if (
+        ((e.turnTimer -= t),
+        e.turnTimer < 0 &&
+          ((e.turnTimer = 0.5), !this.isSpaceToMove(e, s.x, s.y)))
+      ) {
         if (Math.random() > 0.5) {
-          const t = {x: -e.ySpeed / 2 + e.xSpeed / 2, y: e.xSpeed / 2 + e.ySpeed / 2,};
+          const t = {
+            x: -e.ySpeed / 2 + e.xSpeed / 2,
+            y: e.xSpeed / 2 + e.ySpeed / 2,
+          };
           (e.xSpeed = t.x), (e.ySpeed = t.y);
         } else {
-          const t = {x: e.ySpeed / 2 + e.xSpeed / 2, y: -e.xSpeed / 2 + e.ySpeed / 2,};
+          const t = {
+            x: e.ySpeed / 2 + e.xSpeed / 2,
+            y: -e.xSpeed / 2 + e.ySpeed / 2,
+          };
           (e.xSpeed = t.x), (e.ySpeed = t.y);
         }
         s = { x: e.position.x + e.xSpeed * t, y: e.position.y + e.ySpeed * t };
@@ -6290,8 +7192,17 @@ var Incremancer;
     isSpaceToMove(e, t, s) {
       const i = this.partitionGetNeighbours(e);
       for (let a = 0; a < i.length; a++)
-        if (i[a].health >= e.health && i[a].zombieId != e.zombieId && Math.abs(i[a].x - t) < this.spaceNeeded && Math.abs(i[a].y - s) < this.spaceNeeded && Math.abs(i[a].x - t) < this.spaceNeeded)
-          return (this.fastDistance(t, s, i[a].x, i[a].y) > this.fastDistance(e.x, e.y, i[a].x, i[a].y));
+        if (
+          i[a].health >= e.health &&
+          i[a].zombieId != e.zombieId &&
+          Math.abs(i[a].x - t) < this.spaceNeeded &&
+          Math.abs(i[a].y - s) < this.spaceNeeded &&
+          Math.abs(i[a].x - t) < this.spaceNeeded
+        )
+          return (
+            this.fastDistance(t, s, i[a].x, i[a].y) >
+            this.fastDistance(e.x, e.y, i[a].x, i[a].y)
+          );
       return !0;
     }
   }
@@ -6319,20 +7230,27 @@ var Incremancer;
       const e = document.createElement("canvas");
       (e.width = 4), (e.height = 1);
       const t = e.getContext("2d");
-      return ((t.fillStyle = "#dddddd"), t.fillRect(0, 0, 4, 1),(this.texture = PIXI.Texture.from(e)),this.texture);
+      return (
+        (t.fillStyle = "#dddddd"),
+        t.fillRect(0, 0, 4, 1),
+        (this.texture = PIXI.Texture.from(e)),
+        this.texture
+      );
     }
     getBone() {
       const e = new Ze(this.getTexture());
       return e.anchor.set(0.5, 20), this.addChild(e), this.bones.push(e), e;
     }
     update(e) {
-      e > this.bones.length && (this.getBone().rotation = this.spacing * this.bones.length);
+      e > this.bones.length &&
+        (this.getBone().rotation = this.spacing * this.bones.length);
       for (let t = 0; t < this.bones.length; t++) this.bones[t].visible = t < e;
     }
   }
   class Xe {
     constructor() {
-      if (((this.skeletons = []),
+      if ( //skeleton constructor
+        ((this.skeletons = []),
         (this.aliveSkeletons = []),
         (this.discardedSprites = []),
         (this.aliveHumans = []),
@@ -6348,7 +7266,7 @@ var Incremancer;
         (this.respawnTime = 10),
         (this.moveSpeed = 40),
         (this.lastKillingBlow = 0),
-        (this.randomSpells = []),
+        (this.randomSpells = []), //check id for each hit. first digit is current, second is when activate
         (this.championSpells = new Map()),
         (this.hitMods = {1 : 0, 2 : 0, 3 : 0, 4 : 0 , 5 : 0, 6 : 0, 7 : 0, 8 : 0}),
         (this.lootChance = 0.001),
@@ -6395,7 +7313,7 @@ var Incremancer;
         (this.boneshield = 0),
         (this.aliveZombies = []),
         (this.graveyardAttackers = []),
-        (this.lootPositions = {
+        (this.lootPositions = { //loot positions ****
           helmet: { id: 1, name: "Helmet" },
           chest: { id: 2, name: "Chest" },
           legs: { id: 3, name: "Legs" },
@@ -6406,7 +7324,7 @@ var Incremancer;
         }),
         (this.rarity = { common: 1, rare: 2, epic: 3, legendary: 4 }),
         (this.prefixes = {
-          commonQuality: [
+          commonQuality: [ //item naming
             "Wooden",
             "Sturdy",
             "Rigid",
@@ -6497,6 +7415,7 @@ var Incremancer;
     applyUpgrades() {
       if (this.persistent.skeletons > 0) {
         this.applyItemUpgrades();
+        //console.log(this.spells)
         const e = 1 + this.persistent.level / 100;
         (this.model.bloodPCMod *= e),
           (this.model.brainsPCMod *= e),
@@ -6570,7 +7489,7 @@ var Incremancer;
             (this.skeletons[t].timer.scan = 0));
       (this.skeletons = e),
         (this.aliveSkeletons = []),
-        (this.lootChance = 0.001),
+        (this.lootChance = 0.001), //THIS IS MODDED. original value is 0.01
         this.model.level < this.persistent.level && (this.lootChance *= 0.5),
         this.model.level > 2 * this.persistent.level &&
           (this.lootChance *= 1.5);
@@ -6619,12 +7538,14 @@ var Incremancer;
         (e.maxSpeed = this.moveSpeed),
         e.play(),
         (e.zombieId = this.currId++),
-        this.skeletons.push(e),
+        this.skeletons.push(e), //spawns skeleton
         g.addChild(e),
         this.smoke.newZombieSpawnCloud(e.x, e.y - 2);
     }
     skeletonTimer() {
-      return this.aliveSkeletons.length < this.persistent.skeletons ? this.spawnTimer : 0;
+      return this.aliveSkeletons.length < this.persistent.skeletons
+        ? this.spawnTimer
+        : 0;
     }
     update(e) {
       (this.aliveHumans = this.humans.aliveHumans),
@@ -6637,10 +7558,13 @@ var Incremancer;
       }
         this.aliveSkeletons.length < this.persistent.skeletons && ((this.spawnTimer -= e), this.spawnTimer < 0 && (this.spawnCreature(), (this.spawnTimer = this.respawnTime))), (this.lastKillingBlow -= e);
     }
-    updateCreature(e, t) {
+    updateCreature(e, t) {//update zombie & update
       if (e.flags.dead) {
         if (!e.visible) return;
-        return ((e.alpha -= this.fadeSpeed * t), void (e.alpha < 0 && ((e.visible = !1), g.removeChild(e))));
+        return (
+          (e.alpha -= this.fadeSpeed * t),
+          void (e.alpha < 0 && ((e.visible = !1), g.removeChild(e)))
+        );
       }
       switch (
         (this.boneshield > 0 &&
@@ -6648,7 +7572,11 @@ var Incremancer;
           ((e.boneshieldTimer -= t),
           e.boneshieldTimer < 0 &&
             ((e.boneshieldTimer = 10 / this.boneshield), e.boneshield++)),
-          this.boneshield ? ((e.boneshieldContainer.visible = !0), e.boneshieldContainer.update(e.boneshield), (e.boneshieldContainer.rotation += t)) : (e.boneshieldContainer.visible = !1),
+        this.boneshield
+          ? ((e.boneshieldContainer.visible = !0),
+            e.boneshieldContainer.update(e.boneshield),
+            (e.boneshieldContainer.rotation += t))
+          : (e.boneshieldContainer.visible = !1),
         this.darkorb > 0 &&
           ((this.darkorbTimer -= t),
           this.darkorbTimer < 0 &&
@@ -6705,17 +7633,27 @@ var Incremancer;
             e.target.y
           );
           if (s < this.attackDistance) {
-            if (e.timer.attack < 0 && !e.target.flags.dead && (this.humans.damageHuman(e.target, this.calculateDamage(e)), e.target.flags.dead && this.killingBlow(e.target), (e.timer.attack = this.attackSpeed * (1 / this.model.runeEffects.attackSpeed)),
+            if (
+              e.timer.attack < 0 &&
+              !e.target.flags.dead &&
+              (this.humans.damageHuman(e.target, this.calculateDamage(e)),
+              e.target.flags.dead && this.killingBlow(e.target),
+              (e.timer.attack =
+                this.attackSpeed * (1 / this.model.runeEffects.attackSpeed)),
               e.flags.burning &&
                 (e.timer.attack *= 1 / this.model.burningSpeedMod),
               this.randomSpells.length > 0)
             ){
+              //console.log(this.skeletonHits)
+              //console.log(this.randomSpells)
+              //console.log(this.hitMods)
               for (let e = 0; e < this.randomSpells.length; e++){
                 let spell = this.randomSpells[e]
                 this.applyItemSpells(spell)
                 let hits = this.championSpells.get(spell)
                 hits[0] >= hits[1] && spell && (this.spells.castSpellNoMana(spell), (this.spellTimer = 3));
               }
+              //console.log(this.championSpells)
             }
             s > this.attackDistance / 2 && this.updateCreatureSpeed(e, t);
           } else e.state = be.movingToTarget;
@@ -6728,7 +7666,9 @@ var Incremancer;
       if(this.championSpells.has(e)){
         let hits = this.championSpells.get(e)
         this.championSpells.set(e, [hits[0]+1,h])
-        if(hits[0] >= hits[1]){this.championSpells.set(e, [1,h])}
+        if(hits[0] >= hits[1]){
+          this.championSpells.set(e, [1,h])
+        }
       }
       else{
         this.championSpells.set(e, [1,h])
@@ -6736,7 +7676,8 @@ var Incremancer;
     }
     killingBlow(e) {
       this.killingBlowParts &&
-        (this.model.persistentData.parts += this.killingBlowParts * this.partFactory.factoryStats().partsPerSec),
+        (this.model.persistentData.parts +=
+          this.killingBlowParts * this.partFactory.factoryStats().partsPerSec),
         this.lastKillingBlow <= 0 &&
           (this.model.addPrestigePoints(this.persistent.level),
           (this.lastKillingBlow = 20),
@@ -6745,7 +7686,10 @@ var Incremancer;
     orbHit(e) {
       if ((e.flags.dead && this.killingBlow(e), this.randomSpells.length > 0))
         for (let e = 0; e < this.randomSpells.length; e++)
-          this.spellTimer < 0 && Math.random() < 0.04 && (this.spells.castSpellNoMana(this.randomSpells[e]), (this.spellTimer = 3));
+          this.spellTimer < 0 &&
+            Math.random() < 0.04 &&
+            (this.spells.castSpellNoMana(this.randomSpells[e]),
+            (this.spellTimer = 3));
     }
     incinerate() {
       let e;
@@ -6760,9 +7704,11 @@ var Incremancer;
     getCreatureDirection(e) {
       return Math.abs(e.xSpeed) > Math.abs(e.ySpeed)
         ? e.xSpeed < 0
-          ? this.directions.left : this.directions.right
+          ? this.directions.left
+          : this.directions.right
         : e.ySpeed < 0
-        ? this.directions.up : this.directions.down;
+        ? this.directions.up
+        : this.directions.down;
     }
     changeTextureDirection(e) {
       const t = this.getCreatureDirection(e);
@@ -6832,8 +7778,12 @@ var Incremancer;
                   this.model.zombieSpeed++;
               }}),
               e.se && e.se.forEach((e) => {
-                if(this.randomSpells.includes(e)) {this.hitMods[e] += 5}
-                else {this.randomSpells.push(e)}
+                if(this.randomSpells.includes(e)){
+                  this.hitMods[e] += 5
+                }
+                else{
+                  this.randomSpells.push(e)
+                }
               });
           });
     }
@@ -6901,10 +7851,18 @@ var Incremancer;
               t.push("+1 movement speed");
               break;
             case this.stats.zombieHealth.id:
-              t.push("+" + n(this.stats.zombieHealth.scaling * e.l) + " zombie health");
+              t.push(
+                "+" +
+                  n(this.stats.zombieHealth.scaling * e.l) +
+                  " zombie health"
+              );
               break;
             case this.stats.zombieDamage.id:
-              t.push("+" + n(this.stats.zombieDamage.scaling * e.l) + " zombie damage");
+              t.push(
+                "+" +
+                  n(this.stats.zombieDamage.scaling * e.l) +
+                  " zombie damage"
+              );
               break;
             case this.stats.zombieSpeed.id:
               t.push("+1 zombie speed");
@@ -6916,14 +7874,18 @@ var Incremancer;
       if (e.se)
         for (let s = 0; s < e.se.length; s++) {
           const i = this.spells.spells.filter((t) => t.id == e.se[s])[0];
-          t.push(i.itemText || "After " + (this.spells.getSpell(i.id).hit-this.hitMods[i.id]) + " hits, casts " + i.name + " without costing energy or triggering a cooldown");
+          t.push(
+            i.itemText ||
+              "After " + (this.spells.getSpell(i.id).hit-this.hitMods[i.id]) + " hits, casts " + i.name + " without costing energy or triggering a cooldown"
+          );
         }
       return t;
     }
-    testForLoot() {
+    testForLoot() { //dropping skeleton gear
       if (this.persistent.skeletons > 0 && Math.random() < this.lootChance) {
         const e = this.generateLoot(this.persistent.level);
-        this.model.sendMessage(this.getLootName(e) + " collected!"), this.persistent.items.push(e);
+        this.model.sendMessage(this.getLootName(e) + " collected!"),
+          this.persistent.items.push(e);
       }
     }
     generateLoot(e) {
@@ -6936,7 +7898,7 @@ var Incremancer;
         i.push(e.id);
       }
       let r = 0;
-      switch (s) {
+      switch (s) {//random name depending on rarity
         case this.rarity.common:
           r = Math.floor(Math.random() * this.prefixes.commonQuality.length);
           break;
@@ -6949,13 +7911,27 @@ var Incremancer;
         case this.rarity.legendary:
           r = Math.floor(Math.random() * this.prefixes.legendaryQuality.length);
       }
-      const n = [Math.random() > 0.5 ? this.stats.zombieHealth.id : this.stats.zombieDamage.id,];
+      const n = [
+        Math.random() > 0.5
+          ? this.stats.zombieHealth.id
+          : this.stats.zombieDamage.id,
+      ];
       for (let e = 0; e < s - 1; e++) {
         let e = Math.ceil(5 * Math.random());
         for (; n.includes(e); ) e = Math.ceil(5 * Math.random());
         n.push(e);
       }
-      return {id: this.persistent.currItemId++, l: e, s: t, r: s, p: r, e: n, se: i, q: !1, w: [],};
+      return {
+        id: this.persistent.currItemId++,
+        l: e,
+        s: t,
+        r: s,
+        p: r,
+        e: n,
+        se: i,
+        q: !1,
+        w: [],
+      };
     }
     destroyItem(e) {
       this.addXp(e.l * e.r * 10);
@@ -6981,9 +7957,10 @@ var Incremancer;
       );
     }
   }
-  class Ue {
+  class Ue { //lists for objects ect
     constructor() {
-      if (((this.creatureFactory = new ae()),
+      if (
+        ((this.creatureFactory = new ae()),
         (this.zombies = new Ae()),
         (this.creatures = []),
         (this.creatureCount = []),
@@ -7029,7 +8006,8 @@ var Incremancer;
       Ue.instance = this;
     }
     populate() {
-      if (((this.map = new ee()),
+      if (
+        ((this.map = new ee()),
         (this.model = ne.getInstance()),
         (this.graveyard = new Oe()),
         (this.smoke = new ot()),
@@ -7045,22 +8023,34 @@ var Incremancer;
           (this.golemTextures.up = []),
           (this.golemTextures.right = []),
           (this.golemTextures.dead = []);
-        for (let e = 0; e < 3; e++) this.golemTextures.down.push(PIXI.Texture.from("golem" + e + ".png"));
-        for (let e = 3; e < 6; e++) this.golemTextures.up.push(PIXI.Texture.from("golem" + e + ".png"));
-        for (let e = 6; e < 9; e++) this.golemTextures.right.push(PIXI.Texture.from("golem" + e + ".png"));
-        this.golemTextures.dead.push(PIXI.Texture.from("golem9.png")), (this.golemTextures.set = !0);
+        for (let e = 0; e < 3; e++)
+          this.golemTextures.down.push(PIXI.Texture.from("golem" + e + ".png"));
+        for (let e = 3; e < 6; e++)
+          this.golemTextures.up.push(PIXI.Texture.from("golem" + e + ".png"));
+        for (let e = 6; e < 9; e++)
+          this.golemTextures.right.push(
+            PIXI.Texture.from("golem" + e + ".png")
+          );
+        this.golemTextures.dead.push(PIXI.Texture.from("golem9.png")),
+          (this.golemTextures.set = !0);
       }
       const e = [];
       for (let t = 0; t < this.creatures.length; t++)
         this.model.constructions.monsterFactory
           ? this.creatures[t].flags.dead
-            ? (this.discardedSprites.push(this.creatures[t]), g.removeChild(this.creatures[t])) : (e.push(this.creatures[t]),
+            ? (this.discardedSprites.push(this.creatures[t]),
+              g.removeChild(this.creatures[t]))
+            : (e.push(this.creatures[t]),
               (this.creatures[t].x = this.graveyard.sprite.x),
-              (this.creatures[t].zIndex = this.creatures[t].y = this.graveyard.sprite.y + (this.graveyard.level > 2 ? 8 : 0)),
+              (this.creatures[t].zIndex = this.creatures[t].y =
+                this.graveyard.sprite.y + (this.graveyard.level > 2 ? 8 : 0)),
               (this.creatures[t].target = null),
               (this.creatures[t].state = be.lookingForTarget))
-        : (this.discardedSprites.push(this.creatures[t]), g.removeChild(this.creatures[t]));
-      (this.creatures = e), (this.aliveCreatures = []), this.creatureFactory.spawnSavedCreatures();
+          : (this.discardedSprites.push(this.creatures[t]),
+            g.removeChild(this.creatures[t]));
+      (this.creatures = e),
+        (this.aliveCreatures = []),
+        this.creatureFactory.spawnSavedCreatures();
     }
     spawnCreature(e, t, s, i, a, r) {
       if (this.model.creatureCount >= this.model.creatureLimit) return;
@@ -7149,12 +8139,20 @@ var Incremancer;
             })));
       this.model.creatureCount = t;
     }
-    updateCreature(e, t) {
+    updateCreature(e, t) { //creature (golems only) move and attack (ai)
       if (e.flags.dead) {
         if (!e.visible) return;
-        return ((e.alpha -= this.fadeSpeed * t),void (e.alpha < 0 && ((e.visible = !1), g.removeChild(e))));
+        return (
+          (e.alpha -= this.fadeSpeed * t),
+          void (e.alpha < 0 && ((e.visible = !1), g.removeChild(e)))
+        );
       }
-      if (((e.timer.attack -= t), (e.timer.scan -= t), (e.timer.ability -= t), this.model.runeEffects.healthRegen > 0 && this.updateZombieRegen(e, t), e.flags.burning && !e.immuneToBurns && this.updateBurns(e, t), e.timer.ability < 0))
+      if (((e.timer.attack -= t),
+        (e.timer.scan -= t),
+        (e.timer.ability -= t),
+        this.model.runeEffects.healthRegen > 0 && this.updateZombieRegen(e, t),
+        e.flags.burning && !e.immuneToBurns && this.updateBurns(e, t),
+        e.timer.ability < 0))
         switch (((e.timer.ability = 4), e.creatureType)) {
           case this.creatureTypes.earthGolem:
             this.golemTaunt(e);
@@ -7172,30 +8170,49 @@ var Incremancer;
           this.searchClosestTarget(e), e.target && (e.state = be.movingToTarget);
           break;
         case be.movingToTarget: {
-          const s = this.fastDistance(e.position.x,e.position.y,e.target.x,e.target.y);
+          const s = this.fastDistance(
+            e.position.x,
+            e.position.y,
+            e.target.x,
+            e.target.y
+          );
           if (s < this.attackDistance) {
             e.state = be.attackingTarget;
             break;
           }
-          s > 3 * this.attackDistance && e.timer.scan < 0 && this.searchClosestTarget(e), this.updateCreatureSpeed(e, t);
+          s > 3 * this.attackDistance &&
+            e.timer.scan < 0 &&
+            this.searchClosestTarget(e),
+            this.updateCreatureSpeed(e, t);
           break;
         }
         case be.attackingTarget: {
-          const s = this.fastDistance(e.position.x,e.position.y,e.target.x,e.target.y);
-          s < this.attackDistance
+          const s = this.fastDistance( //distance from target
+            e.position.x,
+            e.position.y,
+            e.target.x,
+            e.target.y
+          );
+          s < this.attackDistance //if within attack distance
             ? ((e.scale.x = e.target.x > e.x ? e.scaling : -e.scaling),
               e.timer.attack < 0 && (this.humans.damageHuman(e.target, this.calculateDamage(e)),
                 e.creatureType == this.creatureTypes.fireGolem && this.humans.burnHuman(e.target, e.attackDamage / 2),                
                 e.timer.attack = this.attackSpeed * (1 / this.model.runeEffects.attackSpeed),
                 e.flags.burning && (e.timer.attack *= 1 / this.model.burningSpeedMod)),
-              s > this.attackDistance / 2 && this.updateCreatureSpeed(e, t)) : (e.state = be.movingToTarget);
+              s > this.attackDistance / 2 && this.updateCreatureSpeed(e, t))
+            : (e.state = be.movingToTarget);
           break;
         }
       }
     }
     getCreatureDirection(e) {
-      return Math.abs(e.xSpeed) > Math.abs(e.ySpeed) ? e.xSpeed < 0 ? this.directions.left : this.directions.right : e.ySpeed < 0
-            ? this.directions.up : this.directions.down;
+      return Math.abs(e.xSpeed) > Math.abs(e.ySpeed)
+        ? e.xSpeed < 0
+          ? this.directions.left
+          : this.directions.right
+        : e.ySpeed < 0
+        ? this.directions.up
+        : this.directions.down;
     }
     changeTextureDirection(e) {
       const t = this.getCreatureDirection(e);
@@ -7286,7 +8303,8 @@ var Incremancer;
   }
   class Oe {
     constructor() {
-      if (((this.spikeSprites = []),
+      if (
+        ((this.spikeSprites = []),
         (this.level = 1),
         (this.spikeTimer = 5),
         (this.fenceRadius = 50),
@@ -7322,11 +8340,21 @@ var Incremancer;
         this.harpies.populate();
     }
     damageGraveyard(e) {
-      this.gameModel.isBossStage(this.gameModel.level) && ((this.graveyardHealth -= e), this.graveyardHealth < 0 && ((this.gameModel.currentState = this.gameModel.states.failed), (this.gameModel.startTimer = 3)));
+      this.gameModel.isBossStage(this.gameModel.level) &&
+        ((this.graveyardHealth -= e),
+        this.graveyardHealth < 0 &&
+          ((this.gameModel.currentState = this.gameModel.states.failed),
+          (this.gameModel.startTimer = 3)));
     }
     drawHealthBar() {
-      this.gameModel.isBossStage(this.gameModel.level) ? (this.gameModel.sendMessage("Defend the Graveyard!"), (this.graveyardHealth = this.graveyardMaxHealth = 100 * this.gameModel.zombieHealth * this.gameModel.graveyardHealthMod),
-          this.healthBar || ((this.healthBar = {
+      this.gameModel.isBossStage(this.gameModel.level)
+        ? (this.gameModel.sendMessage("Defend the Graveyard!"),
+          (this.graveyardHealth = this.graveyardMaxHealth =
+            100 *
+            this.gameModel.zombieHealth *
+            this.gameModel.graveyardHealthMod),
+          this.healthBar ||
+            ((this.healthBar = {
               container: new PIXI.Container(),
               background: new PIXI.Graphics(),
               foreground: new PIXI.Graphics(),
@@ -7354,19 +8382,44 @@ var Incremancer;
           (this.healthBar.container.visible = !1));
     }
     updateHealthBar() {
-      const e = Math.max(Math.round((this.graveyardHealth / this.graveyardMaxHealth) * 100),0
+      const e = Math.max(
+        Math.round((this.graveyardHealth / this.graveyardMaxHealth) * 100),
+        0
       );
-      e != this.healthBar.percentage && (this.healthBar.foreground.clear(), e > 0 && (this.healthBar.foreground.lineStyle(8, 16601682), this.healthBar.foreground.moveTo(0, 0), this.healthBar.foreground.lineTo(e, 0)), (this.healthBar.percentage = e));
+      e != this.healthBar.percentage &&
+        (this.healthBar.foreground.clear(),
+        e > 0 &&
+          (this.healthBar.foreground.lineStyle(8, 16601682),
+          this.healthBar.foreground.moveTo(0, 0),
+          this.healthBar.foreground.lineTo(e, 0)),
+        (this.healthBar.percentage = e));
     }
     drawGraveyard() {
-      this.spikeTexture || (this.spikeTexture = PIXI.Texture.from("spikes.png")), this.sprite && u.removeChild(this.sprite), this.fortSprite && (g.removeChild(this.fortSprite), (this.fortSprite = null)), (this.level = 1);
-      let e = "graveyard1.png", t = "";
+      this.spikeTexture ||
+        (this.spikeTexture = PIXI.Texture.from("spikes.png")),
+        this.sprite && u.removeChild(this.sprite),
+        this.fortSprite &&
+          (g.removeChild(this.fortSprite), (this.fortSprite = null)),
+        (this.level = 1);
+      let e = "graveyard1.png",
+        t = "";
       this.gameModel.constructions.crypt &&
         ((this.level = 2), (e = "graveyard2.png")),
-        this.gameModel.constructions.fort && ((this.level = 3), (e = "sprites/megagraveyard.png"), (t = "fort1.png")),
-        this.gameModel.constructions.fortress && ((this.level = 4), (e = "sprites/megagraveyard.png"), (t = "fort2.png")),
-        this.gameModel.constructions.citadel && ((this.level = 5),(e = "sprites/megagraveyard.png"), (t = "fort3.png")),
-        this.sprite ? (this.sprite.texture = PIXI.Texture.from(e)) : (this.sprite = new Ne(PIXI.Texture.from(e)));
+        this.gameModel.constructions.fort &&
+          ((this.level = 3),
+          (e = "sprites/megagraveyard.png"),
+          (t = "fort1.png")),
+        this.gameModel.constructions.fortress &&
+          ((this.level = 4),
+          (e = "sprites/megagraveyard.png"),
+          (t = "fort2.png")),
+        this.gameModel.constructions.citadel &&
+          ((this.level = 5),
+          (e = "sprites/megagraveyard.png"),
+          (t = "fort3.png")),
+        this.sprite
+          ? (this.sprite.texture = PIXI.Texture.from(e))
+          : (this.sprite = new Ne(PIXI.Texture.from(e)));
       const s = this.zmMap.graveYardLocation;
       (this.sprite.width = 32),
         (this.sprite.height = 32),
@@ -7378,7 +8431,9 @@ var Incremancer;
         (this.sprite.y = s.y),
         (this.zmMap.graveyardCollision = !1),
         t &&
-          (this.fortSprite ? (this.fortSprite.texture = PIXI.Texture.from(t)) : (this.fortSprite = new PIXI.Sprite(PIXI.Texture.from(t))),
+          (this.fortSprite
+            ? (this.fortSprite.texture = PIXI.Texture.from(t))
+            : (this.fortSprite = new PIXI.Sprite(PIXI.Texture.from(t))),
           this.fortSprite.anchor.set(0.5, 1),
           this.fortSprite.scale.set(2, 2),
           (this.fortSprite.x = s.x),
@@ -7387,17 +8442,36 @@ var Incremancer;
           g.addChild(this.fortSprite));
     }
     drawFence() {
-      if ((this.fence || ((this.fence = new PIXI.Container()), u.addChild(this.fence)), (this.fenceRadius = this.gameModel.fenceRadius), !this.fenceTextures)) {
+      if (
+        (this.fence ||
+          ((this.fence = new PIXI.Container()), u.addChild(this.fence)),
+        (this.fenceRadius = this.gameModel.fenceRadius),
+        !this.fenceTextures)
+      ) {
         this.fenceTextures = [];
-        for (let e = 0; e < 4; e++) this.fenceTextures.push(PIXI.Texture.from("fencepost" + (e + 1) + ".png"));
+        for (let e = 0; e < 4; e++)
+          this.fenceTextures.push(
+            PIXI.Texture.from("fencepost" + (e + 1) + ".png")
+          );
       }
-      this.fencePosts.forEach((e) => (e.visible = !1)), (this.fence.cacheAsBitmap = !1);
+      this.fencePosts.forEach((e) => (e.visible = !1)),
+        (this.fence.cacheAsBitmap = !1);
       const e = Math.round(0.4 * this.fenceRadius),
         t = (2 * Math.PI) / e;
       for (let r = 0; r < e; r++) {
         let e;
-        this.fencePosts[r] ? ((e = this.fencePosts[r]), (e.visible = !0)) : ((e = new PIXI.Sprite(a(this.fenceTextures, Math.random()))),this.fencePosts.push(e),this.fence.addChild(e)),e.anchor.set(0.5, 1),(e.scale.x = Math.random() > 0.5 ? 1 : -1);
-        const n = 10 * Math.random() - 5, o =(0, (s = this.fenceRadius + n), (i = t * r),
+        this.fencePosts[r]
+          ? ((e = this.fencePosts[r]), (e.visible = !0))
+          : ((e = new PIXI.Sprite(a(this.fenceTextures, Math.random()))),
+            this.fencePosts.push(e),
+            this.fence.addChild(e)),
+          e.anchor.set(0.5, 1),
+          (e.scale.x = Math.random() > 0.5 ? 1 : -1);
+        const n = 10 * Math.random() - 5,
+          o =
+            (0,
+            (s = this.fenceRadius + n),
+            (i = t * r),
             {
               x: 0 * Math.cos(i) - s * Math.sin(i),
               y: 0 * Math.sin(i) + s * Math.cos(i),
@@ -7410,36 +8484,64 @@ var Incremancer;
       (this.fence.x = r.x), (this.fence.y = r.y);
     }
     update(e) {
-      if ((this.boneCollectors.addAndRemoveBoneCollectors(), this.harpies.addAndRemoveHarpies(), this.gameModel.isBossStage(this.gameModel.level) && this.updateHealthBar(), !this.gameModel.constructions.graveyard || this.gameModel.currentState != this.gameModel.states.playingLevel))
+      if (
+        (this.boneCollectors.addAndRemoveBoneCollectors(),
+        this.harpies.addAndRemoveHarpies(),
+        this.gameModel.isBossStage(this.gameModel.level) &&
+          this.updateHealthBar(),
+        !this.gameModel.constructions.graveyard ||
+          this.gameModel.currentState != this.gameModel.states.playingLevel)
+      )
         return (this.sprite.visible = !1), void (this.fence.visible = !1);
-      if ((((this.level < 2 && this.gameModel.constructions.crypt) ||
+      if (
+        (((this.level < 2 && this.gameModel.constructions.crypt) ||
           (this.level < 3 && this.gameModel.constructions.fort) ||
           (this.level < 4 && this.gameModel.constructions.fortress) ||
           (this.level < 5 && this.gameModel.constructions.citadel)) &&
-          this.drawGraveyard(),(this.sprite.visible = !0),this.fortSprite && (this.fortSprite.visible = !0), 5 == this.level && Math.random() > 0.9 && (Math.random() > 0.5 ? this.smoke.newFireSmoke(this.sprite.x - 20, this.sprite.y - 113) : this.smoke.newFireSmoke(this.sprite.x + 20, this.sprite.y - 113)), this.gameModel.energy >= this.gameModel.energyMax && !this.gameModel.hidden))
-            for (let e = 0; e < this.gameModel.persistentData.graveyardZombies; e++)
-              this.zombies.spawnZombie(this.sprite.x,this.sprite.y + (this.level > 2 ? 8 : 0));
-              this.bones.update(e),
-              this.boneCollectors.update(e),
-              this.harpies.update(e),
-              this.gameModel.constructions.fence &&
-                this.gameModel.currentState == this.gameModel.states.playingLevel
-                  ? (this.fenceRadius !== this.gameModel.fenceRadius && this.drawFence(), (this.fence.visible = !0)) : (this.fence.visible = !1),
-                  this.updatePlagueSpikes(e),
-                this.updateSpikeSprites(e);
+          this.drawGraveyard(),
+        (this.sprite.visible = !0),
+        this.fortSprite && (this.fortSprite.visible = !0),
+        5 == this.level &&
+          Math.random() > 0.9 &&
+          (Math.random() > 0.5
+            ? this.smoke.newFireSmoke(this.sprite.x - 20, this.sprite.y - 113)
+            : this.smoke.newFireSmoke(this.sprite.x + 20, this.sprite.y - 113)),
+        this.gameModel.energy >= this.gameModel.energyMax &&
+          !this.gameModel.hidden)
+      )
+        for (let e = 0; e < this.gameModel.persistentData.graveyardZombies; e++)
+          this.zombies.spawnZombie(
+            this.sprite.x,
+            this.sprite.y + (this.level > 2 ? 8 : 0)
+          );
+      this.bones.update(e),
+        this.boneCollectors.update(e),
+        this.harpies.update(e),
+        this.gameModel.constructions.fence &&
+        this.gameModel.currentState == this.gameModel.states.playingLevel
+          ? (this.fenceRadius !== this.gameModel.fenceRadius &&
+              this.drawFence(),
+            (this.fence.visible = !0))
+          : (this.fence.visible = !1),
+        this.updatePlagueSpikes(e),
+        this.updateSpikeSprites(e);
     }
     updatePlagueSpikes(e) {
-      if (this.gameModel.constructions.plagueSpikes && ((this.spikeTimer -= e), this.spikeTimer < 0)) {
+      if (
+        this.gameModel.constructions.plagueSpikes &&
+        ((this.spikeTimer -= e), this.spikeTimer < 0)
+      ) {
         this.spikeTimer = this.gameModel.spikeDelay;
         const e = this.humans.aliveHumans;
         for (let t = 0; t < e.length; t++)
           Math.abs(e[t].x - this.sprite.x) < this.fenceRadius &&
             Math.abs(e[t].y - this.sprite.y) < this.fenceRadius &&
-            this.fastDistance(this.sprite.x, this.sprite.y, e[t].x, e[t].y) < this.fenceRadius &&
-              (this.zombies.inflictPlague(e[t]),
-              this.humans.damageHuman(e[t], this.gameModel.zombieDamage),
-              this.blood.newPlagueSplatter(e[t].x, e[t].y),
-              this.addSpikeSprite(e[t]));
+            this.fastDistance(this.sprite.x, this.sprite.y, e[t].x, e[t].y) <
+              this.fenceRadius &&
+            (this.zombies.inflictPlague(e[t]),
+            this.humans.damageHuman(e[t], this.gameModel.zombieDamage),
+            this.blood.newPlagueSplatter(e[t].x, e[t].y),
+            this.addSpikeSprite(e[t]));
       }
     }
     addSpikeSprite(e) {
@@ -7449,7 +8551,8 @@ var Incremancer;
           t = this.spikeSprites[e];
           break;
         }
-      t || ((t = new PIXI.Sprite(this.spikeTexture)),
+      t ||
+        ((t = new PIXI.Sprite(this.spikeTexture)),
         this.spikeSprites.push(t),
         g.addChild(t),
         t.anchor.set(0.5, 1)),
@@ -7463,10 +8566,24 @@ var Incremancer;
     }
     updateSpikeSprites(e) {
       for (let t = 0; t < this.spikeSprites.length; t++)
-        this.spikeSprites[t].visible && ((this.spikeSprites[t].alpha -= 0.4 * e), this.spikeSprites[t].alpha <= 0 && (this.spikeSprites[t].visible = !1));
+        this.spikeSprites[t].visible &&
+          ((this.spikeSprites[t].alpha -= 0.4 * e),
+          this.spikeSprites[t].alpha <= 0 &&
+            (this.spikeSprites[t].visible = !1));
     }
     isWithinFence(e) {
-      return (!(!this.gameModel.constructions.fence || this.gameModel.currentState != this.gameModel.states.playingLevel) && e.x > this.fence.x - this.fenceRadius && e.x < this.fence.x + this.fenceRadius && e.y > this.fence.y - this.fenceRadius && e.y < this.fence.y + this.fenceRadius && this.fastDistance(e.x, e.y, this.fence.x, this.fence.y) <= this.fenceRadius);
+      return (
+        !(
+          !this.gameModel.constructions.fence ||
+          this.gameModel.currentState != this.gameModel.states.playingLevel
+        ) &&
+        e.x > this.fence.x - this.fenceRadius &&
+        e.x < this.fence.x + this.fenceRadius &&
+        e.y > this.fence.y - this.fenceRadius &&
+        e.y < this.fence.y + this.fenceRadius &&
+        this.fastDistance(e.x, e.y, this.fence.x, this.fence.y) <=
+          this.fenceRadius
+      );
     }
   }
   class Ye extends PIXI.AnimatedSprite {
@@ -7482,10 +8599,15 @@ var Incremancer;
     }
   }
   var We, qe;
-  !(function (e) {(e[(e.collecting = 0)] = "collecting"),(e[(e.returning = 1)] = "returning"),(e[(e.waiting = 2)] = "waiting");})(We || (We = {}));
+  !(function (e) {
+    (e[(e.collecting = 0)] = "collecting"),
+      (e[(e.returning = 1)] = "returning"),
+      (e[(e.waiting = 2)] = "waiting");
+  })(We || (We = {}));
   class Ve {
     constructor() {
-      if (((this.sprites = []),
+      if (
+        ((this.sprites = []),
         (this.maxSpeed = 125),
         (this.scaling = 2),
         (this.collectDistance = 10),
@@ -7496,16 +8618,34 @@ var Incremancer;
       Ve.instance = this;
     }
     populate() {
-      if (((this.graveyard = new Oe()), (this.gameModel = ne.getInstance()), (this.bones = new tt()), !this.texture)) {
+      if (
+        ((this.graveyard = new Oe()),
+        (this.gameModel = ne.getInstance()),
+        (this.bones = new tt()),
+        !this.texture)
+      ) {
         this.texture = [];
-        for (let e = 0; e < 2; e++) this.texture.push(PIXI.Texture.from("bonecollector" + (e + 1) + ".png"));
+        for (let e = 0; e < 2; e++)
+          this.texture.push(
+            PIXI.Texture.from("bonecollector" + (e + 1) + ".png")
+          );
       }
-      for (let e = 0; e < this.sprites.length; e++) (this.sprites[e].boneList = []), (this.sprites[e].target = !1), this.sprites[e].position.set(this.graveyard.sprite.x,this.graveyard.sprite.y),(this.sprites[e].state = We.collecting);
+      for (let e = 0; e < this.sprites.length; e++)
+        (this.sprites[e].boneList = []),
+          (this.sprites[e].target = !1),
+          this.sprites[e].position.set(
+            this.graveyard.sprite.x,
+            this.graveyard.sprite.y
+          ),
+          (this.sprites[e].state = We.collecting);
     }
     addAndRemoveBoneCollectors() {
       if (this.sprites.length > this.gameModel.persistentData.boneCollectors) {
         const e = this.sprites.pop();
-        if (e.boneList) for (let t = 0; t < e.boneList.length; t++) (e.boneList[t].collector = !1), e.target && e.target.collector && (e.target.collector = !1);
+        if (e.boneList)
+          for (let t = 0; t < e.boneList.length; t++)
+            (e.boneList[t].collector = !1),
+              e.target && e.target.collector && (e.target.collector = !1);
         this.gameModel.addBones(e.bones), g.removeChild(e);
       }
       if (this.sprites.length < this.gameModel.persistentData.boneCollectors) {
@@ -7515,7 +8655,10 @@ var Incremancer;
           e.position.set(this.graveyard.sprite.x, this.graveyard.sprite.y),
           (e.zIndex = e.position.y),
           (e.visible = !0),
-          e.scale.set(Math.random() > 0.5 ? this.scaling : -1 * this.scaling,this.scaling),
+          e.scale.set(
+            Math.random() > 0.5 ? this.scaling : -1 * this.scaling,
+            this.scaling
+          ),
           (e.xSpeed = 0),
           (e.ySpeed = 0),
           (e.bones = 0),
@@ -7533,12 +8676,22 @@ var Incremancer;
     }
     findNearestBone(e) {
       if ((e.boneList || (e.boneList = []), 0 == e.boneList.length)) {
-        let t = e.x, s = e.y;
+        let t = e.x,
+          s = e.y;
         for (let i = 0; i < 3; i++) {
-          let i = null, a = 2e3;
+          let i = null,
+            a = 2e3;
           for (let e = 0; e < this.bones.uncollected.length; e++)
-            if (this.bones.uncollected[e].value > 0 && !this.bones.uncollected[e].collector) {
-              const r = this.fastDistance(t,s,this.bones.uncollected[e].x,this.bones.uncollected[e].y);
+            if (
+              this.bones.uncollected[e].value > 0 &&
+              !this.bones.uncollected[e].collector
+            ) {
+              const r = this.fastDistance(
+                t,
+                s,
+                this.bones.uncollected[e].x,
+                this.bones.uncollected[e].y
+              );
               r < a && ((a = r), (i = this.bones.uncollected[e]));
             }
           if (!i) break;
@@ -7548,19 +8701,54 @@ var Incremancer;
       e.boneList.length > 0 ? (e.target = e.boneList.shift()) : (e.target = !1);
     }
     updateBoneCollector(e, t) {
-      switch ((!e.target || (e.target.graveyard && e.state == We.collecting) || this.updateSpeed(e, t), e.state)) {
+      switch (
+        (!e.target ||
+          (e.target.graveyard && e.state == We.collecting) ||
+          this.updateSpeed(e, t),
+        e.state)
+      ) {
         case We.collecting:
-          if (((e.target && e.target.value && e.target.visible) || this.findNearestBone(e), e.target && e.target.value > 0 && this.fastDistance(e.position.x, e.position.y, e.target.x, e.target.y) < this.collectDistance && ((e.bones += e.target.value), (e.target.value = 0), (e.speedFactor = 0)), e.bones >= this.gameModel.boneCollectorCapacity || !e.target))
-            return ((e.state = We.returning), void (e.target = this.graveyard.sprite));
+          if (
+            ((e.target && e.target.value && e.target.visible) ||
+              this.findNearestBone(e),
+            e.target &&
+              e.target.value > 0 &&
+              this.fastDistance(
+                e.position.x,
+                e.position.y,
+                e.target.x,
+                e.target.y
+              ) < this.collectDistance &&
+              ((e.bones += e.target.value),
+              (e.target.value = 0),
+              (e.speedFactor = 0)),
+            e.bones >= this.gameModel.boneCollectorCapacity || !e.target)
+          )
+            return (
+              (e.state = We.returning), void (e.target = this.graveyard.sprite)
+            );
           break;
         case We.returning:
           e.target || (e.target = this.graveyard.sprite),
-            this.fastDistance(e.position.x, e.position.y, e.target.x, e.target.y) < this.collectDistance && ((e.target = !1), this.gameModel.addBones(e.bones), (e.bones = 0), (e.state = We.collecting), (e.speedFactor = 0));
+            this.fastDistance(
+              e.position.x,
+              e.position.y,
+              e.target.x,
+              e.target.y
+            ) < this.collectDistance &&
+              ((e.target = !1),
+              this.gameModel.addBones(e.bones),
+              (e.bones = 0),
+              (e.state = We.collecting),
+              (e.speedFactor = 0));
       }
     }
     updateSpeed(e, t) {
       e.speedFactor = Math.min(1, (e.speedFactor += 3 * t));
-      const s = e.target.x - e.x, i = e.target.y - e.y, a = Math.abs(s), r = Math.abs(i);
+      const s = e.target.x - e.x,
+        i = e.target.y - e.y,
+        a = Math.abs(s),
+        r = Math.abs(i);
       if (0 == Math.max(a, r)) return;
       let n = 1 / Math.max(a, r);
       (n *= 1.29289 - (a + r) * n * 0.29289),
@@ -7571,7 +8759,9 @@ var Incremancer;
         (e.zIndex = e.position.y);
     }
   }
-  !(function (e) {(e[(e.bombing = 0)] = "bombing"), (e[(e.returning = 1)] = "returning");})(qe || (qe = {}));
+  !(function (e) {
+    (e[(e.bombing = 0)] = "bombing"), (e[(e.returning = 1)] = "returning");
+  })(qe || (qe = {}));
   class je extends PIXI.AnimatedSprite {
     constructor(e) {
       super(e),
@@ -7599,7 +8789,8 @@ var Incremancer;
   }
   class Ke {
     constructor() {
-      if (((this.sprites = []),
+      if ( //harpy bomb sprites
+        ((this.sprites = []),
         (this.discardedSprites = []),
         (this.bombSprites = []),
         (this.discardedBombSprites = []),
@@ -7612,30 +8803,58 @@ var Incremancer;
       Ke.instance = this;
     }
     populate() {
-      if (((this.model = ne.getInstance()), (this.graveyard = new Oe()), (this.zombies = new Ae()), (this.humans = new Se()), (this.tanks = new De()), !this.textures)) {
+      if (
+        ((this.model = ne.getInstance()),
+        (this.graveyard = new Oe()),
+        (this.zombies = new Ae()),
+        (this.humans = new Se()),
+        (this.tanks = new De()),
+        !this.textures)
+      ) {
         this.textures = [];
-        for (let e = 0; e < 2; e++) this.textures.push(PIXI.Texture.from("harpy" + (e + 1) + ".png"));
+        for (let e = 0; e < 2; e++)
+          this.textures.push(PIXI.Texture.from("harpy" + (e + 1) + ".png"));
         this.bombTexture = PIXI.Texture.from("harpybomb.png");
       }
-      void 0 === this.model.persistentData.harpies && (this.model.persistentData.harpies = 0);
+      void 0 === this.model.persistentData.harpies &&
+        (this.model.persistentData.harpies = 0);
       for (let e = 0; e < this.bombSprites.length; e++)
-        this.bombSprites[e].visible && ((this.bombSprites[e].visible = !1), this.discardedBombSprites.push(this.bombSprites[e]));
+        this.bombSprites[e].visible &&
+          ((this.bombSprites[e].visible = !1),
+          this.discardedBombSprites.push(this.bombSprites[e]));
       for (let e = 0; e < this.sprites.length; e++)
         (this.sprites[e].bomb = null),
           (this.sprites[e].target = !1),
-          this.sprites[e].position.set(this.graveyard.sprite.x,this.graveyard.sprite.y - this.bombHeight),
+          this.sprites[e].position.set(
+            this.graveyard.sprite.x,
+            this.graveyard.sprite.y - this.bombHeight
+          ),
           (this.sprites[e].state = qe.returning);
     }
     addAndRemoveHarpies() {
       if (this.sprites.length > this.model.persistentData.harpies) {
         const e = this.sprites.pop();
-        (e.target = !1), e.bomb && ((e.bomb.dropped = !0), (e.bomb.floor = e.bomb.y + this.bombHeight)), b.removeChild(e), this.discardedSprites.push(e);
+        (e.target = !1),
+          e.bomb &&
+            ((e.bomb.dropped = !0),
+            (e.bomb.floor = e.bomb.y + this.bombHeight)),
+          b.removeChild(e),
+          this.discardedSprites.push(e);
       }
       if (this.sprites.length < this.model.persistentData.harpies) {
-        const e = this.discardedSprites.length > 0 ? this.discardedSprites.pop() : new je(this.textures);
-        e.position.set(this.graveyard.sprite.x,this.graveyard.sprite.y - this.bombHeight),
+        const e =
+          this.discardedSprites.length > 0
+            ? this.discardedSprites.pop()
+            : new je(this.textures);
+        e.position.set(
+          this.graveyard.sprite.x,
+          this.graveyard.sprite.y - this.bombHeight
+        ),
           (e.zIndex = e.position.y),
-          e.scale.set(Math.random() > 0.5 ? this.scaling : -1 * this.scaling,this.scaling),
+          e.scale.set(
+            Math.random() > 0.5 ? this.scaling : -1 * this.scaling,
+            this.scaling
+          ),
           (e.state = qe.returning),
           e.play(),
           this.sprites.push(e),
@@ -7643,30 +8862,98 @@ var Incremancer;
       }
     }
     update(e) {
-      for (let t = 0; t < this.sprites.length; t++) this.updateHarpy(this.sprites[t], e);
-      for (let t = 0; t < this.bombSprites.length; t++) this.bombSprites[t].visible && this.updateBomb(this.bombSprites[t], e);
+      for (let t = 0; t < this.sprites.length; t++)
+        this.updateHarpy(this.sprites[t], e);
+      for (let t = 0; t < this.bombSprites.length; t++)
+        this.bombSprites[t].visible && this.updateBomb(this.bombSprites[t], e);
     }
-    updateBomb(e, t) {
-      e.dropped ? ((e.rotation += t * e.rotSpeed), (e.ySpeed += 50 * t), (e.scale.x = e.scale.y -= 0.2 * t), (e.y += e.ySpeed * t), e.y >= e.floor - 2 && ((e.visible = !1), this.discardedBombSprites.push(e), e.fire && this.humans.burnHuman(e.target, 0.1 * this.model.zombieHealth), this.zombies.causePlagueExplosion(e,0.2 * this.model.zombieHealth,!1,!1))) : ((e.x = e.harpy.x), (e.y = e.harpy.y));
+    updateBomb(e, t) { //harpy bomb falling animation
+      e.dropped
+        ? ((e.rotation += t * e.rotSpeed),
+          (e.ySpeed += 50 * t),
+          (e.scale.x = e.scale.y -= 0.2 * t),
+          (e.y += e.ySpeed * t),
+          e.y >= e.floor - 2 &&
+            ((e.visible = !1),
+            this.discardedBombSprites.push(e),
+            e.fire &&
+              this.humans.burnHuman(e.target, 0.1 * this.model.zombieHealth),
+            this.zombies.causePlagueExplosion(
+              e,
+              0.2 * this.model.zombieHealth,
+              !1,
+              !1
+            )))
+        : ((e.x = e.harpy.x), (e.y = e.harpy.y));
     }
     updateHarpy(e, t) {
       switch (e.state) {
         case qe.bombing:
           if (!e.target || e.target.graveyard || e.target.dead)
-            if (this.model.tankBuster && this.model.isBossStage(this.model.level) && this.tanks.aliveTanks.length > 0) (e.target = a(this.tanks.aliveTanks, Math.random())), (e.bomb.fire = !0);
+            if (
+              this.model.tankBuster &&
+              this.model.isBossStage(this.model.level) &&
+              this.tanks.aliveTanks.length > 0
+            )
+              (e.target = a(this.tanks.aliveTanks, Math.random())),
+                (e.bomb.fire = !0);
             else {
-              for (let t = 0; t < 8 && ((e.target = a(this.humans.aliveHumans, Math.random())), e.target && !(this.fastDistance(e.x,e.y,e.target.x,e.target.y - this.bombHeight) < 500)); t++); e.bomb.fire = !1;
+              for (
+                let t = 0;
+                t < 8 &&
+                ((e.target = a(this.humans.aliveHumans, Math.random())),
+                e.target &&
+                  !(
+                    this.fastDistance(
+                      e.x,
+                      e.y,
+                      e.target.x,
+                      e.target.y - this.bombHeight
+                    ) < 500
+                  ));
+                t++
+              );
+              e.bomb.fire = !1;
             }
           if (!e.target) return void (e.state = qe.returning);
-          this.fastDistance(e.x,e.y,e.target.x,e.target.y - this.bombHeight) < 10 ? (e.bombs--, (e.bomb.dropped = !0), (e.bomb.floor = e.target.y), (e.bomb.target = e.target), (e.bomb = null), (e.speedFactor = 0), (e.target = !1), e.bombs <= 0 ? (e.state = qe.returning) : this.getBomb(e)) : this.updateHarpySpeed(e, t);
+          this.fastDistance(
+            e.x,
+            e.y,
+            e.target.x,
+            e.target.y - this.bombHeight
+          ) < 10
+            ? (e.bombs--,
+              (e.bomb.dropped = !0),
+              (e.bomb.floor = e.target.y),
+              (e.bomb.target = e.target),
+              (e.bomb = null),
+              (e.speedFactor = 0),
+              (e.target = !1),
+              e.bombs <= 0 ? (e.state = qe.returning) : this.getBomb(e))
+            : this.updateHarpySpeed(e, t);
           break;
-        case qe.returning: 
-          e.target || (e.target = this.graveyard.sprite), this.fastDistance(e.x,e.y,e.target.x,e.target.y - this.bombHeight) < 10 ? ((e.bombs = this.model.harpyBombs), e.bomb || this.getBomb(e), (e.state = qe.bombing), (e.speedFactor = 0)) : this.updateHarpySpeed(e, t);
+        case qe.returning:
+          e.target || (e.target = this.graveyard.sprite),
+            this.fastDistance(
+              e.x,
+              e.y,
+              e.target.x,
+              e.target.y - this.bombHeight
+            ) < 10
+              ? ((e.bombs = this.model.harpyBombs),
+                e.bomb || this.getBomb(e),
+                (e.state = qe.bombing),
+                (e.speedFactor = 0))
+              : this.updateHarpySpeed(e, t);
       }
     }
     getBomb(e) {
       let t;
-      this.discardedBombSprites.length > 0 ? (t = this.discardedBombSprites.pop()) : ((t = new $e(this.bombTexture)), this.bombSprites.push(t), b.addChild(t)),
+      this.discardedBombSprites.length > 0
+        ? (t = this.discardedBombSprites.pop())
+        : ((t = new $e(this.bombTexture)),
+          this.bombSprites.push(t),
+          b.addChild(t)),
         (t.scale.x = t.scale.y = 2),
         (t.rotation = 0),
         (t.rotSpeed = Math.random() > 0.5 ? 4 : -4),
@@ -7678,7 +8965,10 @@ var Incremancer;
     }
     updateHarpySpeed(e, t) {
       e.speedFactor = Math.min(1, (e.speedFactor += 2 * t));
-      const s = e.target.x - e.x, i = e.target.y - this.bombHeight - e.y, a = Math.abs(s), r = Math.abs(i);
+      const s = e.target.x - e.x,
+        i = e.target.y - this.bombHeight - e.y,
+        a = Math.abs(s),
+        r = Math.abs(i);
       if (0 == Math.max(a, r)) return;
       let n = 1 / Math.max(a, r);
       (n *= 1.29289 - (a + r) * n * 0.29289),
@@ -7691,7 +8981,8 @@ var Incremancer;
   }
   class Qe {
     constructor() {
-      if (((this.blood = new _e()),
+      if (
+        ((this.blood = new _e()),
         (this.smoke = new ot()),
         (this.prestigePoints = new Je()),
         (this.bullets = new rt()),
@@ -7720,16 +9011,24 @@ var Incremancer;
         this.smoke.update(e),
         this.fragments.update(e),
         this.prestigePoints.update(e),
-        (function (e) {for (let t = 0; t < Be.length; t++) Be[t].updateCritText(e);})(e);
+        (function (e) {
+          for (let t = 0; t < Be.length; t++) Be[t].updateCritText(e);
+        })(e);
     }
   }
   class Je extends _ {
     constructor() {
-      if ((super(), (this.zmMap = new ee()), (this.speed = 20), Je.instance)) return Je.instance;
+      if ((super(), (this.zmMap = new ee()), (this.speed = 20), Je.instance))
+        return Je.instance;
       (Je.instance = this), (this.create = (e) => new J(e));
     }
     initialize() {
-      (this.gameModel = ne.getInstance()), this.container || (this.setup(new PIXI.Container(), PIXI.Texture.from("pp.png")), b.addChild(this.container)), (this.targetElement = document.getElementById("prestige-button")), (this.animElement = document.getElementById("prestige-bg"));
+      (this.gameModel = ne.getInstance()),
+        this.container ||
+          (this.setup(new PIXI.Container(), PIXI.Texture.from("pp.png")),
+          b.addChild(this.container)),
+        (this.targetElement = document.getElementById("prestige-button")),
+        (this.animElement = document.getElementById("prestige-bg"));
     }
     update(e) {
       if (!this.gameModel.persistentData.particles)
@@ -7738,25 +9037,49 @@ var Incremancer;
       let t = { x: 0, y: 0 };
       if (null != this.targetElement) {
         const e = this.targetElement.getBoundingClientRect();
-        (t = { x: e.x + e.width / 2, y: e.y + e.height / 2 }), (t.x -= c.x), (t.y -= c.y), (t.x = t.x / c.scale.x), (t.y = t.y / c.scale.y);
+        (t = { x: e.x + e.width / 2, y: e.y + e.height / 2 }),
+          (t.x -= c.x),
+          (t.y -= c.y),
+          (t.x = t.x / c.scale.x),
+          (t.y = t.y / c.scale.y);
       }
-      for (let s = 0; s < this.sprites.length; s++) this.sprites[s].visible && this.updatePart(this.sprites[s], e, t);
+      for (let s = 0; s < this.sprites.length; s++)
+        this.sprites[s].visible && this.updatePart(this.sprites[s], e, t);
     }
     updatePart(e, t, s) {
-      const a = this.zmMap.normalizeVector({ x: s.x - e.x, y: s.y - e.y }), r = 300 * a.x - e.xSpeed, n = 300 * a.y - e.ySpeed;
-      if (((e.xSpeed += r * t), (e.ySpeed += n * t), (e.x += e.xSpeed * t), (e.y += e.ySpeed * t), i(e.x, e.y, s.x, s.y) < 30 && ((e.visible = !1), (e.x = 100), (e.y = 100), this.animElement))) {
+      const a = this.zmMap.normalizeVector({ x: s.x - e.x, y: s.y - e.y }),
+        r = 300 * a.x - e.xSpeed,
+        n = 300 * a.y - e.ySpeed;
+      if (
+        ((e.xSpeed += r * t),
+        (e.ySpeed += n * t),
+        (e.x += e.xSpeed * t),
+        (e.y += e.ySpeed * t),
+        i(e.x, e.y, s.x, s.y) < 30 &&
+          ((e.visible = !1), (e.x = 100), (e.y = 100), this.animElement))
+      ) {
         const e = this.animElement;
-        e.classList.toggle("levelup"), setTimeout(function () {e.classList.toggle("levelup");}, 3e3);
+        e.classList.toggle("levelup"),
+          setTimeout(function () {
+            e.classList.toggle("levelup");
+          }, 3e3);
       }
     }
     newPart(e, t) {
       if (!this.container.visible) return;
       const s = this.getSprite();
-      (s.x = e), (s.y = t - 10), (s.visible = !0), s.scale.set(2, 2), (s.xSpeed = 0), (s.ySpeed = -100);}
+      (s.x = e),
+        (s.y = t - 10),
+        (s.visible = !0),
+        s.scale.set(2, 2),
+        (s.xSpeed = 0),
+        (s.ySpeed = -100);
+    }
   }
   class _e {
     constructor() {
-      if (((this.maxParts = 500),
+      if (
+        ((this.maxParts = 500),
         (this.partCounter = 0),
         (this.partsPerSplatter = 6),
         (this.ecoPartsPerSplatter = 3),
@@ -7779,20 +9102,39 @@ var Incremancer;
       return (s.fillStyle = e), s.fillRect(0, 0, 1, 1), PIXI.Texture.from(t);
     }
     initialize() {
-      if (((this.gameModel = ne.getInstance()), (this.viewableArea = G), this.container || ((this.container = new PIXI.Container()), p.addChild(this.container), (this.texture = this.getTexture("#ff0000")), (this.plagueTexture = this.getTexture("#00ff00"))), this.sprites.length < this.maxParts))
+      if (
+        ((this.gameModel = ne.getInstance()),
+        (this.viewableArea = G),
+        this.container ||
+          ((this.container = new PIXI.Container()),
+          p.addChild(this.container),
+          (this.texture = this.getTexture("#ff0000")),
+          (this.plagueTexture = this.getTexture("#00ff00"))),
+        this.sprites.length < this.maxParts)
+      )
         for (let e = 0; e < this.maxParts; e++) {
           const e = new ht(this.texture);
-          this.sprites.push(e), (e.visible = !1), Math.random() > 0.5 && e.scale.set(2, 2), this.container.addChild(e);
+          this.sprites.push(e),
+            (e.visible = !1),
+            Math.random() > 0.5 && e.scale.set(2, 2),
+            this.container.addChild(e);
         }
     }
     update(e) {
       if (this.gameModel.persistentData.particles) {
         (this.container.visible = !0), (this.visibleParts = 0);
-        for (let t = 0; t < this.sprites.length; t++) this.sprites[t].visible && (this.updatePart(this.sprites[t], e), this.visibleParts++);
+        for (let t = 0; t < this.sprites.length; t++)
+          this.sprites[t].visible &&
+            (this.updatePart(this.sprites[t], e), this.visibleParts++);
       } else this.container.visible = !1;
     }
     updatePart(e, t) {
-      e.hitFloor ? ((e.alpha -= this.fadeSpeed * t), e.alpha <= 0 && (e.visible = !1)) : ((e.ySpeed += this.gravity * t), (e.x += e.xSpeed * t), (e.y += e.ySpeed * t), e.y >= e.floor && (e.hitFloor = !0));
+      e.hitFloor
+        ? ((e.alpha -= this.fadeSpeed * t), e.alpha <= 0 && (e.visible = !1))
+        : ((e.ySpeed += this.gravity * t),
+          (e.x += e.xSpeed * t),
+          (e.y += e.ySpeed * t),
+          e.y >= e.floor && (e.hitFloor = !0));
     }
     newPart(e, t, s) {
       if (this.viewableArea.hideParticle(e, t)) return;
@@ -7812,11 +9154,17 @@ var Incremancer;
         (i.ySpeed = -1 * (s ? 1.5 * this.spraySpeed : this.spraySpeed));
     }
     newSplatter(e, t) {
-      if (this.container.visible) if (this.visibleParts < 0.9 * this.maxParts) for (let s = 0; s < this.partsPerSplatter; s++) this.newPart(e, t, !1);
-        else for (let s = 0; s < this.ecoPartsPerSplatter; s++) this.newPart(e, t, !1);
+      if (this.container.visible)
+        if (this.visibleParts < 0.9 * this.maxParts)
+          for (let s = 0; s < this.partsPerSplatter; s++)
+            this.newPart(e, t, !1);
+        else
+          for (let s = 0; s < this.ecoPartsPerSplatter; s++)
+            this.newPart(e, t, !1);
     }
     newPlagueSplatter(e, t) {
-      if (this.container.visible) for (let s = 0; s < this.partsPerSplatter; s++) this.newPart(e, t, !0);
+      if (this.container.visible)
+        for (let s = 0; s < this.partsPerSplatter; s++) this.newPart(e, t, !0);
     }
   }
   class et extends J {
@@ -7832,7 +9180,8 @@ var Incremancer;
   }
   class tt {
     constructor() {
-      if (((this.partsLimit = 100),
+      if (
+        ((this.partsLimit = 100),
         (this.partsPerSplatter = 3),
         (this.container = null),
         (this.sprites = []),
@@ -7854,26 +9203,59 @@ var Incremancer;
       const e = document.createElement("canvas");
       (e.width = 4), (e.height = 1);
       const t = e.getContext("2d");
-      return ((t.fillStyle = "#dddddd"), t.fillRect(0, 0, 4, 1), PIXI.Texture.from(e));
+      return (
+        (t.fillStyle = "#dddddd"), t.fillRect(0, 0, 4, 1), PIXI.Texture.from(e)
+      );
     }
     initialize() {
-      (this.gameModel = ne.getInstance()), this.container || ((this.container = new PIXI.Container()), p.addChild(this.container), (this.texture = this.getTexture()));
-      for (let e = 0; e < this.sprites.length; e++) (this.sprites[e].value = 0), (this.sprites[e].visible = !1), this.container.removeChild(this.sprites[e]);
+      (this.gameModel = ne.getInstance()),
+        this.container ||
+          ((this.container = new PIXI.Container()),
+          p.addChild(this.container),
+          (this.texture = this.getTexture()));
+      for (let e = 0; e < this.sprites.length; e++)
+        (this.sprites[e].value = 0),
+          (this.sprites[e].visible = !1),
+          this.container.removeChild(this.sprites[e]);
       this.discardedSprites = this.sprites.slice();
     }
     update(e) {
       const t = [];
-      for (let s = 0; s < this.sprites.length; s++) this.sprites[s].visible && (this.updatePart(this.sprites[s], e), t.push(this.sprites[s]));
+      for (let s = 0; s < this.sprites.length; s++)
+        this.sprites[s].visible &&
+          (this.updatePart(this.sprites[s], e), t.push(this.sprites[s]));
       (this.uncollected = t), (this.fadeBones = t.length > 200);
     }
     updatePart(e, t) {
-      if (e.value <= 0) return ((e.visible = !1), this.discardedSprites.push(e), void this.container.removeChild(e));
-      e.hitFloor ? (this.fadeBones && (e.fadeTime -= t), e.fadeTime < 0 && !e.collector && ((e.alpha -= this.fadeSpeed * t), e.alpha <= 0 && ((e.visible = !1), this.discardedSprites.push(e), this.container.removeChild(e)))) : ((e.ySpeed += this.gravity * t), (e.rotation += e.rotSpeed * t), (e.x += e.xSpeed * t), (e.y += e.ySpeed * t), e.y >= e.floor && (e.hitFloor = !0));
+      if (e.value <= 0)
+        return (
+          (e.visible = !1),
+          this.discardedSprites.push(e),
+          void this.container.removeChild(e)
+        );
+      e.hitFloor
+        ? (this.fadeBones && (e.fadeTime -= t),
+          e.fadeTime < 0 &&
+            !e.collector &&
+            ((e.alpha -= this.fadeSpeed * t),
+            e.alpha <= 0 &&
+              ((e.visible = !1),
+              this.discardedSprites.push(e),
+              this.container.removeChild(e))))
+        : ((e.ySpeed += this.gravity * t),
+          (e.rotation += e.rotSpeed * t),
+          (e.x += e.xSpeed * t),
+          (e.y += e.ySpeed * t),
+          e.y >= e.floor && (e.hitFloor = !0));
     }
     newPart(e, t, s) {
       let i = null;
       this.discardedSprites.length > 0
-        ? (i = this.discardedSprites.pop()) : ((i = new et(this.texture)), this.sprites.push(i)), this.container.addChild(i), (i.x = e), (i.y = t - (8 + 10 * Math.random())),
+        ? (i = this.discardedSprites.pop())
+        : ((i = new et(this.texture)), this.sprites.push(i)),
+        this.container.addChild(i),
+        (i.x = e),
+        (i.y = t - (8 + 10 * Math.random())),
         (i.fadeTime = Math.random() * this.fadeTime),
         (i.rotation = 5 * Math.random()),
         (i.rotSpeed = 4 * Math.random() - 2),
@@ -7886,12 +9268,18 @@ var Incremancer;
         i.scale.set(1, 1),
         Math.random() > 0.5 && i.scale.set(1.5, 1.5);
       const a = Math.random() * this.spraySpeed;
-      (i.xSpeed = Math.random() > 0.5 ? -1 * a : a), (i.ySpeed = -1 * this.spraySpeed);
+      (i.xSpeed = Math.random() > 0.5 ? -1 * a : a),
+        (i.ySpeed = -1 * this.spraySpeed);
     }
     newBones(e, t) {
       if (this.gameModel.constructions.graveyard)
-        if (this.sprites.length - this.discardedSprites.length > this.partsLimit) this.newPart(e, t, 3);
-        else for (let s = 0; s < this.partsPerSplatter; s++) this.newPart(e, t, 1);
+        if (
+          this.sprites.length - this.discardedSprites.length >
+          this.partsLimit
+        )
+          this.newPart(e, t, 3);
+        else
+          for (let s = 0; s < this.partsPerSplatter; s++) this.newPart(e, t, 1);
     }
   }
   class st extends PIXI.Sprite {
@@ -7901,7 +9289,8 @@ var Incremancer;
   }
   class it {
     constructor() {
-      if (((this.sprites = []),
+      if (
+        ((this.sprites = []),
         (this.discardedSprites = []),
         (this.maxSprites = 10),
         (this.height = 20),
@@ -7911,8 +9300,9 @@ var Incremancer;
         return it.instance;
       it.instance = this;
     }
-    initialize() {
-      this.container || ((this.container = new PIXI.Container()),
+    initialize() { //load effect images
+      this.container ||
+        ((this.container = new PIXI.Container()),
         b.addChild(this.container),
         (this.healTexture = PIXI.Texture.from("healing.png")),
         (this.exclamationTexture = PIXI.Texture.from("exclamation.png")),
@@ -7933,7 +9323,10 @@ var Incremancer;
       if (e.hasIcon) return;
       let i;
       this.discardedSprites.length > 0
-        ? (i = this.discardedSprites.pop()) : ((i = new st(this.exclamationTexture)), i.anchor.set(0.5, 1), this.sprites.push(i)),
+        ? (i = this.discardedSprites.pop())
+        : ((i = new st(this.exclamationTexture)),
+          i.anchor.set(0.5, 1),
+          this.sprites.push(i)),
         this.container.addChild(i),
         (i.texture = t),
         (i.target = e),
@@ -7971,8 +9364,10 @@ var Incremancer;
       (e.x = e.target.x),
         (e.y = e.target.y - this.height),
         (e.time -= t),
-        e.time < 0 && ((e.alpha -= t * this.fadeSpeed),
-          e.alpha < 0 && ((e.visible = !1),
+        e.time < 0 &&
+          ((e.alpha -= t * this.fadeSpeed),
+          e.alpha < 0 &&
+            ((e.visible = !1),
             (e.target.hasIcon = !1),
             this.discardedSprites.push(e)));
     }
@@ -7992,7 +9387,8 @@ var Incremancer;
   }
   class rt {
     constructor() {
-      if (((this.zombies = new Ae()),
+      if (
+        ((this.zombies = new Ae()),
         (this.humans = new Se()),
         (this.graveyard = new Oe()),
         (this.army = new Te()),
@@ -8011,12 +9407,15 @@ var Incremancer;
       const e = document.createElement("canvas");
       (e.width = 1), (e.height = 1);
       const t = e.getContext("2d");
-      return ((t.fillStyle = "#ffffff"), t.fillRect(0, 0, 1, 1), PIXI.Texture.from(e));
+      return (
+        (t.fillStyle = "#ffffff"), t.fillRect(0, 0, 1, 1), PIXI.Texture.from(e)
+      );
     }
     getFireballTexture() {
       const e = document.createElement("canvas");
       (e.width = 8), (e.height = 8);
-      const t = e.getContext("2d"), s = t.createRadialGradient(4, 4, 0, 4, 4, 4);
+      const t = e.getContext("2d"),
+        s = t.createRadialGradient(4, 4, 0, 4, 4, 4);
       return (
         s.addColorStop(0, "rgba(255,255,0,1)"),
         s.addColorStop(0.8, "rgba(255,0,0,0.2)"),
@@ -8029,7 +9428,8 @@ var Incremancer;
     getDarkOrbTexture() {
       const e = document.createElement("canvas");
       (e.width = 8), (e.height = 8);
-      const t = e.getContext("2d"), s = t.createRadialGradient(4, 4, 0, 4, 4, 4);
+      const t = e.getContext("2d"),
+        s = t.createRadialGradient(4, 4, 0, 4, 4, 4);
       return (
         s.addColorStop(0, "rgba(0,0,0,1)"),
         s.addColorStop(0.8, "rgba(0,0,128,0.5)"),
@@ -8040,8 +9440,12 @@ var Incremancer;
       );
     }
     initialize() {
-      this.texture || ((this.texture = this.getTexture()), (this.fireballTexture = this.getFireballTexture()), (this.darkOrbTexture = this.getDarkOrbTexture()));
-      for (let e = 0; e < this.sprites.length; e++) g.removeChild(this.sprites[e]);
+      this.texture ||
+        ((this.texture = this.getTexture()),
+        (this.fireballTexture = this.getFireballTexture()),
+        (this.darkOrbTexture = this.getDarkOrbTexture()));
+      for (let e = 0; e < this.sprites.length; e++)
+        g.removeChild(this.sprites[e]);
       if (this.sprites.length < this.maxParts)
         for (let e = 0; e < this.maxParts; e++) {
           const e = new at(this.texture);
@@ -8050,25 +9454,55 @@ var Incremancer;
       this.discardedSprites = this.sprites.slice();
     }
     update(e) {
-      for (let t = 0; t < this.sprites.length; t++) this.sprites[t].visible && this.updatePart(this.sprites[t], e);
+      for (let t = 0; t < this.sprites.length; t++)
+        this.sprites[t].visible && this.updatePart(this.sprites[t], e);
     }
     updatePart(e, t) {
       i(e.x, e.y + 8, e.target.x, e.target.y) < e.hitbox
-        ? (e.plague ? (this.zombies.inflictPlague(e.target), this.humans.damageHuman(e.target, e.damage)) : e.fireball
-           ? (this.humans.burnHuman(e.target, e.damage), this.humans.damageHuman(e.target, e.damage)) : e.darkorb
-           ? e.target.flags.dead || (this.humans.damageHuman(e.target, e.damage), (e.target.timer.dogStun = 5), new Xe().orbHit(e.target)) : !e.rocket && e.target.bulletReflect && Math.random() < e.target.bulletReflect
-           ? this.newBullet(e.target, e.source, e.damage, !1, !1, !1) : e.rocket
-           ? (e.target.graveyard && this.graveyard.damageGraveyard(e.damage),this.army.droneExplosion(e.target.x, e.target.y, null, e.damage)) : (e.target.zombie && this.zombies.damageZombie(e.target, e.damage, e.source), e.target.human && this.humans.damageHuman(e.target, e.damage)), (e.visible = !1), this.discardedSprites.push(e), g.removeChild(e)) : ((e.x += e.xSpeed * t), (e.y += e.ySpeed * t), (e.zIndex = e.y)),
-        e.darkorb ? (e.alpha -= this.fadeSpeed * t * 0.4) : (e.alpha -= this.fadeSpeed * t),
-        e.alpha < 0 && ((e.visible = !1), this.discardedSprites.push(e), g.removeChild(e));
+        ? (e.plague
+            ? (this.zombies.inflictPlague(e.target),
+              this.humans.damageHuman(e.target, e.damage))
+            : e.fireball
+            ? (this.humans.burnHuman(e.target, e.damage),
+              this.humans.damageHuman(e.target, e.damage))
+            : e.darkorb
+            ? e.target.flags.dead ||
+              (this.humans.damageHuman(e.target, e.damage),
+              (e.target.timer.dogStun = 5),
+              new Xe().orbHit(e.target))
+            : !e.rocket &&
+              e.target.bulletReflect &&
+              Math.random() < e.target.bulletReflect
+            ? this.newBullet(e.target, e.source, e.damage, !1, !1, !1)
+            : e.rocket
+            ? (e.target.graveyard && this.graveyard.damageGraveyard(e.damage),
+              this.army.droneExplosion(e.target.x, e.target.y, null, e.damage))
+            : (e.target.zombie &&
+                this.zombies.damageZombie(e.target, e.damage, e.source),
+              e.target.human && this.humans.damageHuman(e.target, e.damage)),
+          (e.visible = !1),
+          this.discardedSprites.push(e),
+          g.removeChild(e))
+        : ((e.x += e.xSpeed * t), (e.y += e.ySpeed * t), (e.zIndex = e.y)),
+        e.darkorb
+          ? (e.alpha -= this.fadeSpeed * t * 0.4)
+          : (e.alpha -= this.fadeSpeed * t),
+        e.alpha < 0 &&
+          ((e.visible = !1), this.discardedSprites.push(e), g.removeChild(e));
     }
     newBullet(e, t, s, i = !1, a = !1, r = !1, n = !1) {
       let o;
-      this.discardedSprites.length > 0 ? (o = this.discardedSprites.pop()) : ((o = new at(this.texture)),
-        (o.scale.x = o.scale.y = 2),
-        this.sprites.push(o)),
+      this.discardedSprites.length > 0
+        ? (o = this.discardedSprites.pop())
+        : ((o = new at(this.texture)),
+          (o.scale.x = o.scale.y = 2),
+          this.sprites.push(o)),
         g.addChild(o),
-        (o.texture = n ? this.darkOrbTexture : r ? this.fireballTexture : this.texture),
+        (o.texture = n
+          ? this.darkOrbTexture
+          : r
+          ? this.fireballTexture
+          : this.texture),
         (o.source = e),
         (o.x = e.x),
         (o.y = e.y - 8),
@@ -8098,13 +9532,15 @@ var Incremancer;
   }
   class nt extends _ {
     constructor() {
-      if ((super(), (this.viewableArea = null), nt.instance)) return nt.instance;
+      if ((super(), (this.viewableArea = null), nt.instance))
+        return nt.instance;
       (nt.instance = this), (this.create = (e) => new J(e));
     }
     getTexture() {
       const e = document.createElement("canvas");
       (e.width = 32), (e.height = 32);
-      const t = e.getContext("2d"), s = t.createRadialGradient(16, 16, 0, 16, 16, 16);
+      const t = e.getContext("2d"),
+        s = t.createRadialGradient(16, 16, 0, 16, 16, 16);
       return (
         s.addColorStop(0, "rgba(255,255,255,1)"),
         s.addColorStop(0.8, "rgba(255,255,128,0.2)"),
@@ -8115,37 +9551,67 @@ var Incremancer;
       );
     }
     initialize() {
-      (this.viewableArea = G), this.texture || ((this.texture = this.getTexture()), (this.container = new PIXI.Container()), b.addChild(this.container), this.setup(this.container, this.texture));
+      (this.viewableArea = G),
+        this.texture ||
+          ((this.texture = this.getTexture()),
+          (this.container = new PIXI.Container()),
+          b.addChild(this.container),
+          this.setup(this.container, this.texture));
     }
     update(e) {
-      for (let t = 0; t < this.sprites.length; t++) this.sprites[t].visible && this.updatePart(this.sprites[t], e);
+      for (let t = 0; t < this.sprites.length; t++)
+        this.sprites[t].visible && this.updatePart(this.sprites[t], e);
     }
     updatePart(e, t) {
-      e.visible && ((e.scale.y -= 10 * t), (e.scale.x = e.scale.y), e.scale.x <= 0 && this.discardSprite(e));
+      e.visible &&
+        ((e.scale.y -= 10 * t),
+        (e.scale.x = e.scale.y),
+        e.scale.x <= 0 && this.discardSprite(e));
     }
     newBlast(e, t) {
       if (this.viewableArea.hideParticle(e, t)) return;
       const s = this.getSprite();
-      s.anchor.set(0.5, 0.5), (s.tint = 16777215), (s.scale.x = s.scale.y = 2), (s.x = e), (s.y = t), new ot().newCloud(e, t);
+      s.anchor.set(0.5, 0.5),
+        (s.tint = 16777215),
+        (s.scale.x = s.scale.y = 2),
+        (s.x = e),
+        (s.y = t),
+        new ot().newCloud(e, t);
     }
     newZombieBlast(e, t) {
       if (this.viewableArea.hideParticle(e, t)) return;
       const s = this.getSprite();
-      s.anchor.set(0.5, 0.5), (s.tint = 11206570), (s.scale.x = s.scale.y = 2), (s.x = e), (s.y = t), new ot().newCloud(e, t); 
+      s.anchor.set(0.5, 0.5),
+        (s.tint = 11206570),
+        (s.scale.x = s.scale.y = 2),
+        (s.x = e),
+        (s.y = t),
+        new ot().newCloud(e, t);
     }
     newDetonateBlast(e, t) {
       if (this.viewableArea.hideParticle(e, t)) return;
       const s = this.getSprite();
-      s.anchor.set(0.5, 0.5), (s.tint = 6750054), (s.scale.x = s.scale.y = 2.5), (s.x = e), (s.y = t), new ot().newCloud(e, t);
+      s.anchor.set(0.5, 0.5),
+        (s.tint = 6750054),
+        (s.scale.x = s.scale.y = 2.5),
+        (s.x = e),
+        (s.y = t),
+        new ot().newCloud(e, t);
     }
     newDroneBlast(e, t) {
       const s = this.getSprite();
-      s.anchor.set(0.5, 0.5), (s.scale.x = s.scale.y = 2), (s.tint = 16777215), (s.x = e), (s.y = t), new ot().newDroneCloud(e, t);
+      s.anchor.set(0.5, 0.5),
+        (s.scale.x = s.scale.y = 2),
+        (s.tint = 16777215),
+        (s.x = e),
+        (s.y = t),
+        new ot().newDroneCloud(e, t);
     }
   }
   class ot extends _ {
     constructor() {
-      if ((super(),
+      if (
+        (super(),
         (this.tint = 16777215),
         (this.viewableArea = null),
         (this.allowTint = !1),
@@ -8174,8 +9640,13 @@ var Incremancer;
     initialize() {
       (this.gameModel = ne.getInstance()),
         (this.viewableArea = G),
-        (this.allowTint = this.gameModel.app && this.gameModel.app.renderer && 1 == this.gameModel.app.renderer.type),
-        this.texture || (this.setup(new PIXI.Container(), this.getTexture()), b.addChild(this.container));
+        (this.allowTint =
+          this.gameModel.app &&
+          this.gameModel.app.renderer &&
+          1 == this.gameModel.app.renderer.type),
+        this.texture ||
+          (this.setup(new PIXI.Container(), this.getTexture()),
+          b.addChild(this.container));
     }
     update(e) {
       if (this.gameModel.persistentData.particles) {
@@ -8583,21 +10054,48 @@ var Incremancer;
     Mt.filter((t) => t.name == e.group)[0].talents.push(e),
       dt.talents[e.id] || (dt.talents[e.id] = 0);
   }),
-    angular.module("zombieApp", []).filter("decimal", function () {return r;}).filter("whole", function () {return n;}).config(["$compileProvider",function (e) {e.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|javascript|data|blob):/),e.debugInfoEnabled(!1);},
-      ]).controller("ZombieController", [
+    angular
+      .module("zombieApp", [])
+      .filter("decimal", function () {
+        return r;
+      })
+      .filter("whole", function () {
+        return n;
+      })
+      .config([
+        "$compileProvider",
+        function (e) {
+          e.aHrefSanitizationWhitelist(
+            /^\s*(https?|ftp|mailto|javascript|data|blob):/
+          ),
+            e.debugInfoEnabled(!1);
+        },
+      ])
+      .controller("ZombieController", [
         "$scope",
         "$interval",
         "$document",
         function (e, t, s) {
-          const i = new Xe(), a = new q(), r = new se(), o = new ae(), h = new oe(), l = new de(), c = this;
+          const i = new Xe(),
+            a = new q(),
+            r = new se(),
+            o = new ae(),
+            h = new oe(),
+            l = new de(),
+            c = this;
           function u() {
             const e = new Date().getTime();
             !(function (e, t) {
-              c.model.update(e, t), c.updateMessages(e), c.sidePanels.factory && (c.factoryStats = r.factoryStats());
-            })(Math.min(1e3, Math.max(e - c.lastUpdate, 0)) / 1e3, e), (c.lastUpdate = e);
+              c.model.update(e, t),
+                c.updateMessages(e),
+                c.sidePanels.factory && (c.factoryStats = r.factoryStats());
+            })(Math.min(1e3, Math.max(e - c.lastUpdate, 0)) / 1e3, e),
+              (c.lastUpdate = e);
           }
           (c.model = ne.getInstance()),
-            (c.skeleton = function () {return i.persistent;}),
+            (c.skeleton = function () {
+              return i.persistent;
+            }),
             (c.spells = a),
             (c.keysPressed = Y),
             (c.files = []),
@@ -8614,8 +10112,12 @@ var Incremancer;
             (c.factoryStats = {}),
             (c.moveTooltip = d),
             (c.confirmMessage = ""),
-            (c.confirmCancel = function () {c.confirmCallback = !1;}),
-            (c.closeSidePanels = function () {(c.currentShopFilter = "blood"),(c.currentConstructionFilter = "available"),(c.graveyardTab = "minions"),(c.factoryTab = "parts"),(c.sidePanels.options = !1),(c.sidePanels.graveyard = !1),(c.sidePanels.runesmith = !1),(c.sidePanels.prestige = !1),(c.sidePanels.construction = !1),(c.sidePanels.shop = !1),(c.sidePanels.open = !1),(c.sidePanels.factory = !1),(c.levelSelect.shown = !1);}),
+            (c.confirmCancel = function () {
+              c.confirmCallback = !1;
+            }),
+            (c.closeSidePanels = function () {
+              (c.currentShopFilter = "blood"),(c.currentConstructionFilter = "available"),(c.graveyardTab = "minions"),(c.factoryTab = "parts"),(c.sidePanels.options = !1),(c.sidePanels.graveyard = !1),(c.sidePanels.runesmith = !1),(c.sidePanels.prestige = !1),(c.sidePanels.construction = !1),(c.sidePanels.shop = !1),(c.sidePanels.open = !1),(c.sidePanels.factory = !1),(c.levelSelect.shown = !1);
+            }),
             (c.openSidePanel = function (e) {
               switch ((c.closeSidePanels(), e)) {
                 case "shop":
@@ -9093,7 +10595,7 @@ var Incremancer;
                 console.log(this.isShown)
               }
             }),
-            (c.skeletonMenu = {
+            (c.skeletonMenu = {  //<<<<<<<-------SKELE MENU
               isShown: !1,
               tab: "inventory",
               changeTab(e) {
