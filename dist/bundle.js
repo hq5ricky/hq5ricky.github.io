@@ -46,7 +46,7 @@ var Incremancer;
     (this.dragging = !1), (this.data = null), (B = 0);
   }
   let B = 0,R = 0;
-  function H(e) {                                 //zombie image on cursor
+  function H(e) {
     if (T.zombieCursor) {
       T.zombieCursor.position = e.data.getLocalPosition(this.parent);
       const t = e.data.getLocalPosition(x);
@@ -276,22 +276,22 @@ var Incremancer;
           new W(
             1,
             "Time Warp",
-            "Speed up the flow of time for 30 seconds",
+            "Speed up the flow of time for 30 seconds (x2 Speed)",
             "",
             0,
-            9999,
+            30,
             0,
-            function () {ne.getInstance().gameSpeed = 10;},
+            function () {ne.getInstance().gameSpeed = 2;},
             function () {ne.getInstance().gameSpeed = 1;},
             90
           ),
           new W(
             2,
             "Energy Charge",
-            "5x Energy rate for 20 seconds, cost 50 energy",
+            "x5 Energy rate for 20 seconds, cost 50 energy",
             "",
             0,
-            9999,
+            20,
             0,
             function () {ne.getInstance().energySpellMultiplier = 5;},
             function () {ne.getInstance().energySpellMultiplier = 1;},
@@ -315,7 +315,7 @@ var Incremancer;
             "Freeze all humans in place preventing them from moving for 15 seconds, cost 75 energy",
             "",
             0,
-            60,
+            15,
             0,
             function () {new q().humans.frozen = !0;},
             function () {new q().humans.frozen = !1;},
@@ -327,7 +327,7 @@ var Incremancer;
             "For 5 seconds any zombies spawned will be giants with 10x health and attack damage, cost 100 energy",
             "",
             0,
-            9999,
+            5,
             0,
             function () {new q().zombies.super = !0;},
             function () {new q().zombies.super = !1;},
