@@ -804,7 +804,12 @@ var Incremancer;
       return ((this.vector = { x: t.x - e.x, y: t.y - e.y, distance: i }), s ? ((this.hitbuilding = this.willVectorHitBuilding(e, t, s, i)), this.hitbuilding ? ((this.corner = this.findNearestCorner(t, s.corners)), (this.hitbuilding = this.willVectorHitBuilding(e,this.corner,s,i)),this.hitbuilding ? ((this.corner = this.findNearestCorner(e,this.findAdjacentCorners(this.corner, s))),(this.vector.x = this.corner.x - e.x),(this.vector.y = this.corner.y - e.y), this.modifyVectorForCollision(this.vector, s, e)) : ((this.vector.x = this.corner.x - e.x),(this.vector.y = this.corner.y - e.y), this.modifyVectorForCollision(this.vector, s, e))) : this.modifyVectorForCollision(this.vector, s, e)) : this.normalizeVector(this.vector));
     }
     howDoIGetToMyTarget(e, t) {
-      if (((this.distanceToTarget = this.fastDistance(e.x, e.y, t.x, t.y)),(this.closeBuilding = this.findBuilding(e)),(this.insideBuilding = !1),this.closeBuilding &&((this.insideBuilding = this.isInsidePoi(e.x,e.y,this.closeBuilding,0)),this.insideBuilding)))
+      if (
+        ((this.distanceToTarget = this.fastDistance(e.x, e.y, t.x, t.y)),
+         (this.closeBuilding = this.findBuilding(e)),
+         (this.insideBuilding = !1),this.closeBuilding &&
+          ((this.insideBuilding = this.isInsidePoi(e.x,e.y,this.closeBuilding,0))
+           ,this.insideBuilding))))
         return this.isInsidePoi(t.x, t.y, this.closeBuilding, 0) ? this.modifyVectorForCollision(x: t.x - e.x, y: t.y - e.y },this.closeBuilding,e) : this.modifyVectorForCollision({x: this.closeBuilding.entrance.outside.x - e.x, y: this.closeBuilding.entrance.outside.y - e.y,},this.closeBuilding,e);
       const s = this.findBuilding(t);
       return s && ((this.insideBuilding = this.isInsidePoi(t.x, t.y, s, 0)), this.insideBuilding) ? this.fastDistance(e.x,e.y,s.entrance.outside.x,s.entrance.outside.y) < 30 ? this.modifyVectorForCollision({ x: s.entrance.inside.x - e.x, y: s.entrance.inside.y - e.y },this.closeBuilding,e) : this.navigateAroundBuilding(e,s.entrance.outside,this.closeBuilding,this.distanceToTarget) : this.distanceToTarget < 20 ? this.modifyVectorForCollision({ x: t.x - e.x, y: t.y - e.y },this.closeBuilding,e) : this.navigateAroundBuilding(e,t,this.closeBuilding,this.distanceToTarget);
