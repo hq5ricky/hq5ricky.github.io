@@ -805,17 +805,19 @@ var Incremancer;
     }
     howDoIGetToMyTarget(e, t) {
       if (((this.distanceToTarget = this.fastDistance(e.x, e.y, t.x, t.y)), (this.closeBuilding = this.findBuilding(e)), (this.insideBuilding = !1), this.closeBuilding && ((this.insideBuilding = this.isInsidePoi(e.x,e.y,this.closeBuilding,0)),this.insideBuilding)))
-        return this.isInsidePoi(t.x, t.y, this.closeBuilding, 0) ? this.modifyVectorForCollision(x: t.x - e.x, y: t.y - e.y },this.closeBuilding,e) : this.modifyVectorForCollision({x: this.closeBuilding.entrance.outside.x - e.x, y: this.closeBuilding.entrance.outside.y - e.y,},this.closeBuilding,e);
+        return this.isInsidePoi(t.x, t.y, this.closeBuilding, 0)
       const s = this.findBuilding(t);
       return s && ((this.insideBuilding = this.isInsidePoi(t.x, t.y, s, 0)), this.insideBuilding) ? this.fastDistance(e.x,e.y,s.entrance.outside.x,s.entrance.outside.y) < 30 ? this.modifyVectorForCollision({ x: s.entrance.inside.x - e.x, y: s.entrance.inside.y - e.y },this.closeBuilding,e) : this.navigateAroundBuilding(e,s.entrance.outside,this.closeBuilding,this.distanceToTarget) : this.distanceToTarget < 20 ? this.modifyVectorForCollision({ x: t.x - e.x, y: t.y - e.y },this.closeBuilding,e) : this.navigateAroundBuilding(e,t,this.closeBuilding,this.distanceToTarget);
     }
     isValidTreePosition(e) {
       if (!this.isValidPosition(e)) return !1;
-      for (let t = 0; t < this.treeSprites.length; t++) if (this.fastDistance(e.x,e.y,this.treeSprites[t].x,this.treeSprites[t].y) < 25) return !1;
+      for (let t = 0; t < this.treeSprites.length; t++) if(this.fastDistance(e.x,e.y,this.treeSprites[t].x,this.treeSprites[t].y) < 25) return !1;
       return !0;
     }
     populateTrees() {
-      if (this.treeSprites.length > 0) for (let e = 0; e < this.treeSprites.length; e++) this.treeSprites[e].visible = !1;
+      if (this.treeSprites.length > 0)
+        for(let e = 0; e < this.treeSprites.length; e++)
+          this.treeSprites[e].visible = !1;
       if (0 == this.treeTextures.length) {
         for (let e = 0; e < 6; e++) this.treeTextures.push(PIXI.Texture.from("tree" + e + ".png"));
         this.armyTextures.push(PIXI.Texture.from("hedgehog.png")),
@@ -825,8 +827,15 @@ var Incremancer;
       this.gameModel.isBossStage(this.gameModel.level) && (e = Math.round(1.5 * e));
       let t = 0;
       for (; e > 0; ) {
-        let s, i = !1, r = 1e3; const n = 8, o = 2;
-        for (; !i && r > 0; ) r--, (s = {x: n + Math.random() * (P.x - 2 * n), y: n + Math.random() * (P.y - 2 * n), width: o, height: o,}),(i = this.isValidTreePosition(s));
+        let s, i = !1, r = 1e3;
+        const n = 8, o = 2;
+        for (; !i && r > 0; )
+          r--, (s = {
+            x: n + Math.random() * (P.x - 2 * n),
+            y: n + Math.random() * (P.y - 2 * n),
+            width: o,
+            height: o,
+          }),(i = this.isValidTreePosition(s));
         if (i) {
           let e = 0.4 + 0.6 * Math.random();
           this.gameModel.constructions.graveyard && (e = Math.min((this.fastDistance(s.x,s.y,this.graveYardLocation.x,this.graveYardLocation.y)-90)/400,1));
@@ -918,7 +927,7 @@ var Incremancer;
       return {machines: e, partsPerSec: (this.storm ? 2 : 1) * t * this.gameModel.partsPCMod,};
     }
     update(e) {
-      for (let t = 0; t < this.generatorsApplied.length; t++) (this.generatorsApplied[t].timeLeft -= e), this.generatorsApplied[t].timeLeft <= 0 && this.generatorsApplied[t].timeLeft = this.generatorsApplied[t].time), (this.gameModel.persistentData.parts += this.generatorsApplied[t].total * this.gameModel.partsPCMod * (this.storm ? 2 : 1)));
+      for (let t = 0; t < this.generatorsApplied.length; t++) (this.generatorsApplied[t].timeLeft -= e), this.generatorsApplied[t].timeLeft <= 0 && ((this.generatorsApplied[t].timeLeft = this.generatorsApplied[t].time), (this.gameModel.persistentData.parts += this.generatorsApplied[t].total * this.gameModel.partsPCMod * (this.storm ? 2 : 1)));
     }
     updateLongTime(e) {
       let t = 0;
